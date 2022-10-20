@@ -19,7 +19,9 @@ class World {
         this.#renderer = createRenderer();
         this.#light = createSpotLight();
         container.append(this.#renderer.domElement);
-        container.addEventListener('mousemove', this.animate);
+        container.addEventListener('mousemove', (e) => {
+            this.animate(e);
+        });
 
         const sphere = createSphere();
         this.#scene.add(sphere);
