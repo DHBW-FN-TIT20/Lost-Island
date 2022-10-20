@@ -6,31 +6,34 @@ import { createSpotLight } from './components/light.js';
 import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
 
-let camera;
-let renderer;
-let scene;
-let light;
 
 class World {
+    #camera;
+    #renderer;
+    #scene;
+    #light;
+
     constructor(container) {
-        camera = createPerspectiveCamera();
-        scene = createScene();
-        renderer = createRenderer();
-        light = createSpotLight();
-        container.append(renderer.domElement);
+        this.#camera = createPerspectiveCamera();
+        this.#scene = createScene();
+        this.#renderer = createRenderer();
+        this.#light = createSpotLight();
+        container.append(this.#renderer.domElement);
         container.addEventListener('mousemove', this.animate);
 
         const sphere = createSphere();
-        scene.add(sphere);
+        this.#scene.add(sphere);
 
-        const resizer = new Resizer(container, camera, renderer);
+        const resizer = new Resizer(container, this.#camera, this.#renderer);
     }
+
     render() {
-        renderer.render(scene, camera);
+        this.#renderer.render(this.#scene, this.#camera);
     }
+
     animate(e) {
         move(e);
-        renderer.render(scene, camera);
+        this.#renderer.render(this.#scene, this.#camera);
     }
 
 }
