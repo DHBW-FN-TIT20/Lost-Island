@@ -10,7 +10,7 @@ camera.position.set(0, 0, 100);
 const scene = new THREE.Scene();
 
 // Create our geometry
-let sphereGeometry = new THREE.SphereGeometry(20, 50, 50);
+let sphereGeometry = new THREE.SphereGeometry(20, 25, 25);
 
 // A `normal` material uses the coordinates of an object to calculate its color
 let sphereMesh = new THREE.MeshBasicMaterial({
