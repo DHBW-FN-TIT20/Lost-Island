@@ -46,7 +46,6 @@ class World {
         this.#renderer.render(this.#scene, this.#camera);
     }
 
-    animate(e) {
         this.#renderer.render(this.#scene, this.#camera);
     }
 
