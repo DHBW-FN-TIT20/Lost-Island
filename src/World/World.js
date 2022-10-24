@@ -33,7 +33,7 @@ class World {
         this.#scene.add(ground);
         this.#scene.add(this.#light);
         this.#fpsControl = createFirstPersonControls(this.#camera, this.#renderer.domElement);
-        this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this.#fpsControl);
+        this.#loop = new Loop(this, this.#renderer);
 
         terrainFolder.add(ground.rotation, 'x').min(0).max(200);
         cameraFolder.add(this.#camera.position, 'x', 0, 1000);
