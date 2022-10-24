@@ -1,5 +1,4 @@
 import { createPerspectiveCamera } from './components/camera.js';
-import { createSphere, move } from './components/sphere.js';
 import { createScene } from './components/scene.js';
 import { createSpotLight } from './components/light.js';
 import { createGround } from './components/terrain.js';
@@ -18,7 +17,7 @@ class World {
     #fpsControl;
 
     constructor(container) {
-        let gui = new dat.GUI({name: 'My GUI'});
+        let gui = new dat.GUI({ name: 'My GUI' });
         const terrainFolder = gui.addFolder('Terrain');
         const cameraFolder = gui.addFolder('Camera');
 
@@ -26,10 +25,10 @@ class World {
         this.#scene = createScene();
         this.#renderer = createRenderer();
         this.#light = createSpotLight();
-        
-        
+
+
         container.append(this.#renderer.domElement);
- 
+
         const ground = createGround();
         this.#scene.add(ground);
         this.#scene.add(this.#light);
@@ -48,17 +47,16 @@ class World {
     }
 
     animate(e) {
-        move(e);
         this.#renderer.render(this.#scene, this.#camera);
     }
 
     start() {
         this.#loop.start();
-      }
-      
-      stop() {
+    }
+
+    stop() {
         this.#loop.stop();
-      }
+    }
 
 }
 
