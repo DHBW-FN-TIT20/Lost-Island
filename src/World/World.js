@@ -2,7 +2,7 @@ import { createPerspectiveCamera } from './components/camera.js';
 import { createScene } from './components/scene.js';
 import { createSpotLight } from './components/light.js';
 import { createGround, createOcean, createSky, createSun } from './components/terrain.js';
-import { Controller } from './components/controller.js';
+import { Controller } from './components/Controller.js';
 import { loadPalm } from './components/palm.js';
 
 import {PMREMGenerator} from 'three';
@@ -34,6 +34,7 @@ class World {
         this.#scene = createScene();
         this.#renderer = createRenderer();
         this.#light = createSpotLight();
+        this.#controller = new Controller(this.#camera);
         const pmremGenerator = new PMREMGenerator(this.#renderer);
         
         container.append(this.#renderer.domElement);
@@ -48,7 +49,7 @@ class World {
         this.#scene.add(ground);
         this.#scene.add(this.#light);
         this.#scene.environment = pmremGenerator.fromScene(sky).texture;
-        // this.#fpsControl = createFirstPersonControls(this.#camera, this.#renderer.domElement);
+
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
         this.#loop.updatables.push(ocean);
 

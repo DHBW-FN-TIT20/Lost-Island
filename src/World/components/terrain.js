@@ -3,7 +3,7 @@ import { Water } from '../../../lib/three/examples/jsm/objects/Water.js';
 import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
 
 function createGround() {
-    const geometry = new PlaneGeometry(200, 200, 1024, 1024);
+    const geometry = new PlaneGeometry(500, 500, 1024, 1024);
     const loader = new TextureLoader();
     const height = loader.load("../../assets/heightmap.png");
     const texture = loader.load("../../assets/textures/grass-sand-texture.jpg");
