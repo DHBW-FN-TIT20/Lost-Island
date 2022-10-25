@@ -1,8 +1,11 @@
 import { World } from './World/World.js';
 
-function main() {
+async function main() {
     const container = document.getElementById("scene-container");
     const world = new World(container);
+    await world.init();
     world.start();
 }
-main();
+main().catch((err) => {
+    console.error(err);
+});
