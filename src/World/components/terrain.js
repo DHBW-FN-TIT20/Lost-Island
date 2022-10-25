@@ -3,19 +3,25 @@ import { Water } from '../../../lib/three/examples/jsm/objects/Water.js';
 import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
 
 function createGround() {
-    const geometry = new PlaneGeometry(500, 500, 1024, 1024);
+    const geometry = new PlaneGeometry(300, 300, 1024, 1024);
     const loader = new TextureLoader();
     const height = loader.load("../../assets/heightmap.png");
-    const texture = loader.load("../../assets/textures/grass-sand-texture.jpg");
+    const texture = loader.load("../../assets/textures/Sand 2.jpg");
+    texture.wrapS = RepeatWrapping;
+    texture.wrapT = RepeatWrapping;
+    const bump = loader.load("../../assets/textures/sand-bump-map.jpg");
+    bump.wrapS = RepeatWrapping;
+    bump.wrapT = RepeatWrapping;
     const material = new MeshPhongMaterial({
         color: 'gray',
         map: texture,
+        bumpMap: bump,
         displacementMap: height,
         displacementScale: 10,
         flatShading: true
     });
     const mesh = new Mesh(geometry, material);
-    mesh.rotation.x = 181;
+    mesh.rotation.x = -Math.PI/2;
     mesh.position.y = -0.5;
     return mesh;
 }
@@ -23,22 +29,19 @@ function createGround() {
 function createOcean() {
     const geometry = new PlaneGeometry(1000, 1000);
     const loader = new TextureLoader();
-    const texture = loader.load("../../assets/textures/water-texture.jpg");
+    const texture = loader.load("../../assets/textures/water-bump-map.png");
     texture.wrapS = texture.wrapT = RepeatWrapping;
     const water = new Water(geometry);
     water.textureWidth = 512;
     water.textureHeight = 512;
-    water.waterNormals = texture;
+    // water.waterNormals = texture;
     water.alpha = 1.0;
     water.sunDirection = new Vector3();
-    water.sunColor = '0xffffff';
-    water.waterColor = '0x0000ff';
-    water.distortionScale = 4;
-    water.rotation.x = 181;
-    const waterUniforms = water.material.uniforms;
-    water.tick = () =>{
-        water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
-    };
+    water.sunColor = 0xffffff;
+    water.waterColor = 0x001e0f;
+    water.distortionScale = 3.7;
+    water.rotation.x = -Math.PI/2;
+    water.position.y = 0.5;
     return water;
 }
 

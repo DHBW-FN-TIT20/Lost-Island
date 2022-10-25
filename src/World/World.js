@@ -24,13 +24,14 @@ class World {
     #light;
     #loop;
     #controller;
+    #ocean;
 
     constructor(container) {
         let gui = new dat.GUI({ name: 'My GUI' });
         const terrainFolder = gui.addFolder('Terrain');
         const cameraFolder = gui.addFolder('Camera');
 
-        this.#camera = createPerspectiveCamera(new Vector3(0, 30, 0));
+        this.#camera = createPerspectiveCamera(new Vector3(0, 1000, 0));
         this.#scene = createScene();
         this.#renderer = createRenderer();
         this.#light = createSpotLight();
@@ -40,18 +41,18 @@ class World {
         container.append(this.#renderer.domElement);
 
         const ground = createGround();
-        const ocean = createOcean();
+        this.#ocean = createOcean();
+        this.#ocean.fog = this-this.#scene.fog !== undefined;
         const sky = createSky();
         const sun = createSun(sky);
         
         this.#scene.add(sky);
-        this.#scene.add(ocean);
+        this.#scene.add(this.#ocean);
         this.#scene.add(ground);
         this.#scene.add(this.#light);
         this.#scene.environment = pmremGenerator.fromScene(sky).texture;
 
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
-        this.#loop.updatables.push(ocean);
 
         terrainFolder.add(ground.rotation, 'x').min(0).max(200);
         cameraFolder.add(this.#camera.position, 'x', 0, 1000);
@@ -64,7 +65,7 @@ class World {
     async init() {
         // asynchronous setup here
         const palm =  await loadPalm();
-        
+        this.#camera.lookAt(palm.position);
         this.#loop.updatables.push(palm);
         this.#scene.add(palm);
       }
@@ -75,9 +76,9 @@ class World {
         this.#controller.update();
 
         // #TODO: Berechnen wo der Boden ist (jetzt fix bei 20)
-        this.#controller.applyGround(20);
+        this.#controller.applyGround(10);
 
-        // this.#renderer.render(this.#scene, this.#camera);
+        this.#ocean.material.uniforms[ 'time' ].value += 1.0 / 60.0;
     }
 
     start() {
