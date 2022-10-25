@@ -5,7 +5,11 @@ import { createGround, createOcean, createSky, createSun } from './components/te
 import { Controller } from './components/Controller.js';
 import { loadPalm } from './components/palm.js';
 
-import {PMREMGenerator} from 'three';
+import {
+    PMREMGenerator,
+    Vector3,
+    ArrowHelper
+} from 'three';
 
 import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
@@ -16,6 +20,12 @@ import { Vector3 } from 'three';
 
 const GRAVITY = new Vector3(0, -0.05, 0);
 
+//#region Debugger Helper
+const origin = new Vector3(0, 0, 0);
+const arrowHelperX = new ArrowHelper((new Vector3(1, 0, 0)).normalize(), origin, 300, 0xFF0000);
+const arrowHelperY = new ArrowHelper((new Vector3(0, 1, 0)).normalize(), origin, 300, 0x00FF00);
+const arrowHelperZ = new ArrowHelper((new Vector3(0, 0, 1)).normalize(), origin, 300, 0x0000FF);
+//#endregion
 
 class World {
     #camera;
@@ -50,6 +60,13 @@ class World {
         this.#scene.add(this.#ocean);
         this.#scene.add(ground);
         this.#scene.add(this.#light);
+
+        //#region Debugger Helper
+        this.#scene.add(arrowHelperX);
+        this.#scene.add(arrowHelperY);
+        this.#scene.add(arrowHelperZ);
+        //#endregion
+        
         this.#scene.environment = pmremGenerator.fromScene(sky).texture;
 
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
