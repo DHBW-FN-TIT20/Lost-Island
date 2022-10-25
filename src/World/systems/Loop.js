@@ -3,20 +3,20 @@ import { Clock } from 'three';
 const clock = new Clock();
 
 class Loop {
-    constructor(camera, scene, renderer){
+    constructor(camera, scene, renderer, world){
         this.camera = camera;
         this.scene = scene;
         this.renderer = renderer;
+        this.world = world;
         this.updatables = [];
-        // this.fpsControl = fpsControl;
     }
 
     start(){
         this.renderer.setAnimationLoop(() => {
-            // this.fpsControl.update(0.01);
             this.tick();
+            this.world.render();
             this.renderer.render(this.scene, this.camera);
-          });
+            });
     }
 
     stop(){

@@ -1,10 +1,12 @@
 import { PerspectiveCamera } from 'three';
+import { Vector3 } from 'three';
 
-function createPerspectiveCamera() {
-    const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.x = 0;
-    camera.position.y = 0;
-    camera.position.z = 100;
+
+function createPerspectiveCamera(startPositon = new Vector3(0, 0, 0)) {
+    const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.x = startPositon.x;
+    camera.position.y = startPositon.y;
+    camera.position.z = startPositon.z;
     return camera;
 }
 
