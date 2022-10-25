@@ -1,6 +1,11 @@
-import { Vector3 } from 'three';
+import {
+    Vector3,
+    Euler
+} from 'three';
 
 
+const _euler = new Euler(0, 0, 0, 'YXZ');
+const _PI_2 = Math.PI / 2;
 
 class Controller {
     #camera;
@@ -25,8 +30,27 @@ class Controller {
                 return;
             }
 
-            this.#camera.rotation.x += -ev.movementY * this.sensitivity;;
-            this.#camera.rotation.y += -ev.movementX * this.sensitivity;;
+            // Range is 0 to Math.PI radians
+            this.minPolarAngle = 0; // radians
+            this.maxPolarAngle = Math.PI; // radians
+
+            this.pointerSpeed = 1.0;
+
+            const scope = this;
+
+
+            const movementX = ev.movementX;
+            const movementY = ev.movementY;
+
+            _euler.setFromQuaternion(this.#camera.quaternion);
+
+            _euler.y -= movementX * this.sensitivity;
+            _euler.x -= movementY * this.sensitivity;
+
+            _euler.x = Math.max(_PI_2 - scope.maxPolarAngle, Math.min(_PI_2 - scope.minPolarAngle, _euler.x));
+
+            this.#camera.quaternion.setFromEuler(_euler);
+
         });
     }
 
