@@ -5,7 +5,7 @@ import { Vector3 } from 'three';
 class Controller {
     #camera;
 
-    constructor(camera, height = 5, weight = 2, moveSpeed = 5, sensitivity = 0.01) {
+    constructor(camera, height = 5, weight = 2, moveSpeed = 5, sensitivity = 0.005) {
         this.#camera = camera;
         this.height = height;
         this.weight = weight;
@@ -21,7 +21,7 @@ class Controller {
         });
 
         document.addEventListener('mousemove', (ev) => {
-            if (ev.buttons == 1) {
+            if (ev.buttons != 1) {
                 return;
             }
 
