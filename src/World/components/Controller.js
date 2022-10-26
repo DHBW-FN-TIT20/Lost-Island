@@ -7,10 +7,73 @@ import {
 const _euler = new Euler(0, 0, 0, 'YXZ');
 const _PI_2 = Math.PI / 2;
 
+class KeyBoardWatcher {
+    constructor(domElement = document.body) {
+        this.domElement = domElement;
+
+        this.moveForward = false;
+        this.moveBackward = false;
+        this.moveLeft = false;
+        this.moveRight = false;
+
+        this.domElement.addEventListener("keydown", (ev) => {
+            switch (ev.code) {
+
+                case 'ArrowUp':
+                case 'KeyW':
+                    this.moveForward = true;
+                    break;
+
+                case 'ArrowLeft':
+                case 'KeyA':
+                    this.moveLeft = true;
+                    break;
+
+                case 'ArrowDown':
+                case 'KeyS':
+                    this.moveBackward = true;
+                    break;
+
+                case 'ArrowRight':
+                case 'KeyD':
+                    this.moveRight = true;
+                    break;
+            }
+        });
+
+        this.domElement.addEventListener("keyup", (ev) => {
+            switch (ev.code) {
+
+                case 'ArrowUp':
+                case 'KeyW':
+                    this.moveForward = false;
+                    break;
+
+                case 'ArrowLeft':
+                case 'KeyA':
+                    this.moveLeft = false;
+                    break;
+
+                case 'ArrowDown':
+                case 'KeyS':
+                    this.moveBackward = false;
+                    break;
+
+                case 'ArrowRight':
+                case 'KeyD':
+                    this.moveRight = false;
+                    break;
+
+            }
+        });
+
+    }
+}
+
 class Controller {
     #camera;
 
-    constructor(camera, height = 5, weight = 2, moveSpeed = 5, sensitivity = 0.005) {
+    constructor(camera, height = 5, weight = 2, moveSpeed = 0.5, sensitivity = 0.005) {
         this.#camera = camera;
         this.height = height;
         this.weight = weight;
@@ -21,36 +84,14 @@ class Controller {
         this.velocity = new Vector3(0, 0, 0);
         this.location = new Vector3(this.#camera.position.x, this.#camera.position.y, this.#camera.position.z);
 
-        document.addEventListener("keydown", (ev) => {
-            this.#checkMove(ev)
-        });
+        this.keyBoardWatcher = new KeyBoardWatcher();
+
 
         document.addEventListener('mousemove', (ev) => {
             if (ev.buttons != 1) {
                 return;
             }
-
-            // Range is 0 to Math.PI radians
-            this.minPolarAngle = 0; // radians
-            this.maxPolarAngle = Math.PI; // radians
-
-            this.pointerSpeed = 1.0;
-
-            const scope = this;
-
-
-            const movementX = ev.movementX;
-            const movementY = ev.movementY;
-
-            _euler.setFromQuaternion(this.#camera.quaternion);
-
-            _euler.y -= movementX * this.sensitivity;
-            _euler.x -= movementY * this.sensitivity;
-
-            _euler.x = Math.max(_PI_2 - scope.maxPolarAngle, Math.min(_PI_2 - scope.minPolarAngle, _euler.x));
-
-            this.#camera.quaternion.setFromEuler(_euler);
-
+            this.mouseMove(ev);
         });
     }
 
@@ -88,35 +129,66 @@ class Controller {
         this.#camera.position.x = this.location.x;
         this.#camera.position.y = this.location.y;
         this.#camera.position.z = this.location.z;
+
+        this.kameraMove();
     }
 
-    /**
-     *
-     * @param {KeyboardEvent} event 
-     */
-    #checkMove(event) {
-        let x = 0;
-        let z = 0;
 
-        if (event.key.toUpperCase() == "D") {
-            x = Math.cos(this.#camera.rotation.y) * this.moveSpeed;
-            z = -Math.sin(this.#camera.rotation.y) * this.moveSpeed;
-        }
-        else if (event.key.toUpperCase() == "A") {
-            x = -Math.cos(this.#camera.rotation.y) * this.moveSpeed;
-            z = Math.sin(this.#camera.rotation.y) * this.moveSpeed;
-        }
-        else if (event.key.toUpperCase() == "S") {
-            x = -Math.cos(this.#camera.rotation.y + Math.PI / 2) * this.moveSpeed;
-            z = Math.sin(this.#camera.rotation.y + Math.PI / 2) * this.moveSpeed;
-        }
-        else if (event.key.toUpperCase() == "W") {
-            x = -Math.cos(this.#camera.rotation.y - Math.PI / 2) * this.moveSpeed;
-            z = Math.sin(this.#camera.rotation.y - Math.PI / 2) * this.moveSpeed;
-        }
+    mouseMove(ev) {
+        // Range is 0 to Math.PI radians
+        this.minPolarAngle = 0; // radians
+        this.maxPolarAngle = Math.PI; // radians
 
-        this.applyDirectForce(new Vector3(x, 0, z));
+        this.pointerSpeed = 1.0;
+
+        const scope = this;
+
+
+        const movementX = ev.movementX;
+        const movementY = ev.movementY;
+
+        _euler.setFromQuaternion(this.#camera.quaternion);
+
+        _euler.y -= movementX * this.sensitivity;
+        _euler.x -= movementY * this.sensitivity;
+
+        _euler.x = Math.max(_PI_2 - scope.maxPolarAngle, Math.min(_PI_2 - scope.minPolarAngle, _euler.x));
+
+        this.#camera.quaternion.setFromEuler(_euler);
+
     }
+
+    kameraMove() {
+        const direction = new Vector3(0, 0, 0);
+        const movement = new Vector3(0, 0, 0);
+
+        direction.z = Number(this.keyBoardWatcher.moveForward) - Number(this.keyBoardWatcher.moveBackward);
+        direction.x = Number(this.keyBoardWatcher.moveRight) - Number(this.keyBoardWatcher.moveLeft);
+        direction.normalize(); // this ensures consistent movements in all directions
+
+        if (this.keyBoardWatcher.moveForward || this.keyBoardWatcher.moveBackward) movement.z -= direction.z * this.moveSpeed;
+        if (this.keyBoardWatcher.moveLeft || this.keyBoardWatcher.moveRight) movement.x -= direction.x * this.moveSpeed;
+
+        this.moveRight(- movement.x);
+        this.moveForward(- movement.z);
+    }
+
+    moveRight(distance) {
+        const vector = new Vector3(0, 0, 0);
+        
+        vector.setFromMatrixColumn(this.#camera.matrix, 0);
+        this.location.addScaledVector(vector, distance);
+    }
+    
+    moveForward( distance ) {
+        const vector = new Vector3(0, 0, 0);
+
+        vector.setFromMatrixColumn( this.#camera.matrix, 0 );
+        vector.crossVectors( this.#camera.up, vector );
+
+        this.location.addScaledVector( vector, distance );
+
+    };
 }
 
 export { Controller };
