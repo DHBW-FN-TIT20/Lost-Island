@@ -1,6 +1,6 @@
 import { createPerspectiveCamera } from './components/camera.js';
 import { createScene } from './components/scene.js';
-import { createSpotLight } from './components/light.js';
+import { createSpotLight, createAmbientLight } from './components/light.js';
 import { createGround, createOcean, createSky, createSun } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
 import { loadPalm } from './components/palm.js';
@@ -41,7 +41,7 @@ class World {
         this.#camera = createPerspectiveCamera(new Vector3(0, 1000, 0));
         this.#scene = createScene();
         this.#renderer = createRenderer();
-        this.#light = createSpotLight();
+        this.#light = createAmbientLight();
         this.#controller = new Controller(this.#camera);
         const pmremGenerator = new PMREMGenerator(this.#renderer);
         

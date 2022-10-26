@@ -6,7 +6,7 @@ async function loadPalm(){
     const data = await loader.loadAsync('/assets/models/palm-tree-test.gltf');
     const palm = setUpModel(data);
     palm.position.x = 10;
-    palm.position.y = 7;
+    palm.position.y = 5;
     palm.position.z = 0;
     palm.rotation.y = Math.PI/2;
     return palm;

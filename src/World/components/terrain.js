@@ -1,31 +1,25 @@
-import { PlaneGeometry, TextureLoader, RepeatWrapping, MeshPhongMaterial, MeshStandardMaterial, Mesh, Vector3 } from 'three';
+import { PlaneGeometry, TextureLoader, RepeatWrapping, MeshPhongMaterial, MeshToonMaterial, MeshStandardMaterial, Mesh, Vector3 } from 'three';
 import { Water } from '../../../lib/three/examples/jsm/objects/Water.js';
 import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
 
 function createGround() {
-    const geometry = new PlaneGeometry(300, 300, 1024, 1024);
+    const geometry = new PlaneGeometry(400, 400, 1024, 1024);
     const loader = new TextureLoader();
-    const height = loader.load("../../assets/heightmap.png");
+    const height = loader.load("../../assets/heightmap2.png");
     const normal = loader.load("../../assets/NormalMap.png");
-    const texture = loader.load("../../assets/textures/Sand 1.jpg");
+    const texture = loader.load("../../assets/color2.png");
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
-    const bump = loader.load("../../assets/textures/sand-bump-map.jpg");
-    bump.wrapS = RepeatWrapping;
-    bump.wrapT = RepeatWrapping;
 
-    const material = new MeshPhongMaterial({
-        color: 'gray',
+    const material = new MeshStandardMaterial({
         map: texture,
-        bumpMap: bump,
         normalMap: normal,
         displacementMap: height,
-        displacementScale: 10,
-        flatShading: true
+        displacementScale: 10
     });
     const mesh = new Mesh(geometry, material);
     mesh.rotation.x = -Math.PI/2;
-    mesh.position.y = -0.5;
+    mesh.position.y = -0.6;
     return mesh;
 }
 
@@ -42,9 +36,8 @@ function createOcean() {
     water.sunDirection = new Vector3();
     water.sunColor = 0xffffff;
     water.waterColor = 0x001e0f;
-    water.distortionScale = 3.7;
     water.rotation.x = -Math.PI/2;
-    water.position.y = 0.5;
+    water.position.y = 0;
     return water;
 }
 
