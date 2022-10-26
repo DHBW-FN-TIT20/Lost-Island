@@ -74,6 +74,12 @@ class World {
         cameraFolder.add(this.#camera.rotation, 'y', 0, 1000);
         cameraFolder.add(this.#camera.position, 'z', 0, 1000);
         const resizer = new Resizer(container, this.#camera, this.#renderer);
+
+        document.addEventListener("click", (ev) => {
+            if (!this.#controller.isLocked) {
+                this.#controller.lock();
+            }
+        });
     }
 
     async init() {
