@@ -15,9 +15,6 @@ import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
 import { Loop } from './systems/Loop.js';
 
-import { Vector3 } from 'three';
-
-
 const GRAVITY = new Vector3(0, -0.05, 0);
 
 //#region Debugger Helper
