@@ -182,7 +182,7 @@ class Controller {
         vector.setFromMatrixColumn( this.#camera.matrix, 0 );
         vector.crossVectors( this.#camera.up, vector );
 
-        this.velocity.addScaledVector( vector, distance );
+        this.location.addScaledVector( vector, distance );
 
     };
 
