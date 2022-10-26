@@ -85,14 +85,20 @@ class Controller {
         this.location = new Vector3(this.#camera.position.x, this.#camera.position.y, this.#camera.position.z);
 
         this.keyBoardWatcher = new KeyBoardWatcher();
+        this.isLocked = false;
 
 
         document.addEventListener('mousemove', (ev) => {
-            if (ev.buttons != 1) {
+            if (this.isLocked === false) {
                 return;
             }
             this.mouseMove(ev);
         });
+
+        document.addEventListener('pointerlockchange', (ev) => {
+            this.lockChanged();
+        }, false);
+
     }
 
 
@@ -103,16 +109,6 @@ class Controller {
     applyForce(force) {
         force.divideScalar(this.weight);
         this.acceleration.add(force);
-    }
-
-    /**
-     * Add a force to the movement without weight of the object
-     * @param {Vector3} force Some Forces
-     */
-    applyDirectForce(force) {
-        this.location.x += force.x;
-        this.location.y += force.y;
-        this.location.z += force.z;
     }
 
     applyGround(minHeight) {
@@ -186,9 +182,23 @@ class Controller {
         vector.setFromMatrixColumn( this.#camera.matrix, 0 );
         vector.crossVectors( this.#camera.up, vector );
 
-        this.location.addScaledVector( vector, distance );
+        this.velocity.addScaledVector( vector, distance );
 
     };
+
+    lock () {
+        document.body.requestPointerLock();
+    }
+    
+    unlock () {
+        document.exitPointerLock();
+        
+    }
+    
+    lockChanged() {
+        this.isLocked = !this.isLocked;
+        console.log("Lock changed");
+    }
 }
 
 export { Controller };
