@@ -171,30 +171,30 @@ class Controller {
 
     moveRight(distance) {
         const vector = new Vector3(0, 0, 0);
-        
+
         vector.setFromMatrixColumn(this.#camera.matrix, 0);
         this.location.addScaledVector(vector, distance);
     }
-    
-    moveForward( distance ) {
+
+    moveForward(distance) {
         const vector = new Vector3(0, 0, 0);
 
-        vector.setFromMatrixColumn( this.#camera.matrix, 0 );
-        vector.crossVectors( this.#camera.up, vector );
+        vector.setFromMatrixColumn(this.#camera.matrix, 0);
+        vector.crossVectors(this.#camera.up, vector);
 
-        this.location.addScaledVector( vector, distance );
+        this.location.addScaledVector(vector, distance);
 
     };
 
-    lock () {
+    lock() {
         document.body.requestPointerLock();
     }
-    
-    unlock () {
+
+    unlock() {
         document.exitPointerLock();
-        
+
     }
-    
+
     lockChanged() {
         this.isLocked = !this.isLocked;
         console.log("Lock changed");
