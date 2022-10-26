@@ -1,4 +1,4 @@
-import { PlaneGeometry, TextureLoader, RepeatWrapping, MeshPhongMaterial, Mesh, Vector3 } from 'three';
+import { PlaneGeometry, TextureLoader, RepeatWrapping, MeshPhongMaterial, MeshStandardMaterial, Mesh, Vector3 } from 'three';
 import { Water } from '../../../lib/three/examples/jsm/objects/Water.js';
 import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
 
@@ -6,16 +6,19 @@ function createGround() {
     const geometry = new PlaneGeometry(300, 300, 1024, 1024);
     const loader = new TextureLoader();
     const height = loader.load("../../assets/heightmap.png");
-    const texture = loader.load("../../assets/textures/Sand 2.jpg");
+    const normal = loader.load("../../assets/NormalMap.png");
+    const texture = loader.load("../../assets/textures/Sand 1.jpg");
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
     const bump = loader.load("../../assets/textures/sand-bump-map.jpg");
     bump.wrapS = RepeatWrapping;
     bump.wrapT = RepeatWrapping;
+
     const material = new MeshPhongMaterial({
         color: 'gray',
         map: texture,
         bumpMap: bump,
+        normalMap: normal,
         displacementMap: height,
         displacementScale: 10,
         flatShading: true
