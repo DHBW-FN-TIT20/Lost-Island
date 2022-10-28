@@ -7,7 +7,8 @@ function createSpotLight() {
 }
 
 function createAmbientLight() {
-    const light = new SpotLight(0xffffff, 10);
+    const light = new SpotLight(0x404040, 6);
+    light.position.set(0, 400, 0);
     return light;
 }
 

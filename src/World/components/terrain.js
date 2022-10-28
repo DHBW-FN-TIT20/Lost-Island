@@ -19,7 +19,7 @@ function createGround() {
     });
     const mesh = new Mesh(geometry, material);
     mesh.rotation.x = -Math.PI/2;
-    mesh.position.y = -0.6;
+    mesh.position.y = -1;
     return mesh;
 }
 
@@ -34,10 +34,10 @@ function createOcean() {
     // water.waterNormals = texture;
     water.alpha = 1.0;
     water.sunDirection = new Vector3();
-    water.sunColor = 0xffffff;
-    water.waterColor = 0x001e0f;
+    // water.sunColor = 0xffffff;
+    water.waterColor = 0xff0000;
     water.rotation.x = -Math.PI/2;
-    water.position.y = 0;
+    water.position.y = 1;
     return water;
 }
 
