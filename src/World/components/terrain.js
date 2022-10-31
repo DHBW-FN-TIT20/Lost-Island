@@ -66,7 +66,7 @@ function createGroundWithDisplacementMap() {
         map: texture,
         normalMap: normal,
         displacementMap: height,
-        displacementScale: 10
+        displacementScale: 15
     });
     const mesh = new Mesh(geometry, material);
     mesh.rotation.x = -Math.PI/2;
@@ -94,7 +94,7 @@ function createOcean() {
         }
     );
     water.rotation.x = -Math.PI/2;
-    water.position.y = 1;
+    water.position.y = 0;
     return water;
 }
 

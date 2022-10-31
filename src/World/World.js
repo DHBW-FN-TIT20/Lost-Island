@@ -3,13 +3,18 @@ import { createScene } from './components/scene.js';
 import { createSpotLight, createAmbientLight } from './components/light.js';
 import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
-import { Palm} from './components/Palm.js';
+import { PalmBuilder} from './components/PalmBuilder.js';
+import { BeachHouseBuilder } from './components/BeachHouseBuilder.js';
+import { PierBuilder } from './components/PierBuilder.js';
+import { GrassBuilder } from './components/GrassBuilder.js';
 
 import {
     PMREMGenerator,
     Vector3,
     ArrowHelper
 } from 'three';
+
+import Stats from './../../lib/three/examples/jsm/libs/stats.module.js';
 
 import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
@@ -34,9 +39,8 @@ class World {
     #ocean;
 
     constructor(container) {
-        let gui = new dat.GUI({ name: 'My GUI' });
-        const terrainFolder = gui.addFolder('Terrain');
-        const cameraFolder = gui.addFolder('Camera');
+        this.stats = Stats();
+        document.body.appendChild(this.stats.dom);
 
         this.#camera = createPerspectiveCamera(new Vector3(0, 1000, 0));
         this.#scene = createScene();
@@ -68,14 +72,9 @@ class World {
 
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
 
-        // terrainFolder.add(ground.rotation, 'x').min(0).max(200);
-        cameraFolder.add(this.#camera.position, 'x', 0, 1000);
-        cameraFolder.add(this.#camera.position, 'y', 0, 1000);
-        cameraFolder.add(this.#camera.rotation, 'y', 0, 1000);
-        cameraFolder.add(this.#camera.position, 'z', 0, 1000);
         const resizer = new Resizer(container, this.#camera, this.#renderer);
 
-        document.addEventListener("click", (ev) => {
+        container.addEventListener("click", (ev) => {
             if (!this.#controller.isLocked) {
                 this.#controller.lock();
             }
@@ -83,11 +82,23 @@ class World {
     }
 
     async init() {
-        this.palm1 =  new Palm();
-        this.palm1 = await this.palm1.loadPalm(0,2,0, Math.PI/2);
-        this.#camera.lookAt(this.palm1.position);
+        const palmBuilder = new PalmBuilder();
+        const beachHouseBuilder = new BeachHouseBuilder();
+        const pierBuilder = new PierBuilder();
+        const grassBuilder = new GrassBuilder();
+
+        this.palm1 = await palmBuilder.load(100,5,0, Math.PI/2);
+        this.beachHouse = await beachHouseBuilder.load(0,-17,0,0);
+        this.pier = await pierBuilder.load(10,-14,120, 0);
+        this.grass = await grassBuilder.load(0,6.5,0,0);
+
         this.#loop.updatables.push(this.palm1);
         this.#scene.add(this.palm1);
+        this.#scene.add(this.beachHouse);
+        this.#scene.add(this.pier);
+        this.#scene.add(this.grass);
+
+        this.#camera.lookAt(this.grass.position);
       }
 
     render() {
@@ -99,6 +110,8 @@ class World {
         this.#controller.applyGround(10);
 
         this.#ocean.material.uniforms[ 'time' ].value += 0.25 / 60.0;
+
+        this.stats.update();
     }
 
     start() {

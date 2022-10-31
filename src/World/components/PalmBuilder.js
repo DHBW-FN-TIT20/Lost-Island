@@ -1,7 +1,7 @@
 import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
 import{AnimationMixer, Object3D} from 'three';
 
-class Palm{
+class PalmBuilder{
     #mixer;
     #action;
 
@@ -9,7 +9,7 @@ class Palm{
         this.palm = new Object3D();
     }
 
-    async loadPalm(x, y, z, rotationY){
+    async load(x, y, z, rotationY){
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/palm-tree-test.gltf');
         
@@ -33,4 +33,4 @@ class Palm{
     }
 }
 
-export {Palm};
+export {PalmBuilder};
