@@ -1,7 +1,7 @@
 import { createPerspectiveCamera } from './components/camera.js';
 import { createScene } from './components/scene.js';
 import { createSpotLight, createAmbientLight } from './components/light.js';
-import { createGround, createOcean, createSky, createSun } from './components/terrain.js';
+import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
 import { Palm} from './components/Palm.js';
 
@@ -47,7 +47,7 @@ class World {
         
         container.append(this.#renderer.domElement);
 
-        const ground = createGround();
+        const ground = createGroundWithDisplacementMap();
         this.#ocean = createOcean();
         this.#ocean.fog = this-this.#scene.fog !== undefined;
         const sky = createSky();
@@ -68,7 +68,7 @@ class World {
 
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
 
-        terrainFolder.add(ground.rotation, 'x').min(0).max(200);
+        // terrainFolder.add(ground.rotation, 'x').min(0).max(200);
         cameraFolder.add(this.#camera.position, 'x', 0, 1000);
         cameraFolder.add(this.#camera.position, 'y', 0, 1000);
         cameraFolder.add(this.#camera.rotation, 'y', 0, 1000);
