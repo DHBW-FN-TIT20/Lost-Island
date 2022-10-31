@@ -26,16 +26,22 @@ function createGround() {
 function createOcean() {
     const geometry = new PlaneGeometry(1000, 1000);
     const loader = new TextureLoader();
-    const texture = loader.load("../../assets/textures/water-bump-map.png");
-    texture.wrapS = texture.wrapT = RepeatWrapping;
-    const water = new Water(geometry);
-    water.textureWidth = 512;
-    water.textureHeight = 512;
-    // water.waterNormals = texture;
-    water.alpha = 1.0;
-    water.sunDirection = new Vector3();
-    water.sunColor = 0xffffff;
-    water.waterColor = 0x001e0f;
+    let water = new Water(
+        geometry,
+        {
+            textureWidth: 512,
+            textureHeight: 512,
+            waterNormals: loader.load( './assets/textures/water-normals.jpg', function ( texture ) {
+
+                texture.wrapS = texture.wrapT = RepeatWrapping;
+
+            } ),
+            sunDirection: new Vector3(),
+            sunColor: 0xffffff,
+            waterColor: 0x001e0f,
+            distortionScale: 3.7
+        }
+    );
     water.rotation.x = -Math.PI/2;
     water.position.y = 0;
     return water;
