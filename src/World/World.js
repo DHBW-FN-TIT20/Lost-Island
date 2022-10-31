@@ -3,7 +3,7 @@ import { createScene } from './components/scene.js';
 import { createSpotLight, createAmbientLight } from './components/light.js';
 import { createGround, createOcean, createSky, createSun } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
-import { loadPalm } from './components/palm.js';
+import { Palm} from './components/Palm.js';
 
 import {
     PMREMGenerator,
@@ -83,11 +83,11 @@ class World {
     }
 
     async init() {
-        // asynchronous setup here
-        const palm =  await loadPalm();
-        this.#camera.lookAt(palm.position);
-        this.#loop.updatables.push(palm);
-        this.#scene.add(palm);
+        this.palm1 =  new Palm();
+        this.palm1 = await this.palm1.loadPalm(0,2,0, Math.PI/2);
+        this.#camera.lookAt(this.palm1.position);
+        this.#loop.updatables.push(this.palm1);
+        this.#scene.add(this.palm1);
       }
 
     render() {

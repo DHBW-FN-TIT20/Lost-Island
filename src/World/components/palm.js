@@ -1,25 +1,36 @@
 import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import{AnimationMixer} from 'three';
+import{AnimationMixer, Object3D} from 'three';
 
-async function loadPalm(){
-    const loader = new GLTFLoader();
-    const data = await loader.loadAsync('/assets/models/palm-tree-test.gltf');
-    const palm = setUpModel(data);
-    palm.position.x = 10;
-    palm.position.y = 5;
-    palm.position.z = 0;
-    palm.rotation.y = Math.PI/2;
-    return palm;
+class Palm{
+    #mixer;
+    #action;
+
+    constructor(){
+        this.palm = new Object3D();
+    }
+
+    async loadPalm(x, y, z, rotationY){
+        const loader = new GLTFLoader();
+        const data = await loader.loadAsync('/assets/models/palm-tree-test.gltf');
+        
+        this.palm = this.setUpModel(data);
+        this.palm.tick = (delta) => this.#mixer.update(delta);
+        this.palm.startAnimation = () => this.#action.play();
+        this.palm.stopAnimation = () => this.#action.stop();
+        this.palm.position.x = x;
+        this.palm.position.y = y;
+        this.palm.position.z = z;
+        this.palm.rotation.y = rotationY;
+        return this.palm;
+    }
+
+    setUpModel(data){
+        const model = data.scene;
+        const clip = data.animations[0];
+        this.#mixer = new AnimationMixer(model);
+        this.#action = this.#mixer.clipAction(clip);
+        return model;
+    }
 }
 
-function setUpModel(data){
-    const model = data.scene;
-    const clip = data.animations[0];
-    const mixer = new AnimationMixer(model);
-    const action = mixer.clipAction(clip);
-    action.play();
-    model.tick = (delta) => mixer.update(delta);
-    return model;
-}
-
-export {loadPalm};
+export {Palm};
