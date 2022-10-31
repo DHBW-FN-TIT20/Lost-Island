@@ -98,7 +98,7 @@ class World {
         // #TODO: Berechnen wo der Boden ist (jetzt fix bei 20)
         this.#controller.applyGround(10);
 
-        this.#ocean.material.uniforms[ 'time' ].value += 1.0 / 60.0;
+        this.#ocean.material.uniforms[ 'time' ].value += 0.25 / 60.0;
     }
 
     start() {
