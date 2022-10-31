@@ -14,7 +14,7 @@ function createGround() {
     texture.flatShading = true;
 
     const imageLoader = new ImageLoader();
-    const planeJSGeom = new PlaneGeometry(256, 256, 2048, 2048);
+    const planeJSGeom = new PlaneGeometry(256, 256, 16, 16);
     planeJSGeom.rotateX(Math.PI * -0.5);
     var planeJS = new Mesh(planeJSGeom, new MeshStandardMaterial({
         map: texture,

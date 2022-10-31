@@ -42,7 +42,7 @@ class World {
         this.stats = Stats();
         document.body.appendChild(this.stats.dom);
 
-        this.#camera = createPerspectiveCamera(new Vector3(0, 1000, 0));
+        this.#camera = createPerspectiveCamera(new Vector3(0, 500, 0));
         this.#scene = createScene();
         this.#renderer = createRenderer();
         this.#light = createAmbientLight();
@@ -51,11 +51,13 @@ class World {
         
         container.append(this.#renderer.domElement);
 
-        const ground = createGroundWithDisplacementMap();
+        const ground = createGround();
         this.#ocean = createOcean();
         this.#ocean.fog = this-this.#scene.fog !== undefined;
         const sky = createSky();
         const sun = createSun(sky);
+
+        this.#controller.addObjectForCollision(ground);
         
         this.#scene.add(sky);
         this.#scene.add(this.#ocean);
@@ -98,7 +100,11 @@ class World {
         this.#scene.add(this.pier);
         this.#scene.add(this.grass);
 
-        this.#camera.lookAt(this.grass.position);
+        this.#camera.lookAt(this.palm1.position);
+        this.#controller.addObjectForCollision(this.palm1.children[0]);
+        this.#controller.addObjectForCollision(this.palm1.children[1]);
+        this.#controller.addObjectForCollision(this.beachHouse.children[0].children);
+        this.#controller.addObjectForCollision(this.pier.children);
       }
 
     render() {

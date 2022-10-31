@@ -1,11 +1,14 @@
 import {
     Vector3,
-    Euler
+    Euler,
+    Raycaster
 } from 'three';
 
 
 const _euler = new Euler(0, 0, 0, 'YXZ');
 const _PI_2 = Math.PI / 2;
+const GRAVITY = new Vector3(0, -0.05, 0);
+
 
 class KeyBoardWatcher {
     constructor(domElement = document.body) {
@@ -79,6 +82,7 @@ class Controller {
         this.weight = weight;
         this.moveSpeed = moveSpeed;
         this.sensitivity = sensitivity;
+        this.objectsForCollision = [];
 
         this.acceleration = new Vector3(0, 0, 0);
         this.velocity = new Vector3(0, 0, 0);
@@ -87,6 +91,8 @@ class Controller {
         this.keyBoardWatcher = new KeyBoardWatcher();
         this.isLocked = false;
 
+        this.groundRaycaster = new Raycaster(this.location, new Vector3(1, 0, 0), 0, this.height);
+        this.yRaycaster = new Raycaster(this.location, new Vector3(0, -1, 0), 0, this.height);
 
         document.addEventListener('mousemove', (ev) => {
             if (this.isLocked === false) {
@@ -101,6 +107,31 @@ class Controller {
 
     }
 
+    addObjectForCollision(obj) {
+        const append = (item) => {
+            if (this.objectsForCollision.indexOf(item) == -1) {
+                this.objectsForCollision.push(item);
+            }
+            else {
+                console.error("Object already in the array", item);
+            }
+        };
+
+        if (Array.isArray(obj)) {
+            obj.forEach(item => {
+                append(item);
+            });
+        }
+        else {
+            append(obj);
+        }
+
+    }
+
+    removeObjectForCollision(obj) {
+        this.objectsForCollision.splice(this.objectsForCollision.indexOf(obj), 1);
+    }
+
 
     /**
      * Add a force to the movement with weight of the object
@@ -111,22 +142,21 @@ class Controller {
         this.acceleration.add(force);
     }
 
-    applyGround(minHeight) {
-        if (this.location.y - this.height < minHeight) {
-            this.location.y = minHeight + this.height;
-            this.velocity.y = 0;
-        }
-    }
-
     update() {
+        this.applyForce(GRAVITY);
         this.velocity.add(this.acceleration);
+        this.kameraMove();
+
+        this.checkYCollisions();
+
         this.location.add(this.velocity);
 
         this.#camera.position.x = this.location.x;
         this.#camera.position.y = this.location.y;
         this.#camera.position.z = this.location.z;
 
-        this.kameraMove();
+        this.checkOutOfWorld();
+
     }
 
 
@@ -162,8 +192,12 @@ class Controller {
         direction.x = Number(this.keyBoardWatcher.moveRight) - Number(this.keyBoardWatcher.moveLeft);
         direction.normalize(); // this ensures consistent movements in all directions
 
-        if (this.keyBoardWatcher.moveForward || this.keyBoardWatcher.moveBackward) movement.z -= direction.z * this.moveSpeed;
-        if (this.keyBoardWatcher.moveLeft || this.keyBoardWatcher.moveRight) movement.x -= direction.x * this.moveSpeed;
+        if (this.keyBoardWatcher.moveForward || this.keyBoardWatcher.moveBackward) {
+            movement.z -= direction.z * this.moveSpeed;
+        }
+        if (this.keyBoardWatcher.moveLeft || this.keyBoardWatcher.moveRight) {
+            movement.x -= direction.x * this.moveSpeed;
+        }
 
         this.moveRight(- movement.x);
         this.moveForward(- movement.z);
@@ -173,7 +207,15 @@ class Controller {
         const vector = new Vector3(0, 0, 0);
 
         vector.setFromMatrixColumn(this.#camera.matrix, 0);
+
+        this.groundRaycaster.set(this.location.clone(), vector);
+        const intersections = this.groundRaycaster.intersectObjects(this.objectsForCollision, false);
+
+
         this.location.addScaledVector(vector, distance);
+        if (intersections.length > 0) {
+            this.location.addScaledVector(vector, -distance);
+        }
     }
 
     moveForward(distance) {
@@ -182,8 +224,14 @@ class Controller {
         vector.setFromMatrixColumn(this.#camera.matrix, 0);
         vector.crossVectors(this.#camera.up, vector);
 
-        this.location.addScaledVector(vector, distance);
+        this.groundRaycaster.set(this.location.clone(), vector);
+        const intersections = this.groundRaycaster.intersectObjects(this.objectsForCollision, false);
 
+
+        this.location.addScaledVector(vector, distance);
+        if (intersections.length > 0) {
+            this.location.addScaledVector(vector, -distance);
+        }
     };
 
     lock() {
@@ -198,6 +246,34 @@ class Controller {
     lockChanged() {
         this.isLocked = !this.isLocked;
         console.log("Lock changed");
+    }
+
+    checkYCollisions() {
+        //#region Check bottom
+        this.yRaycaster.set(this.location, new Vector3(0, -1, 0));
+        const intersectionsBottom = this.yRaycaster.intersectObjects(this.objectsForCollision, false);
+
+        if (intersectionsBottom.length > 0) {
+            const distance = intersectionsBottom[0].distance;
+            this.location.y += this.height - distance;
+            this.velocity.y = 0;
+        }
+        //#endregion
+
+        //#region Check top
+        this.yRaycaster.set(this.location, new Vector3(0, 1, 0));
+        const intersectionsTop = this.yRaycaster.intersectObjects(this.objectsForCollision, false);
+
+        if (intersectionsTop.length > 0) {
+            this.velocity.y = 0;
+        }
+        //#endregion
+    }
+
+    checkOutOfWorld() {
+        if (this.location.y < - 100) {
+            this.location = new Vector3(0, 500, 0);
+        }
     }
 }
 
