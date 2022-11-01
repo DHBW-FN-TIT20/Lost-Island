@@ -20,10 +20,11 @@ import Stats from './../../lib/three/examples/jsm/libs/stats.module.js';
 import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
 import { Loop } from './systems/Loop.js';
+import { InteractionHelper } from './systems/InteractionHelper.js';
 
 
 //#region Debugger Helper
-const origin = new Vector3(0, 0, 0);
+const origin = new Vector3(0, 10, 0);
 const arrowHelperX = new ArrowHelper((new Vector3(1, 0, 0)).normalize(), origin, 300, 0xFF0000);
 const arrowHelperY = new ArrowHelper((new Vector3(0, 1, 0)).normalize(), origin, 300, 0x00FF00);
 const arrowHelperZ = new ArrowHelper((new Vector3(0, 0, 1)).normalize(), origin, 300, 0x0000FF);
@@ -37,6 +38,7 @@ class World {
     #loop;
     #controller;
     #ocean;
+    #interactionHelper;
 
     constructor(container) {
         this.stats = Stats();
@@ -47,6 +49,7 @@ class World {
         this.#renderer = createRenderer();
         this.#light = createAmbientLight();
         this.#controller = new Controller(this.#camera);
+        this.#interactionHelper = new InteractionHelper(this.#camera);
         const pmremGenerator = new PMREMGenerator(this.#renderer);
         
         container.append(this.#renderer.domElement);
@@ -104,17 +107,28 @@ class World {
         // this.#scene.add(this.grass);
 
         this.#camera.lookAt(this.palm1.position);
+
+        //#region Add objects for colission
         this.#controller.addObjectForCollision(this.palm1.children[0]);
         this.#controller.addObjectForCollision(this.palm1.children[1]);
         this.#controller.addObjectForCollision(this.beachHouse.children[0].children);
         this.#controller.addObjectForCollision(this.pier.children);
         this.#controller.addObjectForCollision(this.boat.children);
+        //#endregion
+
+        //#region Add object interaction
+        this.#interactionHelper.addInteraction(this.palm1.children[1], () => {
+            this.palm1.startAnimation();
+            console.log("Start Animation for Palm1");
+        });
+        //#endregion
 
       }
 
     render() {
 
         this.#controller.update();
+        this.#interactionHelper.checkInteractions();
 
         this.#ocean.material.uniforms[ 'time' ].value += 0.25 / 60.0;
 
