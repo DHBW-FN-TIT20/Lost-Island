@@ -1,6 +1,6 @@
 import { createPerspectiveCamera } from './components/camera.js';
 import { createScene } from './components/scene.js';
-import { createSpotLight, createAmbientLight } from './components/light.js';
+import { createAmbientLight } from './components/light.js';
 import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
 import { PalmBuilder} from './components/PalmBuilder.js';
@@ -12,12 +12,7 @@ import { BoatBuilder } from './components/BoatBuilder.js';
 import {
     PMREMGenerator,
     Vector3,
-    ArrowHelper,
-    PlaneGeometry,
-    MeshBasicMaterial,
-    DoubleSide,
-    Mesh,
-    BoxGeometry
+    ArrowHelper
 } from 'three';
 
 import Stats from './../../lib/three/examples/jsm/libs/stats.module.js';
