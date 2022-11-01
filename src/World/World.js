@@ -7,6 +7,7 @@ import { PalmBuilder} from './components/PalmBuilder.js';
 import { BeachHouseBuilder } from './components/BeachHouseBuilder.js';
 import { PierBuilder } from './components/PierBuilder.js';
 import { GrassBuilder } from './components/GrassBuilder.js';
+import { BoatBuilder } from './components/BoatBuilder.js';
 
 import {
     PMREMGenerator,
@@ -114,24 +115,29 @@ class World {
         const palmBuilder = new PalmBuilder();
         const beachHouseBuilder = new BeachHouseBuilder();
         const pierBuilder = new PierBuilder();
-        const grassBuilder = new GrassBuilder();
+        // const grassBuilder = new GrassBuilder();
+        const boatBuilder = new BoatBuilder();
 
-        this.palm1 = await palmBuilder.load(100,5,0, Math.PI/2);
-        this.beachHouse = await beachHouseBuilder.load(0,-17,0,0);
-        this.pier = await pierBuilder.load(10,-14,120, 0);
-        this.grass = await grassBuilder.load(0,6.5,0,0);
+        this.palm1 = await palmBuilder.load(100,8,0, 0);
+        this.beachHouse = await beachHouseBuilder.load(0,-14,0,0);
+        this.pier = await pierBuilder.load(10,-10,155, 0);
+        // this.grass = await grassBuilder.load(0,6.5,0,0);
+        this.boat = await boatBuilder.load(30, -26, 110, Math.PI);
 
         this.#loop.updatables.push(this.palm1);
         this.#scene.add(this.palm1);
         this.#scene.add(this.beachHouse);
         this.#scene.add(this.pier);
-        this.#scene.add(this.grass);
+        this.#scene.add(this.boat);
+        // this.#scene.add(this.grass);
 
         this.#camera.lookAt(this.palm1.position);
         this.#controller.addObjectForCollision(this.palm1.children[0]);
         this.#controller.addObjectForCollision(this.palm1.children[1]);
         this.#controller.addObjectForCollision(this.beachHouse.children[0].children);
         this.#controller.addObjectForCollision(this.pier.children);
+        this.#controller.addObjectForCollision(this.boat.children);
+
       }
 
     render() {

@@ -20,7 +20,7 @@ function createGround() {
         map: texture,
         normalMap: normal
     }));
-    planeJS.position.x = -1;
+    planeJS.position.y = -2;
     imageLoader.load("../../assets/heightmap2.png", function(t){       
         var canvas = document.createElement("canvas");
         canvas.width = t.width;
@@ -41,7 +41,7 @@ function createGround() {
             for (var w = 0; w < wdth; w++) {
                 var imgData = ctx.getImageData(Math.round(w * widthStep), Math.round(h * heightStep), 1, 1).data;
                 var displacementVal = imgData[0] / 255.0;
-                displacementVal *= 20;
+                displacementVal *= 25;
                 var idx = (h * wdth) + w;
                 vertex.fromBufferAttribute( positionAttribute, idx);
                 vertex.y = displacementVal;
@@ -75,7 +75,7 @@ function createGroundWithDisplacementMap() {
 }
 
 function createOcean() {
-    const geometry = new PlaneGeometry(1000, 1000);
+    const geometry = new PlaneGeometry(10000, 10000);
     const loader = new TextureLoader();
     let water = new Water(
         geometry,
@@ -94,7 +94,7 @@ function createOcean() {
         }
     );
     water.rotation.x = -Math.PI/2;
-    water.position.y = 0;
+    water.position.y = 6;
     return water;
 }
 
