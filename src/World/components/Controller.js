@@ -76,6 +76,14 @@ class KeyBoardWatcher {
 class Controller {
     #camera;
 
+    /**
+     * Controller to manage these Camera.
+     * @param {THREE.Camera} camera 
+     * @param {number} height Min. disctance from the ground. Default to 5
+     * @param {number} weight Weight for calculation of the forces. Default to 2
+     * @param {number} moveSpeed Speed of the WASD-Movement. Default to 0.5
+     * @param {number} sensitivity How sensitiv the mouse movement to the camera is. Default to 0.005
+     */
     constructor(camera, height = 5, weight = 2, moveSpeed = 0.5, sensitivity = 0.005) {
         this.#camera = camera;
         this.height = height;
@@ -107,6 +115,10 @@ class Controller {
 
     }
 
+    /**
+     * Add the object to not pass through these objects with the camera.
+     * @param {THREE.Mesh} obj
+     */
     addObjectForCollision(obj) {
         const append = (item) => {
             if (this.objectsForCollision.indexOf(item) == -1) {
@@ -128,6 +140,10 @@ class Controller {
 
     }
 
+    /**
+     * Remove one object to not do object collision with it anymore.
+     * @param {THREE.Mesh} obj 
+     */
     removeObjectForCollision(obj) {
         this.objectsForCollision.splice(this.objectsForCollision.indexOf(obj), 1);
     }
@@ -142,6 +158,9 @@ class Controller {
         this.acceleration.add(force);
     }
 
+    /**
+     * Need to be called each frame to update the position of the camera.
+     */
     update() {
         this.applyForce(GRAVITY);
         this.velocity.add(this.acceleration);
@@ -160,6 +179,10 @@ class Controller {
     }
 
 
+    /**
+     * Call this function if the Mouse is moved to update the camera.
+     * @param {MouseEvent} ev Fired Event
+     */
     mouseMove(ev) {
         // Range is 0 to Math.PI radians
         this.minPolarAngle = 0; // radians
@@ -184,6 +207,9 @@ class Controller {
 
     }
 
+    /**
+     * Function that update the position of the camera if you pressed one of the movement keys.
+     */
     kameraMove() {
         const direction = new Vector3(0, 0, 0);
         const movement = new Vector3(0, 0, 0);
@@ -203,6 +229,10 @@ class Controller {
         this.moveForward(- movement.z);
     }
 
+    /**
+     * Move the camera to the right/left with the `distance`
+     * @param {number} distance 
+     */
     moveRight(distance) {
         const vector = new Vector3(0, 0, 0);
 
@@ -218,6 +248,10 @@ class Controller {
         }
     }
 
+    /**
+     * Move the camera to the forward/back with the `distance`
+     * @param {number} distance 
+     */
     moveForward(distance) {
         const vector = new Vector3(0, 0, 0);
 
@@ -234,20 +268,34 @@ class Controller {
         }
     };
 
+    /**
+     * Lock the Mouse-Pointer
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/requestPointerLock
+     */
     lock() {
         document.body.requestPointerLock();
     }
 
+    /**
+     * Unlock the Mouse-Pointer
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/exitPointerLock
+     */
     unlock() {
         document.exitPointerLock();
 
     }
 
+    /**
+     * Toggle the information if the Mouse is locked
+     */
     lockChanged() {
         this.isLocked = !this.isLocked;
         console.log("Lock changed");
     }
 
+    /**
+     * Check the Colissions with the added objects from `addObjectForCollision(obj)`
+     */
     checkYCollisions() {
         //#region Check bottom
         this.yRaycaster.set(this.location, new Vector3(0, -1, 0));
@@ -270,6 +318,9 @@ class Controller {
         //#endregion
     }
 
+    /**
+     * Reset the Camera to 0, 1000, 0 if it is `y < 100`
+     */
     checkOutOfWorld() {
         if (this.location.y < - 100) {
             this.location = new Vector3(0, 1000, 0);
