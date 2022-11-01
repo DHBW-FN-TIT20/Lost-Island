@@ -55,29 +55,6 @@ class World {
         const pmremGenerator = new PMREMGenerator(this.#renderer);
         
         container.append(this.#renderer.domElement);
-
-        //#region test new Plane / Object Detection
-        const test0_geometry = new PlaneGeometry( 1000, 1000 );
-        const test0_material = new MeshBasicMaterial( {color: 0xffff00, side: DoubleSide} );
-        const test0_plane = new Mesh( test0_geometry, test0_material );
-        test0_plane.position.x = 0;
-        test0_plane.position.y = 10;
-        test0_plane.position.z = 0;
-        test0_plane.rotation.x = -Math.PI/2;
-        // this.#scene.add( test0_plane );
-
-        const test1_geometry = new BoxGeometry( 20, 100, 10 );
-        const test1_material = new MeshBasicMaterial( {color: 0xff8f00, side: DoubleSide, opacity: 0.1} );
-        const test1_plane = new Mesh( test1_geometry, test1_material );
-        test1_plane.position.x = 10;
-        test1_plane.position.y = 0;
-        test1_plane.position.z = 0;
-        test1_plane.rotation.y = -Math.PI/2;
-        this.#scene.add( test1_plane );
-
-        // this.#controller.addObjectForCollision(test0_plane);
-        this.#controller.addObjectForCollision(test1_plane);
-        //#endregion
         
         const ground = createGround();
         this.#ocean = createOcean();
