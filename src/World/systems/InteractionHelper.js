@@ -22,7 +22,7 @@ class InteractionHelper {
         this.#registerdObjects = [];
         this.#registerdFunctions = {};
         this.#camera = camera;
-        this.#raycaster = new Raycaster(new Vector3(), new Vector3(1, 0, 0), 0, 7);
+        this.#raycaster = new Raycaster(new Vector3(), new Vector3(1, 0, 0), 0, 10);
         this.#pointer = new Vector2(0, 0);
     }
 
@@ -34,6 +34,15 @@ class InteractionHelper {
     addInteraction(object, func) {
         this.#registerdObjects.push(object);
         this.#registerdFunctions[object.uuid] = func;
+    }
+
+    /**
+     * Remove Object to check
+     * @param {THREE.MESH} object Mesh for Raycast
+     */
+    removeInteraction(object) {
+        delete this.#registerdFunctions[object.uuid];
+        this.#registerdObjects.splice(this.#registerdObjects.indexOf(object), 1);
     }
 
 
