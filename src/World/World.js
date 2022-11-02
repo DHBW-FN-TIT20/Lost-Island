@@ -121,6 +121,7 @@ class World {
         this.#interactionHelper.addInteraction(this.palm1.children[1], () => {
             this.palm1.startAnimation();
             console.log("Start Animation for Palm1");
+            this.#interactionHelper.removeInteraction(this.palm1.children[1]);
         });
         //#endregion
 
