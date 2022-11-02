@@ -94,7 +94,8 @@ class World {
         const boatBuilder = new BoatBuilder();
 
         this.palm1 = await palmBuilder.load(100,8,0, 0);
-        this.beachHouse = await beachHouseBuilder.load(0,-14,0,0);
+        this.beachHouse = await beachHouseBuilder.load(0,10,0,0);
+        this.beachHouse.children[1].rotateY(Math.PI/2);
         this.pier = await pierBuilder.load(10,-10,155, 0);
         // this.grass = await grassBuilder.load(0,6.5,0,0);
         this.boat = await boatBuilder.load(30, -26, 110, Math.PI);
@@ -111,7 +112,7 @@ class World {
         //#region Add objects for colission
         this.#controller.addObjectForCollision(this.palm1.children[0]);
         this.#controller.addObjectForCollision(this.palm1.children[1]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[0].children);
+        this.#controller.addObjectForCollision(this.beachHouse.children);
         this.#controller.addObjectForCollision(this.pier.children);
         this.#controller.addObjectForCollision(this.boat.children);
         //#endregion

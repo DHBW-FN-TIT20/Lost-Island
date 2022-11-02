@@ -8,7 +8,7 @@ class BeachHouseBuilder{
 
     async load(x, y, z, rotationY){
         const loader = new GLTFLoader();
-        const data = await loader.loadAsync('/assets/models/modern-beach-house.gltf');
+        const data = await loader.loadAsync('/assets/models/bamboo-hut.gltf');
         
         this.beachHouse = this.setUpModel(data);
 
@@ -22,7 +22,7 @@ class BeachHouseBuilder{
 
     setUpModel(data){
         const model = data.scene;
-        model.scale.set(15,15,15);
+        // model.scale.set(15,15,15);
         return model;
     }
 }
