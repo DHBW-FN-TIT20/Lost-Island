@@ -18,6 +18,7 @@ class KeyBoardWatcher {
         this.moveBackward = false;
         this.moveLeft = false;
         this.moveRight = false;
+        this.jump = false;
 
         this.domElement.addEventListener("keydown", (ev) => {
             switch (ev.code) {
@@ -40,6 +41,10 @@ class KeyBoardWatcher {
                 case 'ArrowRight':
                 case 'KeyD':
                     this.moveRight = true;
+                    break;
+
+                case 'Space':
+                    this.jump = true;
                     break;
             }
         });
@@ -67,6 +72,9 @@ class KeyBoardWatcher {
                     this.moveRight = false;
                     break;
 
+                case 'Space':
+                    this.jump = false;
+                    break;
             }
         });
 
@@ -91,6 +99,7 @@ class Controller {
         this.moveSpeed = moveSpeed;
         this.sensitivity = sensitivity;
         this.objectsForCollision = [];
+        this.canJump = true;
 
         this.acceleration = new Vector3(0, 0, 0);
         this.velocity = new Vector3(0, 0, 0);
@@ -154,16 +163,26 @@ class Controller {
      * @param {Vector3} force Some Forces
      */
     applyForce(force) {
-        force.divideScalar(this.weight);
-        this.acceleration.add(force);
+        const vector = force.clone();
+        vector.divideScalar(this.weight);
+        this.acceleration.add(vector);
     }
 
     /**
      * Need to be called each frame to update the position of the camera.
      */
     update() {
+        if (this.canJump && this.keyBoardWatcher.jump) {
+            this.applyForce(new Vector3(0, 1.5, 0));
+            this.canJump = false;
+            setTimeout(() => { this.canJump = true; }, 1000);
+        }
+
         this.applyForce(GRAVITY);
+
         this.velocity.add(this.acceleration);
+        this.acceleration.multiplyScalar(0);
+
         this.kameraMove();
 
         this.checkYCollisions();
@@ -304,7 +323,7 @@ class Controller {
         if (intersectionsBottom.length > 0) {
             const distance = intersectionsBottom[0].distance;
             this.location.y += this.height - distance;
-            this.velocity.y = 0;
+            this.velocity.y = Math.max(0, this.velocity.y);
         }
         //#endregion
 
@@ -324,6 +343,7 @@ class Controller {
     checkOutOfWorld() {
         if (this.location.y < - 100) {
             this.location = new Vector3(0, 1000, 0);
+            this.velocity.y = 0;
         }
     }
 }
