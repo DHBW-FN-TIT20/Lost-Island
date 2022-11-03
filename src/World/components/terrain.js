@@ -4,22 +4,21 @@ import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
 
 function createGround() {
     const loader = new TextureLoader();
-    const height = loader.load("../../assets/heightmap2.png");
-    const normal = loader.load("../../assets/NormalMap.png");
+    const normal = loader.load("../../assets/NormalMapWithRiver.png");
     const texture = loader.load("../../assets/color2.png");
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
     texture.flatShading = true;
 
     const imageLoader = new ImageLoader();
-    const planeJSGeom = new PlaneGeometry(256, 256, 16, 16);
+    const planeJSGeom = new PlaneGeometry(256, 256, 24, 24);
     planeJSGeom.rotateX(Math.PI * -0.5);
     var planeJS = new Mesh(planeJSGeom, new MeshStandardMaterial({
         map: texture,
         normalMap: normal
     }));
     planeJS.position.y = -2;
-    imageLoader.load("../../assets/heightmap2.png", function(t){       
+    imageLoader.load("../../assets/heightmap2WithRiver.png", function(t){       
         var canvas = document.createElement("canvas");
         canvas.width = t.width;
         canvas.height = t.height;

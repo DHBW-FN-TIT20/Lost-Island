@@ -8,6 +8,7 @@ import { BeachHouseBuilder } from './components/BeachHouseBuilder.js';
 import { PierBuilder } from './components/PierBuilder.js';
 import { BoatBuilder } from './components/BoatBuilder.js';
 import { BallBuilder } from './components/BallBuilder.js';
+import { VegetationBuilder } from './components/VegetationBuilder.js';
 
 import {
     PMREMGenerator,
@@ -44,7 +45,7 @@ class World {
         this.stats = Stats();
         document.body.appendChild(this.stats.dom);
 
-        this.#camera = createPerspectiveCamera(new Vector3(0, 500, 0));
+        this.#camera = createPerspectiveCamera(new Vector3(30, 400, 0));
         this.#scene = createScene();
         this.#renderer = createRenderer();
         this.#light = createAmbientLight();
@@ -91,7 +92,8 @@ class World {
         const beachHouseBuilder = new BeachHouseBuilder();
         const pierBuilder = new PierBuilder();
         const boatBuilder = new BoatBuilder();
-        const ballBuilder = new BallBuilder
+        const ballBuilder = new BallBuilder();
+        const vegetationBuilder = new VegetationBuilder();
 
         this.palm1 = await palmBuilder.load(90,11,0, 0);
         this.beachHouse = await beachHouseBuilder.load(0,10,0,0);
@@ -99,6 +101,8 @@ class World {
         this.pier = await pierBuilder.load(10,-10,155, 0);
         this.boat = await boatBuilder.load(30, -26, 110, Math.PI);
         this.soccerBall = await ballBuilder.loadSoccerBall(20,-6, 10, 0);
+        this.tree = await vegetationBuilder.loadTree(50,11, 10, 0);
+        this.tree2 = await vegetationBuilder.loadTree(-50,11, 40, 0);
 
         this.#loop.updatables.push(this.palm1);
         this.#scene.add(this.palm1);
@@ -106,12 +110,16 @@ class World {
         this.#scene.add(this.pier);
         this.#scene.add(this.boat);
         this.#scene.add(this.soccerBall);
+        this.#scene.add(this.tree);
+        this.#scene.add(this.tree2);
+
 
         this.#camera.lookAt(this.palm1.position);
 
         //#region Add objects for colission
         this.#controller.addObjectForCollision(this.palm1.children[0]);
         this.#controller.addObjectForCollision(this.palm1.children[1]);
+        this.#controller.addObjectForCollision(this.tree.children[0].children[0]);
 
         // this.#controller.addObjectForCollision(this.beachHouse.children[0]);
         // this.#controller.addObjectForCollision(this.beachHouse.children[1]);

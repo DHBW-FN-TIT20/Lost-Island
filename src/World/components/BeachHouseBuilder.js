@@ -22,7 +22,7 @@ class BeachHouseBuilder{
 
     setUpModel(data){
         const model = data.scene;
-        // model.scale.set(15,15,15);
+        model.scale.set(1,1,1);
         return model;
     }
 }
