@@ -96,11 +96,11 @@ class World {
         const vegetationBuilder = new VegetationBuilder();
 
         this.palm1 = await palmBuilder.load(90,11,0, 0);
-        this.beachHouse = await beachHouseBuilder.load(0,10,0,0);
+        this.beachHouse = await beachHouseBuilder.load(0,10,-50,0);
         this.beachHouse.children[1].rotateY(Math.PI/2);
         this.pier = await pierBuilder.load(10,-10,155, 0);
         this.boat = await boatBuilder.load(30, -26, 110, Math.PI);
-        this.soccerBall = await ballBuilder.loadSoccerBall(20,-6, 10, 0);
+        this.soccerBall = await ballBuilder.loadSoccerBall(20,-6, -10, 0);
         this.tree = await vegetationBuilder.loadTree(50,11, 10, 0);
         this.tree2 = await vegetationBuilder.loadTree(-50,11, 40, 0);
 
@@ -119,17 +119,18 @@ class World {
         //#region Add objects for colission
         this.#controller.addObjectForCollision(this.palm1.children[0]);
         this.#controller.addObjectForCollision(this.palm1.children[1]);
-        this.#controller.addObjectForCollision(this.tree.children[0].children[0]);
+        this.#controller.addObjectForCollision(this.tree.children[0].children);
+        this.#controller.addObjectForCollision(this.tree2.children[0].children);
 
-        // this.#controller.addObjectForCollision(this.beachHouse.children[0]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[1]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[2]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[3]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[4]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[5]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[6]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[7]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[8].children);
+        this.#controller.addObjectForCollision(this.beachHouse.children[0]);
+        this.#controller.addObjectForCollision(this.beachHouse.children[1]);
+        this.#controller.addObjectForCollision(this.beachHouse.children[2]);
+        this.#controller.addObjectForCollision(this.beachHouse.children[3]);
+        this.#controller.addObjectForCollision(this.beachHouse.children[4]);
+        this.#controller.addObjectForCollision(this.beachHouse.children[5]);
+        this.#controller.addObjectForCollision(this.beachHouse.children[6]);
+        this.#controller.addObjectForCollision(this.beachHouse.children[7]);
+        this.#controller.addObjectForCollision(this.beachHouse.children[8].children);
 
         
 
