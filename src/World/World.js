@@ -7,6 +7,7 @@ import { PalmBuilder} from './components/PalmBuilder.js';
 import { BeachHouseBuilder } from './components/BeachHouseBuilder.js';
 import { PierBuilder } from './components/PierBuilder.js';
 import { BoatBuilder } from './components/BoatBuilder.js';
+import { BallBuilder } from './components/BallBuilder.js';
 
 import {
     PMREMGenerator,
@@ -90,18 +91,21 @@ class World {
         const beachHouseBuilder = new BeachHouseBuilder();
         const pierBuilder = new PierBuilder();
         const boatBuilder = new BoatBuilder();
+        const ballBuilder = new BallBuilder
 
-        this.palm1 = await palmBuilder.load(100,8,0, 0);
+        this.palm1 = await palmBuilder.load(90,11,0, 0);
         this.beachHouse = await beachHouseBuilder.load(0,10,0,0);
         this.beachHouse.children[1].rotateY(Math.PI/2);
         this.pier = await pierBuilder.load(10,-10,155, 0);
         this.boat = await boatBuilder.load(30, -26, 110, Math.PI);
+        this.soccerBall = await ballBuilder.loadSoccerBall(20,-6, 10, 0);
 
         this.#loop.updatables.push(this.palm1);
         this.#scene.add(this.palm1);
         this.#scene.add(this.beachHouse);
         this.#scene.add(this.pier);
         this.#scene.add(this.boat);
+        this.#scene.add(this.soccerBall);
 
         this.#camera.lookAt(this.palm1.position);
 
@@ -117,7 +121,7 @@ class World {
         // this.#controller.addObjectForCollision(this.beachHouse.children[5]);
         // this.#controller.addObjectForCollision(this.beachHouse.children[6]);
         // this.#controller.addObjectForCollision(this.beachHouse.children[7]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[8].children);
+        // this.#controller.addObjectForCollision(this.beachHouse.children[8].children);
 
         
 
@@ -127,13 +131,39 @@ class World {
 
         //#region Add object interaction
         this.#interactionHelper.addInteraction(this.palm1.children[1], () => {
-            this.palm1.startAnimation();
-            console.log("Start Animation for Palm1");
-            this.#interactionHelper.removeInteraction(this.palm1.children[1]);
-        });
-        //#endregion
+            
+            this.setText("E zum Pflücken");
+            document.body.addEventListener("keydown", (ev) => {
+                switch (ev.code) {
 
-      }
+                    case 'KeyE':
+                        this.palm1.startAnimation();
+                        this.setText("&#8982;");
+                        console.log("Start Animation for Palm1");
+                        // this.#interactionHelper.removeInteraction(this.palm1.children[1]);
+                }
+            });            
+        });
+        this.#interactionHelper.addInteraction(this.soccerBall.children[0], () => {
+            this.setText("E zum Schießen");
+            document.body.addEventListener("keydown", (ev) => {
+                switch (ev.code) {
+
+                    case 'KeyE':
+                        this.#loop.updatables.push(this.soccerBall);
+                        this.setText("&#8982;");
+                }
+            }); 
+            
+            
+        })
+        //#endregion
+    }
+
+    setText(text){
+        let div = document.getElementById("info");
+        div.innerHTML = text;
+    }
 
     render() {
 

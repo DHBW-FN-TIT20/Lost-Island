@@ -18,3 +18,14 @@ canvas {
     height: 80%;
     width: 80%;
 }
+
+#info {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	text-align: center;
+    font-size: 40px;
+	z-index: 100;
+	display:block;
+    color: whitesmoke;
+}

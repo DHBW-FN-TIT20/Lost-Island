@@ -3,8 +3,6 @@ import { Water } from '../../../lib/three/examples/jsm/objects/Water.js';
 import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
 
 function createGround() {
-    
-    
     const loader = new TextureLoader();
     const height = loader.load("../../assets/heightmap2.png");
     const normal = loader.load("../../assets/NormalMap.png");

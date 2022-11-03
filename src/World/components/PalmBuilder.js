@@ -1,6 +1,6 @@
 import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import {CSS2DRenderer, CSS2DObject} from '../../../lib/three/examples/jsm/renderers/CSS2DRenderer.js';
-import{AnimationMixer, Object3D, LoopOnce} from 'three';
+import {CSS3DRenderer, CSS3DObject} from '../../../lib/three/examples/jsm/renderers/CSS3DRenderer.js';
+import{AnimationMixer, Object3D, LoopOnce, Color} from 'three';
 
 class PalmBuilder{
     #mixer;
@@ -18,11 +18,17 @@ class PalmBuilder{
         this.palm.tick = (delta) => this.#mixer.update(delta);
         this.palm.startAnimation = () => this.startAnimation();
         this.palm.stopAnimation = () => this.#action.stop();
+        this.palm.setInteractionText = () => this.setText();
         this.palm.position.x = x;
         this.palm.position.y = y;
         this.palm.position.z = z;
         this.palm.rotation.y = rotationY;
         return this.palm;
+    }
+
+    setText(){
+        let div = document.getElementById("info");
+        div.innerHTML = "E zum Pflücken";
     }
 
     async startAnimation(){

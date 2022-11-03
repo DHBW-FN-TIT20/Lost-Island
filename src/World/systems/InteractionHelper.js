@@ -54,6 +54,9 @@ class InteractionHelper {
         this.#raycaster.setFromCamera(this.#pointer, this.#camera);
         const intersects = this.#raycaster.intersectObjects(this.#registerdObjects, false);
 
+        let div = document.getElementById("info");
+        div.innerHTML = "&#8982;";
+        
         if (intersects.length > 0) {
 
             const res = intersects.filter(function (res) {
