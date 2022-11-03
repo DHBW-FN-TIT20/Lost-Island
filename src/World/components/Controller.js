@@ -1,3 +1,6 @@
+import { GRAVITY } from '../World.js';
+
+
 import {
     Vector3,
     Euler,
@@ -7,7 +10,6 @@ import {
 
 const _euler = new Euler(0, 0, 0, 'YXZ');
 const _PI_2 = Math.PI / 2;
-const GRAVITY = new Vector3(0, -0.05, 0);
 
 
 class KeyBoardWatcher {
@@ -91,8 +93,9 @@ class Controller {
      * @param {number} weight Weight for calculation of the forces. Default to 2
      * @param {number} moveSpeed Speed of the WASD-Movement. Default to 0.5
      * @param {number} sensitivity How sensitiv the mouse movement to the camera is. Default to 0.005
+     * @param {number} raycastIntervall Intervall of Raycast checks in ms. Default to 100
      */
-    constructor(camera, height = 5, weight = 2, moveSpeed = 0.5, sensitivity = 0.005) {
+    constructor(camera, height = 5, weight = 2, moveSpeed = 0.5, sensitivity = 0.005, raycastIntervall = 100) {
         this.#camera = camera;
         this.height = height;
         this.weight = weight;
@@ -107,6 +110,9 @@ class Controller {
 
         this.keyBoardWatcher = new KeyBoardWatcher();
         this.isLocked = false;
+
+        this.lastRaycast = Date.now();
+        this.raycastIntervall = raycastIntervall;
 
         this.groundRaycaster = new Raycaster(this.location, new Vector3(1, 0, 0), 0, this.height);
         this.yRaycaster = new Raycaster(this.location, new Vector3(0, -1, 0), 0, this.height);
@@ -257,14 +263,19 @@ class Controller {
 
         vector.setFromMatrixColumn(this.#camera.matrix, 0);
 
-        this.groundRaycaster.set(this.location.clone(), vector);
-        const intersections = this.groundRaycaster.intersectObjects(this.objectsForCollision, false);
-
-
         this.location.addScaledVector(vector, distance);
-        if (intersections.length > 0) {
-            this.location.addScaledVector(vector, -distance);
+
+        if (Date.now() - this.lastRaycast > this.raycastIntervall) {
+            this.lastRaycast = Date.now();
+
+            this.groundRaycaster.set(this.location.clone(), vector);
+            const intersections = this.groundRaycaster.intersectObjects(this.objectsForCollision, false);
+
+            if (intersections.length > 0) {
+                this.location.addScaledVector(vector, -distance);
+            }
         }
+        
     }
 
     /**
@@ -277,14 +288,19 @@ class Controller {
         vector.setFromMatrixColumn(this.#camera.matrix, 0);
         vector.crossVectors(this.#camera.up, vector);
 
-        this.groundRaycaster.set(this.location.clone(), vector);
-        const intersections = this.groundRaycaster.intersectObjects(this.objectsForCollision, false);
-
-
         this.location.addScaledVector(vector, distance);
-        if (intersections.length > 0) {
-            this.location.addScaledVector(vector, -distance);
+        
+        if (Date.now() - this.lastRaycast > this.raycastIntervall) {
+            this.lastRaycast = Date.now();
+
+            this.groundRaycaster.set(this.location.clone(), vector);
+            const intersections = this.groundRaycaster.intersectObjects(this.objectsForCollision, false);
+
+            if (intersections.length > 0) {
+                this.location.addScaledVector(vector, -distance);
+            }
         }
+
     };
 
     /**
