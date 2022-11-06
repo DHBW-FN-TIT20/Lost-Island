@@ -6,11 +6,11 @@ class PierBuilder{
         this.pier = new Object3D();
     }
 
-    async load(x, y, z, rotationY){
+    async load(x, y, z, rotationY, scaleX, scaleY, scaleZ){
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/pier.gltf');
         
-        this.pier = this.setUpModel(data);
+        this.pier = this.setUpModel(data, scaleX, scaleY, scaleZ);
 
         this.pier.position.x = x;
         this.pier.position.y = y;
@@ -20,9 +20,9 @@ class PierBuilder{
         return this.pier;
     }
 
-    setUpModel(data){
+    setUpModel(data, scaleX, scaleY, scaleZ){
         const model = data.scene;
-        model.scale.set(15,15,40);
+        model.scale.set(scaleX,scaleY,scaleZ);
         return model;
     }
 }

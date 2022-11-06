@@ -9,6 +9,7 @@ import { PierBuilder } from './components/PierBuilder.js';
 import { BoatBuilder } from './components/BoatBuilder.js';
 import { BallBuilder } from './components/BallBuilder.js';
 import { VegetationBuilder } from './components/VegetationBuilder.js';
+import {UmbrellaBuilder} from './components/UmbrellaBuilder.js';
 
 import {
     PMREMGenerator,
@@ -45,7 +46,7 @@ class World {
         this.stats = Stats();
         document.body.appendChild(this.stats.dom);
 
-        this.#camera = createPerspectiveCamera(new Vector3(30, 400, 0));
+        this.#camera = createPerspectiveCamera(new Vector3(10, 18, -30));
         this.#scene = createScene();
         this.#renderer = createRenderer();
         this.#light = createAmbientLight();
@@ -94,24 +95,29 @@ class World {
         const boatBuilder = new BoatBuilder();
         const ballBuilder = new BallBuilder();
         const vegetationBuilder = new VegetationBuilder();
+        const umbrellaBuilder = new UmbrellaBuilder();
 
-        this.palm1 = await palmBuilder.load(90,11,0, 0);
+        this.palm1 = await palmBuilder.load(90,11,20, 0);
         this.beachHouse = await beachHouseBuilder.load(0,10,-50,0);
-        this.beachHouse.children[1].rotateY(Math.PI/2);
-        this.pier = await pierBuilder.load(10,-10,155, 0);
-        this.boat = await boatBuilder.load(30, -26, 110, Math.PI);
-        this.soccerBall = await ballBuilder.loadSoccerBall(20,-6, -10, 0);
-        this.tree = await vegetationBuilder.loadTree(50,11, 10, 0);
+        // this.beachHouse.children[1].rotateY(Math.PI/2);
+        this.pier = await pierBuilder.load(10,-10,158, 0, 15, 15, 40);
+        this.bridge = await pierBuilder.load(18,-10,25,0, 15, 15, 30);
+        this.boat = await boatBuilder.load(30, -26, 105, Math.PI);
+        this.soccerBall = await ballBuilder.loadSoccerBall(20,-6, -30, 0);
+        this.tree = await vegetationBuilder.loadTree(50,11, -30, 0);
         this.tree2 = await vegetationBuilder.loadTree(-50,11, 40, 0);
+        this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
 
         this.#loop.updatables.push(this.palm1);
         this.#scene.add(this.palm1);
         this.#scene.add(this.beachHouse);
         this.#scene.add(this.pier);
+        this.#scene.add(this.bridge);
         this.#scene.add(this.boat);
         this.#scene.add(this.soccerBall);
         this.#scene.add(this.tree);
         this.#scene.add(this.tree2);
+        this.#scene.add(this.umbrella);
 
 
         this.#camera.lookAt(this.palm1.position);
@@ -135,6 +141,7 @@ class World {
         
 
         this.#controller.addObjectForCollision(this.pier.children);
+        this.#controller.addObjectForCollision(this.bridge.children);
         this.#controller.addObjectForCollision(this.boat.children);
         //#endregion
 

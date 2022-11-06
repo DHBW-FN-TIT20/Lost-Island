@@ -342,7 +342,7 @@ class Controller {
      */
     checkOutOfWorld() {
         if (this.location.y < - 100) {
-            this.location = new Vector3(0, 1000, 0);
+            this.location = new Vector3(10, 18, -30);
             this.velocity.y = 0;
         }
     }
