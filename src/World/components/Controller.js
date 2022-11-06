@@ -19,6 +19,7 @@ class KeyBoardWatcher {
         this.moveLeft = false;
         this.moveRight = false;
         this.jump = false;
+        this.sprint = false;
 
         this.domElement.addEventListener("keydown", (ev) => {
             switch (ev.code) {
@@ -45,6 +46,10 @@ class KeyBoardWatcher {
 
                 case 'Space':
                     this.jump = true;
+                    break;
+
+                case 'ShiftLeft':
+                    this.sprint = true;
                     break;
             }
         });
@@ -74,6 +79,10 @@ class KeyBoardWatcher {
 
                 case 'Space':
                     this.jump = false;
+                    break;
+
+                case 'ShiftLeft':
+                    this.sprint = false;
                     break;
             }
         });
@@ -242,6 +251,11 @@ class Controller {
         }
         if (this.keyBoardWatcher.moveLeft || this.keyBoardWatcher.moveRight) {
             movement.x -= direction.x * this.moveSpeed;
+        }
+
+        if (this.keyBoardWatcher.sprint) {
+            movement.z = movement.z * 1.5;
+            movement.x = movement.x * 1.5;
         }
 
         this.moveRight(- movement.x);

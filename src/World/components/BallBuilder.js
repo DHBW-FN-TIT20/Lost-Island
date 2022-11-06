@@ -1,35 +1,60 @@
 import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import{AnimationMixer, Object3D} from 'three';
+import{AnimationMixer, Object3D, Raycaster, Vector3} from 'three';
 
 class BallBuilder{
-    constructor(){
+    constructor(ground){
         this.soccerBall = new Object3D();
+        this.ground = ground;
     }
-
+    
     async loadSoccerBall(x, y, z, rotationY){
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/soccer-ball.gltf');
         
         this.soccerBall = this.setUpModel(data);
-
+        
         this.soccerBall.position.x = x;
         this.soccerBall.position.y = y;
         this.soccerBall.position.z = z;
         this.soccerBall.rotation.y = rotationY;
+        this.yRaycaster = new Raycaster(this.soccerBall.position.clone(), new Vector3(0, -1, 0), 0, 30);
+        
+        this.soccerBall.weight = 10;
+        this.soccerBall.GRAVITY = new Vector3(0, -0.0005, 0);
+        this.soccerBall.acceleration = new Vector3();
+        this.soccerBall.velocity = new Vector3();
+        this.soccerBall.kicked = false;
+        this.soccerBall.kick = this.kick;
+        this.soccerBall.applyForce = this.applyForce;
+        this.soccerBall.update = this.update;
 
-        this.soccerBall.tick = (delta) => this.move(0, 0.01, -0.05);
+        this.soccerBall.tick = (delta) => this.soccerBall.update();
 
         return this.soccerBall;
     }
 
-    move(xStep, yStep, zStep){
-        this.soccerBall.position.x = this.soccerBall.position.x + xStep;
-        if(this.soccerBall.position.y == 20){
-            this.soccerBall.position.y = this.soccerBall.position.y - yStep;
-        }else{
-            this.soccerBall.position.y = this.soccerBall.position.y + yStep;
+    kick(direction){
+        if (!this.kicked){
+            direction.normalize();
+            this.applyForce(direction.multiplyScalar(1.5));
+            this.kicked = true;
         }
-        this.soccerBall.position.z = this.soccerBall.position.z + zStep;
+    }
+
+    applyForce(force) {
+        const vector = force.clone();
+        vector.divideScalar(this.weight);
+        this.acceleration.add(vector);
+    }
+
+    update(){
+        this.applyForce(this.GRAVITY);
+
+        this.velocity.add(this.acceleration);
+        this.velocity.clampLength(0, 8);
+        this.position.add(this.velocity);
+        
+        this.acceleration.multiplyScalar(0);
     }
 
     setUpModel(data){
@@ -37,6 +62,7 @@ class BallBuilder{
         model.scale.set(15,15,15);
         return model;
     }
+
 }
 
 export {BallBuilder};
