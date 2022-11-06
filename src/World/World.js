@@ -217,4 +217,4 @@ class World {
 
 }
 
-export { World, GRAVITY };
+export { World};
