@@ -36,7 +36,7 @@ class BallBuilder{
     kick(direction){
         if (!this.kicked){
             direction.normalize();
-            this.applyForce(direction.multiplyScalar(1.5));
+            this.applyForce(direction.multiplyScalar(1.3));
             this.kicked = true;
         }
     }
