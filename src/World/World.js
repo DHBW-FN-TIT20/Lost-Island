@@ -4,6 +4,7 @@ import { createAmbientLight } from './components/light.js';
 import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
 import { PalmBuilder } from './components/PalmBuilder.js';
+import { ColissionBoxBuilder } from './components/ColissionBoxBuilder.js';
 import { BeachHouseBuilder } from './components/BeachHouseBuilder.js';
 import { PierBuilder } from './components/PierBuilder.js';
 import { BoatBuilder } from './components/BoatBuilder.js';
@@ -96,6 +97,7 @@ class World {
         const ballBuilder = new BallBuilder();
         const vegetationBuilder = new VegetationBuilder();
         const umbrellaBuilder = new UmbrellaBuilder();
+        const colissionBoxBuilder = new ColissionBoxBuilder();
 
         this.palm1 = await palmBuilder.load(90, 11, 20, 0);
         this.beachHouse = await beachHouseBuilder.load(0, 10, -50, 0);
@@ -107,6 +109,8 @@ class World {
         this.tree = await vegetationBuilder.loadTree(50, 11, -30, 0);
         this.tree2 = await vegetationBuilder.loadTree(-50, 11, 40, 0);
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
+        this.beachHouseBox1 = await colissionBoxBuilder.load(4, 15, -57, 10, 25, 20);
+        this.beachHouseBox2 = await colissionBoxBuilder.load(-5, 15, -63, 8, 25, 8);
 
         this.#loop.updatables.push(this.palm1);
         this.#scene.add(this.palm1);
@@ -118,6 +122,8 @@ class World {
         this.#scene.add(this.tree);
         this.#scene.add(this.tree2);
         this.#scene.add(this.umbrella);
+        this.#scene.add(this.beachHouseBox1);
+        this.#scene.add(this.beachHouseBox2);
 
 
         this.#camera.lookAt(this.palm1.position);
@@ -127,18 +133,19 @@ class World {
         this.#controller.addObjectForCollision(this.palm1.children[1]);
         this.#controller.addObjectForCollision(this.tree.children[0].children);
         this.#controller.addObjectForCollision(this.tree2.children[0].children);
+        
+        this.#controller.addObjectForCollision(this.beachHouseBox1);
+        this.#controller.addObjectForCollision(this.beachHouseBox2);
 
-        this.#controller.addObjectForCollision(this.beachHouse.children[0]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[1]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[2]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[3]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[4]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[5]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[6]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[7]);
-        this.#controller.addObjectForCollision(this.beachHouse.children[8].children);
-
-
+        // this.#controller.addObjectForCollision(this.beachHouse.children[0]);
+        // this.#controller.addObjectForCollision(this.beachHouse.children[1]);
+        // this.#controller.addObjectForCollision(this.beachHouse.children[2]);
+        // this.#controller.addObjectForCollision(this.beachHouse.children[3]);
+        // this.#controller.addObjectForCollision(this.beachHouse.children[4]);
+        // this.#controller.addObjectForCollision(this.beachHouse.children[5]);
+        // this.#controller.addObjectForCollision(this.beachHouse.children[6]);
+        // this.#controller.addObjectForCollision(this.beachHouse.children[7]);
+        // this.#controller.addObjectForCollision(this.beachHouse.children[8].children);
 
         this.#controller.addObjectForCollision(this.pier.children);
         this.#controller.addObjectForCollision(this.bridge.children);
