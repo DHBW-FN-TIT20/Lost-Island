@@ -42,7 +42,11 @@ class InteractionHelper {
      */
     removeInteraction(object) {
         delete this.#registerdFunctions[object.uuid];
-        this.#registerdObjects.splice(this.#registerdObjects.indexOf(object), 1);
+
+        const index = this.#registerdObjects.indexOf(object);
+        if (index >= 0) {
+            this.#registerdObjects.splice(index, 1);
+        }
     }
 
 

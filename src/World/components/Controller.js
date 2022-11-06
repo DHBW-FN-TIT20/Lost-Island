@@ -103,7 +103,7 @@ class Controller {
 
         this.acceleration = new Vector3(0, 0, 0);
         this.velocity = new Vector3(0, 0, 0);
-        this.location = new Vector3(this.#camera.position.x, this.#camera.position.y, this.#camera.position.z);
+        this.location = this.#camera.position.clone();
 
         this.keyBoardWatcher = new KeyBoardWatcher();
         this.isLocked = false;

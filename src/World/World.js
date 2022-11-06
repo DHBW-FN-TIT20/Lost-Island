@@ -3,13 +3,13 @@ import { createScene } from './components/scene.js';
 import { createAmbientLight } from './components/light.js';
 import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
-import { PalmBuilder} from './components/PalmBuilder.js';
+import { PalmBuilder } from './components/PalmBuilder.js';
 import { BeachHouseBuilder } from './components/BeachHouseBuilder.js';
 import { PierBuilder } from './components/PierBuilder.js';
 import { BoatBuilder } from './components/BoatBuilder.js';
 import { BallBuilder } from './components/BallBuilder.js';
 import { VegetationBuilder } from './components/VegetationBuilder.js';
-import {UmbrellaBuilder} from './components/UmbrellaBuilder.js';
+import { UmbrellaBuilder } from './components/UmbrellaBuilder.js';
 
 import {
     PMREMGenerator,
@@ -53,17 +53,17 @@ class World {
         this.#controller = new Controller(this.#camera);
         this.#interactionHelper = new InteractionHelper(this.#camera);
         const pmremGenerator = new PMREMGenerator(this.#renderer);
-        
+
         container.append(this.#renderer.domElement);
-        
+
         const ground = createGround();
         this.#ocean = createOcean();
-        this.#ocean.fog = this-this.#scene.fog !== undefined;
+        this.#ocean.fog = this - this.#scene.fog !== undefined;
         const sky = createSky();
         const sun = createSun(sky);
 
         this.#controller.addObjectForCollision(ground);
-        
+
         this.#scene.add(sky);
         this.#scene.add(this.#ocean);
         this.#scene.add(ground);
@@ -74,7 +74,7 @@ class World {
         this.#scene.add(arrowHelperY);
         this.#scene.add(arrowHelperZ);
         //#endregion
-        
+
         this.#scene.environment = pmremGenerator.fromScene(sky).texture;
 
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
@@ -97,15 +97,15 @@ class World {
         const vegetationBuilder = new VegetationBuilder();
         const umbrellaBuilder = new UmbrellaBuilder();
 
-        this.palm1 = await palmBuilder.load(90,11,20, 0);
-        this.beachHouse = await beachHouseBuilder.load(0,10,-50,0);
+        this.palm1 = await palmBuilder.load(90, 11, 20, 0);
+        this.beachHouse = await beachHouseBuilder.load(0, 10, -50, 0);
         // this.beachHouse.children[1].rotateY(Math.PI/2);
-        this.pier = await pierBuilder.load(10,-10,158, 0, 15, 15, 40);
-        this.bridge = await pierBuilder.load(18,-10,25,0, 15, 15, 30);
+        this.pier = await pierBuilder.load(10, -10, 158, 0, 15, 15, 40);
+        this.bridge = await pierBuilder.load(18, -10, 25, 0, 15, 15, 30);
         this.boat = await boatBuilder.load(30, -26, 105, Math.PI);
-        this.soccerBall = await ballBuilder.loadSoccerBall(20,-6, -30, 0);
-        this.tree = await vegetationBuilder.loadTree(50,11, -30, 0);
-        this.tree2 = await vegetationBuilder.loadTree(-50,11, 40, 0);
+        this.soccerBall = await ballBuilder.loadSoccerBall(20, -6, -30, 0);
+        this.tree = await vegetationBuilder.loadTree(50, 11, -30, 0);
+        this.tree2 = await vegetationBuilder.loadTree(-50, 11, 40, 0);
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
 
         this.#loop.updatables.push(this.palm1);
@@ -138,45 +138,50 @@ class World {
         this.#controller.addObjectForCollision(this.beachHouse.children[7]);
         this.#controller.addObjectForCollision(this.beachHouse.children[8].children);
 
-        
+
 
         this.#controller.addObjectForCollision(this.pier.children);
         this.#controller.addObjectForCollision(this.bridge.children);
         this.#controller.addObjectForCollision(this.boat.children);
-        //#endregion
+        //#endregion Add objects for colission
 
-        //#region Add object interaction
+        //#region Add object interactions
         this.#interactionHelper.addInteraction(this.palm1.children[1], () => {
-            
             this.setText("E zum Pflücken");
-            document.body.addEventListener("keydown", (ev) => {
+            let palmInteraction = (ev) => {
                 switch (ev.code) {
 
                     case 'KeyE':
+                        this.#interactionHelper.removeInteraction(this.palm1.children[1]);
+                        removeEventListener("keydown", palmInteraction, false);
+
                         this.palm1.startAnimation();
                         this.setText("&#8982;");
-                        console.log("Start Animation for Palm1");
-                        // this.#interactionHelper.removeInteraction(this.palm1.children[1]);
                 }
-            });            
+            };
+            document.body.addEventListener("keydown", palmInteraction);
         });
+
+
         this.#interactionHelper.addInteraction(this.soccerBall.children[0], () => {
             this.setText("E zum Schießen");
-            document.body.addEventListener("keydown", (ev) => {
+            let soccerBallInteraction = (ev) => {
                 switch (ev.code) {
 
                     case 'KeyE':
+                        this.#interactionHelper.removeInteraction(this.soccerBall.children[0]);
+                        removeEventListener("keydown", soccerBallInteraction, false);
+
                         this.#loop.updatables.push(this.soccerBall);
                         this.setText("&#8982;");
                 }
-            }); 
-            
-            
-        })
-        //#endregion
+            };
+            document.body.addEventListener("keydown", soccerBallInteraction);
+        });
+        //#endregion Add object interactions
     }
 
-    setText(text){
+    setText(text) {
         let div = document.getElementById("info");
         div.innerHTML = text;
     }
@@ -186,7 +191,7 @@ class World {
         this.#controller.update();
         this.#interactionHelper.checkInteractions();
 
-        this.#ocean.material.uniforms[ 'time' ].value += 0.25 / 60.0;
+        this.#ocean.material.uniforms['time'].value += 0.25 / 60.0;
 
         this.stats.update();
     }
