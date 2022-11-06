@@ -11,6 +11,7 @@ import { BoatBuilder } from './components/BoatBuilder.js';
 import { BallBuilder } from './components/BallBuilder.js';
 import { VegetationBuilder } from './components/VegetationBuilder.js';
 import { UmbrellaBuilder } from './components/UmbrellaBuilder.js';
+import { ChairBuilder } from './components/ChairBuilder.js';
 
 import {
     PMREMGenerator,
@@ -99,8 +100,9 @@ class World {
         const vegetationBuilder = new VegetationBuilder();
         const umbrellaBuilder = new UmbrellaBuilder();
         const colissionBoxBuilder = new ColissionBoxBuilder();
+        const chairBuilder = new ChairBuilder();
 
-        this.palm1 = await palmBuilder.load(90, 11, 20, 0);
+        this.palm1 = await palmBuilder.load(90, 10.5, 25, 0);
         this.beachHouse = await beachHouseBuilder.load(0, 10, -50, 0);
         // this.beachHouse.children[1].rotateY(Math.PI/2);
         this.pier = await pierBuilder.load(10, -10, 158, 0, 15, 15, 40);
@@ -110,6 +112,7 @@ class World {
         this.tree = await vegetationBuilder.loadTree(50, 11, -30, 0);
         this.tree2 = await vegetationBuilder.loadTree(-50, 11, 40, 0);
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
+        this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI/2);
         this.beachHouseBox1 = await colissionBoxBuilder.load(4, 15, -57, 10, 25, 20);
         this.beachHouseBox2 = await colissionBoxBuilder.load(-5, 15, -63, 8, 25, 8);
 
@@ -123,6 +126,7 @@ class World {
         this.#scene.add(this.tree);
         this.#scene.add(this.tree2);
         this.#scene.add(this.umbrella);
+        this.#scene.add(this.chairWithTowel);
         this.#scene.add(this.beachHouseBox1);
         this.#scene.add(this.beachHouseBox2);
 
@@ -134,19 +138,11 @@ class World {
         this.#controller.addObjectForCollision(this.palm1.children[1]);
         this.#controller.addObjectForCollision(this.tree.children[0].children);
         this.#controller.addObjectForCollision(this.tree2.children[0].children);
-
+        this.#controller.addObjectForCollision(this.umbrella.children[0].children);
+        this.#controller.addObjectForCollision(this.chairWithTowel.children[0].children);
+        
         this.#controller.addObjectForCollision(this.beachHouseBox1);
         this.#controller.addObjectForCollision(this.beachHouseBox2);
-
-        // this.#controller.addObjectForCollision(this.beachHouse.children[0]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[1]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[2]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[3]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[4]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[5]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[6]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[7]);
-        // this.#controller.addObjectForCollision(this.beachHouse.children[8].children);
 
         this.#controller.addObjectForCollision(this.pier.children);
         this.#controller.addObjectForCollision(this.bridge.children);
