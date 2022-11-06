@@ -27,7 +27,7 @@ import { InteractionHelper } from './systems/InteractionHelper.js';
 
 
 //#region Debugger Helper
-const origin = new Vector3(0, 10, 0);
+const origin = new Vector3(0, 0, 0);
 const arrowHelperX = new ArrowHelper((new Vector3(1, 0, 0)).normalize(), origin, 300, 0xFF0000);
 const arrowHelperY = new ArrowHelper((new Vector3(0, 1, 0)).normalize(), origin, 300, 0x00FF00);
 const arrowHelperZ = new ArrowHelper((new Vector3(0, 0, 1)).normalize(), origin, 300, 0x0000FF);
@@ -41,6 +41,7 @@ class World {
     #loop;
     #controller;
     #ocean;
+    #ground;
     #interactionHelper;
 
     constructor(container) {
@@ -57,17 +58,17 @@ class World {
 
         container.append(this.#renderer.domElement);
 
-        const ground = createGround();
+        this.#ground = createGround();
         this.#ocean = createOcean();
         this.#ocean.fog = this - this.#scene.fog !== undefined;
         const sky = createSky();
         const sun = createSun(sky);
 
-        this.#controller.addObjectForCollision(ground);
+        this.#controller.addObjectForCollision(this.#ground);
 
         this.#scene.add(sky);
         this.#scene.add(this.#ocean);
-        this.#scene.add(ground);
+        this.#scene.add(this.#ground);
         this.#scene.add(this.#light);
 
         //#region Debugger Helper
@@ -94,7 +95,7 @@ class World {
         const beachHouseBuilder = new BeachHouseBuilder();
         const pierBuilder = new PierBuilder();
         const boatBuilder = new BoatBuilder();
-        const ballBuilder = new BallBuilder();
+        const ballBuilder = new BallBuilder(this.#ground);
         const vegetationBuilder = new VegetationBuilder();
         const umbrellaBuilder = new UmbrellaBuilder();
         const colissionBoxBuilder = new ColissionBoxBuilder();
@@ -133,7 +134,7 @@ class World {
         this.#controller.addObjectForCollision(this.palm1.children[1]);
         this.#controller.addObjectForCollision(this.tree.children[0].children);
         this.#controller.addObjectForCollision(this.tree2.children[0].children);
-        
+
         this.#controller.addObjectForCollision(this.beachHouseBox1);
         this.#controller.addObjectForCollision(this.beachHouseBox2);
 
@@ -181,6 +182,9 @@ class World {
 
                         this.#loop.updatables.push(this.soccerBall);
                         this.setText("&#8982;");
+                        let direction = this.#camera.getWorldDirection(new Vector3());
+                        direction.y = 1;
+                        this.soccerBall.kick(direction);
                 }
             };
             document.body.addEventListener("keydown", soccerBallInteraction);
@@ -213,4 +217,4 @@ class World {
 
 }
 
-export { World };
+export { World, GRAVITY };
