@@ -1,6 +1,8 @@
 import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
 import{AnimationMixer, Object3D, Raycaster, Vector3} from 'three';
 
+import { GRAVITY } from "../World.js";
+
 class BallBuilder{
     constructor(ground){
         this.soccerBall = new Object3D();
@@ -20,7 +22,7 @@ class BallBuilder{
         this.yRaycaster = new Raycaster(this.soccerBall.position.clone(), new Vector3(0, -1, 0), 0, 30);
         
         this.soccerBall.weight = 10;
-        this.soccerBall.GRAVITY = new Vector3(0, -0.05, 0);
+        this.soccerBall.GRAVITY = GRAVITY.clone();
         this.soccerBall.acceleration = new Vector3();
         this.soccerBall.velocity = new Vector3();
         this.soccerBall.kicked = false;

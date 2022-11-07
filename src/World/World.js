@@ -34,6 +34,8 @@ const arrowHelperY = new ArrowHelper((new Vector3(0, 1, 0)).normalize(), origin,
 const arrowHelperZ = new ArrowHelper((new Vector3(0, 0, 1)).normalize(), origin, 300, 0x0000FF);
 //#endregion
 
+const GRAVITY = new Vector3(0, -0.05, 0);
+
 class World {
     #camera;
     #renderer;
@@ -156,13 +158,13 @@ class World {
         let palmInteraction = (ev) => {
             switch (ev.code) {
                 case 'KeyE':
-                    this.#interactionHelper.removeInteraction(this.palm1.children[1]);
+                    this.#interactionHelper.removeInteraction(this.palm1.children[2]);
 
                     this.palm1.startAnimation();
                     this.setText("&#8982;");
             }
         };
-        this.#interactionHelper.addInteraction(this.palm1.children[1], () => {this.setText("E zum Pflücken")}, "keydown", palmInteraction);
+        this.#interactionHelper.addInteraction(this.palm1.children[2], () => {this.setText("E zum Pflücken")}, "keydown", palmInteraction);
 
         const soccerBallInteraction = (ev) => {
             switch (ev.code) {
@@ -205,4 +207,4 @@ class World {
 
 }
 
-export { World };
+export { World, GRAVITY };

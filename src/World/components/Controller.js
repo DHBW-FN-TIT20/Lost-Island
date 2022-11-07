@@ -4,10 +4,10 @@ import {
     Raycaster
 } from 'three';
 
+import { GRAVITY } from "../World.js";
 
 const _euler = new Euler(0, 0, 0, 'YXZ');
 const _PI_2 = Math.PI / 2;
-const GRAVITY = new Vector3(0, -0.05, 0);
 
 
 class KeyBoardWatcher {
