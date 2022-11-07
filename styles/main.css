@@ -7,6 +7,23 @@ html,
 body {
     margin: 0px;
     height: 100%;
+    font-family: 'Roboto';
+}
+
+#heading {
+    color: whitesmoke;
+    position: fixed;
+    top: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+h1 {
+    width: fit-content;
+    margin: 0 auto;
+    background-color: #000a;
+    box-shadow: 0px 0px 8px 8px #000a;
 }
 
 #scene-container {
