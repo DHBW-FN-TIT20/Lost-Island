@@ -1,7 +1,8 @@
 import {
     Vector3,
     Euler,
-    Raycaster
+    Raycaster,
+    Box3
 } from 'three';
 
 import { GRAVITY } from "../World.js";
@@ -107,7 +108,8 @@ class Controller {
         this.weight = weight;
         this.moveSpeed = moveSpeed;
         this.sensitivity = sensitivity;
-        this.objectsForCollision = [];
+        this.objectsForRaycastCollision = [];
+        this.objectsForAABBCollision = [];
         this.canJump = true;
 
         this.acceleration = new Vector3(0, 0, 0);
@@ -135,19 +137,22 @@ class Controller {
 
     /**
      * Add the object to not pass through these objects with the camera.
-     * @param {THREE.Mesh} obj
+     * @param {any} obj
      */
     addObjectForCollision(obj) {
         const append = (item) => {
-            if (this.objectsForCollision.indexOf(item) == -1) {
-                this.objectsForCollision.push(item);
+            if (this.objectsForRaycastCollision.indexOf(item) == -1) {
+                this.objectsForRaycastCollision.push(item);
             }
             else {
                 console.error("Object already in the array", item);
             }
         };
 
-        if (Array.isArray(obj)) {
+        if (obj.isBox3) {
+            this.objectsForAABBCollision.push(obj);
+        }
+        else if (Array.isArray(obj)) {
             obj.forEach(item => {
                 append(item);
             });
@@ -163,7 +168,7 @@ class Controller {
      * @param {THREE.Mesh} obj 
      */
     removeObjectForCollision(obj) {
-        this.objectsForCollision.splice(this.objectsForCollision.indexOf(obj), 1);
+        this.objectsForRaycastCollision.splice(this.objectsForRaycastCollision.indexOf(obj), 1);
     }
 
 
@@ -268,14 +273,20 @@ class Controller {
      */
     moveRight(distance) {
         const vector = new Vector3(0, 0, 0);
-
+        
         vector.setFromMatrixColumn(this.#camera.matrix, 0);
+        this.location.addScaledVector(vector, distance);
 
         this.groundRaycaster.set(this.location.clone(), vector);
-        const intersections = this.groundRaycaster.intersectObjects(this.objectsForCollision, false);
+        let intersections = this.groundRaycaster.intersectObjects(this.objectsForRaycastCollision, false);
 
+        this.objectsForAABBCollision.forEach(box => {
+            if (box.containsPoint(this.location)) {
+                intersections = [0];
+                return;
+            }
+        });
 
-        this.location.addScaledVector(vector, distance);
         if (intersections.length > 0) {
             this.location.addScaledVector(vector, -distance);
         }
@@ -291,11 +302,18 @@ class Controller {
         vector.setFromMatrixColumn(this.#camera.matrix, 0);
         vector.crossVectors(this.#camera.up, vector);
 
-        this.groundRaycaster.set(this.location.clone(), vector);
-        const intersections = this.groundRaycaster.intersectObjects(this.objectsForCollision, false);
-
-
         this.location.addScaledVector(vector, distance);
+        
+        this.groundRaycaster.set(this.location.clone(), vector);
+        let intersections = this.groundRaycaster.intersectObjects(this.objectsForRaycastCollision, false);
+        
+        this.objectsForAABBCollision.forEach(box => {
+            if (box.containsPoint(this.location)) {
+                intersections = [0];
+                return;
+            }
+        });
+
         if (intersections.length > 0) {
             this.location.addScaledVector(vector, -distance);
         }
@@ -332,7 +350,7 @@ class Controller {
     checkYCollisions() {
         //#region Check bottom
         this.yRaycaster.set(this.location, new Vector3(0, -1, 0));
-        const intersectionsBottom = this.yRaycaster.intersectObjects(this.objectsForCollision, false);
+        const intersectionsBottom = this.yRaycaster.intersectObjects(this.objectsForRaycastCollision, false);
 
         if (intersectionsBottom.length > 0) {
             const distance = intersectionsBottom[0].distance;
@@ -343,7 +361,7 @@ class Controller {
 
         //#region Check top
         this.yRaycaster.set(this.location, new Vector3(0, 1, 0));
-        const intersectionsTop = this.yRaycaster.intersectObjects(this.objectsForCollision, false);
+        const intersectionsTop = this.yRaycaster.intersectObjects(this.objectsForRaycastCollision, false);
 
         if (intersectionsTop.length > 0) {
             this.velocity.y = 0;
