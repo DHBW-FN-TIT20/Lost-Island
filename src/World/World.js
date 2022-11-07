@@ -1,6 +1,6 @@
 import { createPerspectiveCamera } from './components/camera.js';
 import { createScene } from './components/scene.js';
-import { createAmbientLight } from './components/light.js';
+import { createAmbientLight, createSpotLight } from './components/light.js';
 import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
 import { PalmBuilder } from './components/PalmBuilder.js';
@@ -52,7 +52,7 @@ class World {
         this.#camera = createPerspectiveCamera(new Vector3(10, 18, -30));
         this.#scene = createScene();
         this.#renderer = createRenderer();
-        this.#light = createAmbientLight();
+        
         this.#controller = new Controller(this.#camera);
         this.#interactionHelper = new InteractionHelper(this.#camera);
         const pmremGenerator = new PMREMGenerator(this.#renderer);
@@ -64,6 +64,7 @@ class World {
         this.#ocean.fog = this - this.#scene.fog !== undefined;
         const sky = createSky();
         const sun = createSun(sky);
+        this.#light = createSpotLight(sun);
 
         this.#controller.addObjectForCollision(this.#ground);
 
@@ -136,6 +137,8 @@ class World {
         //#region Add objects for colission
         this.#controller.addObjectForCollision(this.palm1.children[0]);
         this.#controller.addObjectForCollision(this.palm1.children[1]);
+        this.palm1.children[0].castShadow = true;
+        this.palm1.children[1].castShadow = true;
         this.#controller.addObjectForCollision(this.tree.children[0].children);
         this.#controller.addObjectForCollision(this.tree2.children[0].children);
         this.#controller.addObjectForCollision(this.umbrella.children[0].children);

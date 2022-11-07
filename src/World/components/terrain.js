@@ -15,7 +15,7 @@ function createGround() {
     planeJSGeom.rotateX(Math.PI * -0.5);
     var planeJS = new Mesh(planeJSGeom, new MeshStandardMaterial({
         map: texture,
-        normalMap: normal
+        // normalMap: normal
     }));
     planeJS.position.y = -2;
     imageLoader.load("../../assets/heightmap2WithRiver.png", function(t){       
@@ -47,6 +47,7 @@ function createGround() {
         }
         planeJSGeom.verticesNeedUpdate = true;
     });
+    planeJS.receiveShadow = true;
     return planeJS;
 }
 
