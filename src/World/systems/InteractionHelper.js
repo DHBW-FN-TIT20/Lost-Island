@@ -11,6 +11,7 @@ class InteractionHelper {
 
     #registerdObjects;
     #registerdFunctions;
+    #registerdEvents;
     #raycaster;
     #camera;
     #pointer;
@@ -21,6 +22,7 @@ class InteractionHelper {
     constructor(camera) {
         this.#registerdObjects = [];
         this.#registerdFunctions = {};
+        this.#registerdEvents = {};
         this.#camera = camera;
         this.#raycaster = new Raycaster(new Vector3(), new Vector3(1, 0, 0), 0, 10);
         this.#pointer = new Vector2(0, 0);
@@ -30,10 +32,17 @@ class InteractionHelper {
      * Add Object and Funktion to check
      * @param {THREE.MESH} object Mesh for Raycast
      * @param {function} func Executed if the camera is near the object
+     * @param {String} event If set, add a Listener to the body with given name for example "keydown". Default to null.
+     * @param {function} eventFunc Function of the Event to add. Default to null.
      */
-    addInteraction(object, func) {
+    addInteraction(object, func, event = null, eventFunc = null) {
         this.#registerdObjects.push(object);
         this.#registerdFunctions[object.uuid] = func;
+        this.#registerdEvents[object.uuid] = {
+            "name": event,
+            "func": eventFunc,
+            "isSet": false
+        };
     }
 
     /**
@@ -42,6 +51,7 @@ class InteractionHelper {
      */
     removeInteraction(object) {
         delete this.#registerdFunctions[object.uuid];
+        delete this.#registerdEvents[object.uuid];
 
         const index = this.#registerdObjects.indexOf(object);
         if (index >= 0) {
@@ -60,16 +70,30 @@ class InteractionHelper {
 
         let div = document.getElementById("info");
         div.innerHTML = "&#8982;";
-        
+
+        // In range for intersection
         if (intersects.length > 0) {
 
+            // Check if the Object for intersetc is the same (on multiple intersects)
             const res = intersects.filter(function (res) {
                 return res && res.object;
             })[0];
 
             if (res && res.object) {
-                const func = this.#registerdFunctions[res.object.uuid];
-                func();
+                // Execute the function
+                this.#registerdFunctions[res.object.uuid]();
+
+                // Add Eventlistener if needed
+                if (this.#registerdEvents[res.object.uuid]["name"] && !this.#registerdEvents[res.object.uuid]["isSet"]) {
+                    document.body.addEventListener(this.#registerdEvents[res.object.uuid]["name"], this.#registerdEvents[res.object.uuid]["func"]);
+                }
+            }
+        }
+
+        // Remove all Eventlistener from other objects
+        for (const key in this.#registerdEvents) {
+            if (this.#registerdEvents[key]["isSet"]) {
+                removeEventListener(this.#registerdEvents[key]["name"], this.#registerdEvents[key]["func"], false);
             }
         }
     }

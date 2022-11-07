@@ -52,7 +52,7 @@ class World {
         this.#camera = createPerspectiveCamera(new Vector3(10, 18, -30));
         this.#scene = createScene();
         this.#renderer = createRenderer();
-        
+
         this.#controller = new Controller(this.#camera);
         this.#interactionHelper = new InteractionHelper(this.#camera);
         const pmremGenerator = new PMREMGenerator(this.#renderer);
@@ -113,7 +113,7 @@ class World {
         this.tree = await vegetationBuilder.loadTree(50, 11, -30, 0);
         this.tree2 = await vegetationBuilder.loadTree(-50, 11, 40, 0);
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
-        this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI/2);
+        this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI / 2);
         this.beachHouseBox1 = await colissionBoxBuilder.load(4, 15, -57, 10, 25, 20);
         this.beachHouseBox2 = await colissionBoxBuilder.load(-5, 15, -63, 8, 25, 8);
 
@@ -143,7 +143,7 @@ class World {
         this.#controller.addObjectForCollision(this.tree2.children[0].children);
         this.#controller.addObjectForCollision(this.umbrella.children[0].children);
         this.#controller.addObjectForCollision(this.chairWithTowel.children[0].children);
-        
+
         this.#controller.addObjectForCollision(this.beachHouseBox1);
         this.#controller.addObjectForCollision(this.beachHouseBox2);
 
@@ -153,41 +153,30 @@ class World {
         //#endregion Add objects for colission
 
         //#region Add object interactions
-        this.#interactionHelper.addInteraction(this.palm1.children[1], () => {
-            this.setText("E zum Pflücken");
-            let palmInteraction = (ev) => {
-                switch (ev.code) {
+        let palmInteraction = (ev) => {
+            switch (ev.code) {
+                case 'KeyE':
+                    this.#interactionHelper.removeInteraction(this.palm1.children[1]);
 
-                    case 'KeyE':
-                        this.#interactionHelper.removeInteraction(this.palm1.children[1]);
-                        removeEventListener("keydown", palmInteraction, false);
+                    this.palm1.startAnimation();
+                    this.setText("&#8982;");
+            }
+        };
+        this.#interactionHelper.addInteraction(this.palm1.children[1], () => {this.setText("E zum Pflücken")}, "keydown", palmInteraction);
 
-                        this.palm1.startAnimation();
-                        this.setText("&#8982;");
-                }
-            };
-            document.body.addEventListener("keydown", palmInteraction);
-        });
+        const soccerBallInteraction = (ev) => {
+            switch (ev.code) {
+                case 'KeyE':
+                    this.#interactionHelper.removeInteraction(this.soccerBall.children[0]);
 
-
-        this.#interactionHelper.addInteraction(this.soccerBall.children[0], () => {
-            this.setText("E zum Schießen");
-            let soccerBallInteraction = (ev) => {
-                switch (ev.code) {
-
-                    case 'KeyE':
-                        this.#interactionHelper.removeInteraction(this.soccerBall.children[0]);
-                        removeEventListener("keydown", soccerBallInteraction, false);
-
-                        this.#loop.updatables.push(this.soccerBall);
-                        this.setText("&#8982;");
-                        let direction = this.#camera.getWorldDirection(new Vector3());
-                        direction.y = 1;
-                        this.soccerBall.kick(direction);
-                }
-            };
-            document.body.addEventListener("keydown", soccerBallInteraction);
-        });
+                    this.#loop.updatables.push(this.soccerBall);
+                    this.setText("&#8982;");
+                    let direction = this.#camera.getWorldDirection(new Vector3());
+                    direction.y = 1;
+                    this.soccerBall.kick(direction);
+            }
+        };
+        this.#interactionHelper.addInteraction(this.soccerBall.children[0], () => { this.setText("E zum Schießen") }, "keydown", soccerBallInteraction);
         //#endregion Add object interactions
     }
 
@@ -216,4 +205,4 @@ class World {
 
 }
 
-export { World};
+export { World };
