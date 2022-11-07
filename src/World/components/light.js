@@ -1,7 +1,7 @@
 import { SpotLight, AmbientLight } from 'three';
 
 function createSpotLight(position) {
-    const light = new SpotLight(0x404040, 3);
+    const light = new SpotLight(0x404040, 3.5);
     light.position.set(position.x *1000, position.y *1000000, position.z*1000);
     light.castShadow = true;
     return light;
