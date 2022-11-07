@@ -29,6 +29,7 @@ class BallBuilder{
         this.soccerBall.kick = this.kick;
         this.soccerBall.applyForce = this.applyForce;
         this.soccerBall.update = this.update;
+        this.soccerBall.setInteractionText = this.setText;
 
         this.soccerBall.tick = (delta) => this.soccerBall.update();
 
@@ -56,6 +57,11 @@ class BallBuilder{
         this.position.add(this.velocity);
         
         this.acceleration.multiplyScalar(0);
+    }
+
+    setText(){
+        let div = document.getElementById("info");
+        div.innerHTML = "E zum Schießen";
     }
 
     setUpModel(data){

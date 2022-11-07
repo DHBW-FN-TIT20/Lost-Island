@@ -18,7 +18,7 @@ class PalmBuilder{
         this.palm.tick = (delta) => this.#mixer.update(delta);
         this.palm.startAnimation = () => this.startAnimation();
         this.palm.stopAnimation = () => this.#action.stop();
-        this.palm.setInteractionText = () => this.setText();
+        this.palm.setInteractionText = this.setText;
         this.palm.position.x = x;
         this.palm.position.y = y;
         this.palm.position.z = z;

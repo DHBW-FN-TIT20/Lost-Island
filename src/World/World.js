@@ -94,7 +94,11 @@ class World {
         });
     }
 
-    async init() {
+    async init(spinner) {
+
+        this.setText("");
+        spinner.style.display = "block";
+
         const palmBuilder = new PalmBuilder();
         const beachHouseBuilder = new BeachHouseBuilder();
         const pierBuilder = new PierBuilder();
@@ -164,7 +168,7 @@ class World {
                     this.setText("&#8982;");
             }
         };
-        this.#interactionHelper.addInteraction(this.palm1.children[2], () => {this.setText("E zum Pflücken")}, "keydown", palmInteraction);
+        this.#interactionHelper.addInteraction(this.palm1.children[2], this.palm1.setInteractionText, "keydown", palmInteraction);
 
         const soccerBallInteraction = (ev) => {
             switch (ev.code) {
@@ -178,8 +182,10 @@ class World {
                     this.soccerBall.kick(direction);
             }
         };
-        this.#interactionHelper.addInteraction(this.soccerBall.children[0], () => { this.setText("E zum Schießen") }, "keydown", soccerBallInteraction);
+        this.#interactionHelper.addInteraction(this.soccerBall.children[0], this.soccerBall.setInteractionText, "keydown", soccerBallInteraction);
         //#endregion Add object interactions
+
+        spinner.style.display = "none";
     }
 
     setText(text) {
