@@ -20,7 +20,7 @@ class BallBuilder{
         this.yRaycaster = new Raycaster(this.soccerBall.position.clone(), new Vector3(0, -1, 0), 0, 30);
         
         this.soccerBall.weight = 10;
-        this.soccerBall.GRAVITY = new Vector3(0, -0.0005, 0);
+        this.soccerBall.GRAVITY = new Vector3(0, -0.05, 0);
         this.soccerBall.acceleration = new Vector3();
         this.soccerBall.velocity = new Vector3();
         this.soccerBall.kicked = false;
@@ -36,7 +36,7 @@ class BallBuilder{
     kick(direction){
         if (!this.kicked){
             direction.normalize();
-            this.applyForce(direction.multiplyScalar(1.3));
+            this.applyForce(direction.multiplyScalar(10));
             this.kicked = true;
         }
     }
@@ -51,7 +51,6 @@ class BallBuilder{
         this.applyForce(this.GRAVITY);
 
         this.velocity.add(this.acceleration);
-        this.velocity.clampLength(0, 8);
         this.position.add(this.velocity);
         
         this.acceleration.multiplyScalar(0);
