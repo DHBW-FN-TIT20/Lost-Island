@@ -96,9 +96,12 @@ class World {
 
     async init(spinner) {
 
+        //#region Start spinner for loading process
         this.setText("");
         spinner.style.display = "block";
+        //#endregion
 
+        //#region Create Builder
         const palmBuilder = new PalmBuilder();
         const beachHouseBuilder = new BeachHouseBuilder();
         const pierBuilder = new PierBuilder();
@@ -108,68 +111,84 @@ class World {
         const umbrellaBuilder = new UmbrellaBuilder();
         const colissionBoxBuilder = new ColissionBoxBuilder();
         const chairBuilder = new ChairBuilder();
+        //#endregion
 
-        this.palm1 = await palmBuilder.load(90, 10.5, 25, 0);
+        //#region Create Objects for the World
+        this.palm0 = await palmBuilder.load(90, 10.5, 25, 0);
+        this.palm0.children[0].castShadow = true;
+        this.palm0.children[1].castShadow = true;
+
         this.beachHouse = await beachHouseBuilder.load(0, 10, -50, 0);
-        // this.beachHouse.children[1].rotateY(Math.PI/2);
         this.pier = await pierBuilder.load(10, -10, 158, 0, 15, 15, 40);
         this.bridge = await pierBuilder.load(18, -10, 25, 0, 15, 15, 30);
         this.boat = await boatBuilder.load(30, -26, 105, Math.PI);
         this.soccerBall = await ballBuilder.loadSoccerBall(20, -6, -30, 0);
-        this.tree = await vegetationBuilder.loadTree(50, 11, -30, 0);
-        this.tree2 = await vegetationBuilder.loadTree(-50, 11, 40, 0);
+        this.tree0 = await vegetationBuilder.loadTree(50, 11, -30, 0);
+        this.tree1 = await vegetationBuilder.loadTree(-50, 11, 40, 0);
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
         this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI / 2);
-        this.beachHouseBox1 = await colissionBoxBuilder.load(4, 15, -57, 10, 25, 20);
-        this.beachHouseBox2 = await colissionBoxBuilder.load(-5, 15, -63, 8, 25, 8);
+        //#endregion
 
-        this.#loop.updatables.push(this.palm1);
-        this.#scene.add(this.palm1);
+        //#region Create extra colission boxes for some objects
+        this.beachHouseBox1 = await colissionBoxBuilder.loadBox(4, 15, -57, 10, 25, 20, this.#scene);
+        this.beachHouseBox2 = await colissionBoxBuilder.loadBox(-5, 15, -64, 12, 25, 10, this.#scene);
+
+        this.tree0Box0 = await colissionBoxBuilder.loadBox(50, 25, -30, 7, 15, 7, this.#scene);
+        this.tree0Box1 = await colissionBoxBuilder.loadBox(50, 13, -30, 3, 10, 5, this.#scene);
+
+        this.tree1Box0 = await colissionBoxBuilder.loadBox(-50, 25, 40, 7, 15, 7, this.#scene);
+        this.tree1Box1 = await colissionBoxBuilder.loadBox(-50, 13, 40, 3, 10, 5, this.#scene);
+        //#endregion
+
+        //#region Add all Objects to the scene
+        this.#scene.add(this.palm0);
         this.#scene.add(this.beachHouse);
         this.#scene.add(this.pier);
         this.#scene.add(this.bridge);
         this.#scene.add(this.boat);
         this.#scene.add(this.soccerBall);
-        this.#scene.add(this.tree);
-        this.#scene.add(this.tree2);
+        this.#scene.add(this.tree0);
+        this.#scene.add(this.tree1);
         this.#scene.add(this.umbrella);
         this.#scene.add(this.chairWithTowel);
-        this.#scene.add(this.beachHouseBox1);
-        this.#scene.add(this.beachHouseBox2);
-
-
-        this.#camera.lookAt(this.palm1.position);
+        //#endregion
 
         //#region Add objects for colission
-        this.#controller.addObjectForCollision(this.palm1.children[0]);
-        this.#controller.addObjectForCollision(this.palm1.children[1]);
-        this.palm1.children[0].castShadow = true;
-        this.palm1.children[1].castShadow = true;
-        this.#controller.addObjectForCollision(this.tree.children[0].children);
-        this.#controller.addObjectForCollision(this.tree2.children[0].children);
-        this.#controller.addObjectForCollision(this.umbrella.children[0].children);
-        this.#controller.addObjectForCollision(this.chairWithTowel.children[0].children);
+        this.#controller.addObjectForCollision(this.palm0.children[0]);
+        this.#controller.addObjectForCollision(this.palm0.children[1]);
+
+        this.#controller.addObjectForCollision(this.tree0Box0);
+        this.#controller.addObjectForCollision(this.tree0Box1);
+
+        this.#controller.addObjectForCollision(this.tree1Box0);
+        this.#controller.addObjectForCollision(this.tree1Box1);
 
         this.#controller.addObjectForCollision(this.beachHouseBox1);
         this.#controller.addObjectForCollision(this.beachHouseBox2);
 
+        // Only "Schirm"
+        this.#controller.addObjectForCollision(this.umbrella.children[0].children[0]);
+        
+        this.#controller.addObjectForCollision(this.chairWithTowel.children[0].children);
         this.#controller.addObjectForCollision(this.pier.children);
         this.#controller.addObjectForCollision(this.bridge.children);
         this.#controller.addObjectForCollision(this.boat.children);
         //#endregion Add objects for colission
 
         //#region Add object interactions
+        // Palm1
         let palmInteraction = (ev) => {
             switch (ev.code) {
                 case 'KeyE':
-                    this.#interactionHelper.removeInteraction(this.palm1.children[2]);
+                    this.#interactionHelper.removeInteraction(this.palm0.children[2]);
 
-                    this.palm1.startAnimation();
+                    this.palm0.startAnimation();
                     this.setText("&#8982;");
             }
         };
-        this.#interactionHelper.addInteraction(this.palm1.children[2], this.palm1.setInteractionText, "keydown", palmInteraction);
+        this.#interactionHelper.addInteraction(this.palm0.children[2], this.palm0.setInteractionText, "keydown", palmInteraction);
 
+        // Soccer Ball
         const soccerBallInteraction = (ev) => {
             switch (ev.code) {
                 case 'KeyE':
@@ -185,6 +204,12 @@ class World {
         this.#interactionHelper.addInteraction(this.soccerBall.children[0], this.soccerBall.setInteractionText, "keydown", soccerBallInteraction);
         //#endregion Add object interactions
 
+        //#region Some other init configs
+        this.#loop.updatables.push(this.palm0);
+        this.#camera.lookAt(this.palm0.position);
+        //#endregion
+
+        // End loading spinner
         spinner.style.display = "none";
     }
 
