@@ -68,34 +68,36 @@ class InteractionHelper {
         this.#raycaster.setFromCamera(this.#pointer, this.#camera);
         const intersects = this.#raycaster.intersectObjects(this.#registerdObjects, false);
 
+        // #TODO muss i wo anders rein
         let div = document.getElementById("info");
         div.innerHTML = "&#8982;";
 
         // In range for intersection
         if (intersects.length > 0) {
 
-            // Check if the Object for intersetc is the same (on multiple intersects)
-            const res = intersects.filter(function (res) {
-                return res && res.object;
-            })[0];
+            const res = intersects[0];
 
             if (res && res.object) {
                 // Execute the function
                 this.#registerdFunctions[res.object.uuid]();
 
+                // Remove all Eventlistener from the other objects
+                for (const key in this.#registerdEvents) {
+                    if (key !== res.object.uuid && this.#registerdEvents[key]["isSet"]) {
+                        document.body.removeEventListener(this.#registerdEvents[key]["name"], this.#registerdEvents[key]["func"]);
+                        this.#registerdEvents[key]["isSet"] = false;
+                    }
+                }
+
                 // Add Eventlistener if needed
                 if (this.#registerdEvents[res.object.uuid]["name"] && !this.#registerdEvents[res.object.uuid]["isSet"]) {
                     document.body.addEventListener(this.#registerdEvents[res.object.uuid]["name"], this.#registerdEvents[res.object.uuid]["func"]);
+                    this.#registerdEvents[res.object.uuid]["isSet"] = true;
+
                 }
             }
         }
 
-        // Remove all Eventlistener from other objects
-        for (const key in this.#registerdEvents) {
-            if (this.#registerdEvents[key]["isSet"]) {
-                removeEventListener(this.#registerdEvents[key]["name"], this.#registerdEvents[key]["func"], false);
-            }
-        }
     }
 }
 
