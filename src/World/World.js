@@ -1,7 +1,7 @@
 import { createPerspectiveCamera } from './components/camera.js';
 import { createScene } from './components/scene.js';
 import { createAmbientLight, createSpotLight } from './components/light.js';
-import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap } from './components/terrain.js';
+import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap, createRock } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
 import { PalmBuilder } from './components/PalmBuilder.js';
 import { ColissionBoxBuilder } from './components/ColissionBoxBuilder.js';
@@ -117,6 +117,8 @@ class World {
         this.beachHouseBox1 = await colissionBoxBuilder.load(4, 15, -57, 10, 25, 20);
         this.beachHouseBox2 = await colissionBoxBuilder.load(-5, 15, -63, 8, 25, 8);
 
+        this.rock = createRock(50, 0, -15);
+
         this.#loop.updatables.push(this.palm1);
         this.#scene.add(this.palm1);
         this.#scene.add(this.beachHouse);
@@ -130,11 +132,13 @@ class World {
         this.#scene.add(this.chairWithTowel);
         this.#scene.add(this.beachHouseBox1);
         this.#scene.add(this.beachHouseBox2);
+        this.#scene.add(this.rock);
 
 
         this.#camera.lookAt(this.palm1.position);
 
         //#region Add objects for colission
+        this.#controller.addObjectForCollision(this.rock.children);
         this.#controller.addObjectForCollision(this.palm1.children[0]);
         this.#controller.addObjectForCollision(this.palm1.children[1]);
         this.palm1.children[0].castShadow = true;
