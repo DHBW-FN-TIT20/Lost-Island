@@ -12,6 +12,7 @@ import { BallBuilder } from './components/BallBuilder.js';
 import { VegetationBuilder } from './components/VegetationBuilder.js';
 import { UmbrellaBuilder } from './components/UmbrellaBuilder.js';
 import { ChairBuilder } from './components/ChairBuilder.js';
+import { WolfBuilder } from './components/WolfBuilder.js';
 
 import {
     PMREMGenerator,
@@ -111,6 +112,7 @@ class World {
         const umbrellaBuilder = new UmbrellaBuilder();
         const colissionBoxBuilder = new ColissionBoxBuilder();
         const chairBuilder = new ChairBuilder();
+        const wolfBuilder = new WolfBuilder();
         //#endregion
 
         //#region Create Objects for the World
@@ -127,6 +129,7 @@ class World {
         this.tree1 = await vegetationBuilder.loadTree(-50, 11, 40, 0);
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
         this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI / 2);
+        this.wolf = await wolfBuilder.load(-2, 12, -54, -Math.PI / 2);
         //#endregion
 
         //#region Create extra colission boxes for some objects
@@ -151,6 +154,8 @@ class World {
         this.#scene.add(this.tree1);
         this.#scene.add(this.umbrella);
         this.#scene.add(this.chairWithTowel);
+        this.#scene.add(this.wolf);
+        this.#scene.add(this.wolf.box);
         //#endregion
 
         //#region Add objects for colission
@@ -202,10 +207,13 @@ class World {
             }
         };
         this.#interactionHelper.addInteraction(this.soccerBall.children[0], this.soccerBall.setInteractionText, "keydown", soccerBallInteraction);
-        //#endregion Add object interactions
+        this.#interactionHelper.addInteraction(this.wolf.box, this.wolf.sit);
 
+        //#endregion Add object interactions
+        this.wolf.startAnimation();
         //#region Some other init configs
         this.#loop.updatables.push(this.palm0);
+        this.#loop.updatables.push(this.wolf);
         this.#camera.lookAt(this.palm0.position);
         //#endregion
 
