@@ -3,7 +3,6 @@ import { createScene } from './components/scene.js';
 import { createAmbientLight, createSpotLight } from './components/light.js';
 import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
-import { PalmBuilder } from './components/PalmBuilder.js';
 import { ColissionBoxBuilder } from './components/ColissionBoxBuilder.js';
 import { BeachHouseBuilder } from './components/BeachHouseBuilder.js';
 import { PierBuilder } from './components/PierBuilder.js';
@@ -103,7 +102,6 @@ class World {
         //#endregion
 
         //#region Create Builder
-        const palmBuilder = new PalmBuilder();
         const beachHouseBuilder = new BeachHouseBuilder();
         const pierBuilder = new PierBuilder();
         const boatBuilder = new BoatBuilder();
@@ -116,20 +114,22 @@ class World {
         //#endregion
 
         //#region Create Objects for the World
-        this.palm0 = await palmBuilder.load(90, 10.8, 25, 0);
-        this.palm0.children[0].castShadow = true;
-        this.palm0.children[1].castShadow = true;
-
+        this.palm0 = await vegetationBuilder.loadPalmWithCoconut(90, 10.8, 25, 0);
         this.beachHouse = await beachHouseBuilder.load(0, 10, -50, 0);
         this.pier = await pierBuilder.load(10, -10, 158, 0, 15, 15, 40);
         this.bridge = await pierBuilder.load(18, -10, 25, 0, 15, 15, 30);
         this.boat = await boatBuilder.load(30, -26, 105, Math.PI);
         this.soccerBall = await ballBuilder.loadSoccerBall(20, -6, -30, 0);
         this.tree0 = await vegetationBuilder.loadTree(50, 11, -30, 0);
-        this.tree1 = await vegetationBuilder.loadTree(-50, 11, 40, 0);
+        this.tree1 = await vegetationBuilder.loadTree(-20, 11, -50, 0);
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
         this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI / 2);
         this.wolf = await wolfBuilder.load(-2, 12, -54, -Math.PI / 2);
+        this.acaiPalm1 = await vegetationBuilder.loadAcaiPalm(0, 8, 60, 0);
+        this.acaiPalm2 = await vegetationBuilder.loadAcaiPalm(30, 8, 30, 0);
+        this.datePalm1 = await vegetationBuilder.loadDatePalm(60, 8, 70, 0);
+        this.datePalm2 = await vegetationBuilder.loadDatePalm(-20, 11, 40, 0);
+        this.seaPlant = await vegetationBuilder.loadSeaPlant(10, 2, -5, 0);
         //#endregion
 
         //#region Create extra colission boxes for some objects
@@ -139,8 +139,8 @@ class World {
         this.tree0Box0 = await colissionBoxBuilder.loadBox(50, 25, -30, 7, 15, 7);
         this.tree0Box1 = await colissionBoxBuilder.loadBox(50, 13, -30, 3, 10, 5);
 
-        this.tree1Box0 = await colissionBoxBuilder.loadBox(-50, 25, 40, 7, 15, 7);
-        this.tree1Box1 = await colissionBoxBuilder.loadBox(-50, 13, 40, 3, 10, 5);
+        this.tree1Box0 = await colissionBoxBuilder.loadBox(-20, 25, -50, 7, 15, 7);
+        this.tree1Box1 = await colissionBoxBuilder.loadBox(-20, 13, -50, 3, 10, 5);
         //#endregion
 
         //#region Add all Objects to the scene
@@ -156,6 +156,11 @@ class World {
         this.#scene.add(this.chairWithTowel);
         this.#scene.add(this.wolf);
         this.#scene.add(this.wolf.box);
+        this.#scene.add(this.acaiPalm1);
+        this.#scene.add(this.acaiPalm2);
+        this.#scene.add(this.datePalm1);
+        this.#scene.add(this.datePalm2);
+        this.#scene.add(this.seaPlant);
         //#endregion
 
         //#region Add objects for colission
@@ -170,9 +175,6 @@ class World {
 
         this.#controller.addObjectForCollision(this.beachHouseBox1);
         this.#controller.addObjectForCollision(this.beachHouseBox2);
-
-        // Only "Schirm"
-        this.#controller.addObjectForCollision(this.umbrella.children[0].children[0]);
         
         this.#controller.addObjectForCollision(this.chairWithTowel.children[0].children);
         this.#controller.addObjectForCollision(this.pier.children);
@@ -214,7 +216,7 @@ class World {
         //#region Some other init configs
         this.#loop.updatables.push(this.palm0);
         this.#loop.updatables.push(this.wolf);
-        this.#camera.lookAt(this.palm0.position);
+        this.#camera.lookAt(this.beachHouse.position);
         //#endregion
 
         // End loading spinner

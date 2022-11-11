@@ -28,7 +28,7 @@ class WolfBuilder{
         const geometry = new BoxGeometry( 1, 1, 1 );
         const material = new MeshBasicMaterial( {color: 0x000000, opacity: 0.0, transparent: true} );
         const cube = new Mesh( geometry, material );
-        geometry.translate(x,y,z);
+        geometry.translate(x,y+3,z);
         this.wolf.box = cube;
         return this.wolf;
     }
