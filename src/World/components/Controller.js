@@ -167,6 +167,16 @@ class Controller {
     }
 
     /**
+     * Set a new location with rotation for the camera
+     * @param {THREE.Vector3} newPosition 
+     * @param {THREE.Quaternion} quaternion 
+     */
+    setFixedPosition(newPosition, quaternion) {
+        this.location.copy(newPosition);
+        this.#camera.quaternion.copy(quaternion);
+    }
+
+    /**
      * Remove one object to not do object collision with it anymore.
      * @param {THREE.Mesh} obj 
      */

@@ -210,7 +210,17 @@ class World {
 
         // Wolf
         this.#interactionHelper.addInteraction(this.wolf.box, this.wolf.sit);
-        
+
+
+        // Chair with towel
+        this.#interactionHelper.addInteraction(this.chairWithTowel.children[0].children[0], this.chairWithTowel.setInteractionText, "keydown", (ev) => { 
+            switch (ev.code) {
+                case 'KeyE':
+                    this.setText("&#8982;");
+                    this.chairWithTowel.sitOnChair((newPosition, quaternion) => {this.#controller.setFixedPosition(newPosition, quaternion)});
+            }
+        });
+
         //#endregion Add object interactions
 
         //#region Some other init configs
