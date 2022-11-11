@@ -38,23 +38,15 @@ class WolfBuilder{
 		action.play();
     }
 
-    sit(){ 
-        console.log("sit");                
+    sit(){                
         let action = this.actions[1];
         action.clampWhenFinished = true;
         action.setLoop(LoopOnce);
-        if(!this.wolf.isSit){    
-            this.wolf.position.y = this.wolf.position.y - 0.5;
-        }
         action.stop().play();
-        this.wolf.isSit = true;
     }
 
     idle(mixer){
         let action = mixer.clipAction(this.clip);
-        console.log("idle");
-        this.wolf.position.y = this.wolf.position.y + 0.5;
-        this.wolf.isSit = false;
 		action.play();
     }
 
