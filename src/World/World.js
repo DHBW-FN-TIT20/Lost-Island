@@ -13,6 +13,7 @@ import { UmbrellaBuilder } from './components/UmbrellaBuilder.js';
 import { ChairBuilder } from './components/ChairBuilder.js';
 import { WolfBuilder } from './components/WolfBuilder.js';
 import { SharkBuilder } from './components/SharkBuilder.js';
+import { CrateBuilder } from './components/CrateBuilder.js';
 
 import {
     PMREMGenerator,
@@ -113,21 +114,36 @@ class World {
         const chairBuilder = new ChairBuilder();
         const wolfBuilder = new WolfBuilder();
         const sharkBuilder = new SharkBuilder();
+        const crateBuilder = new CrateBuilder();
         //#endregion
 
         //#region Create Objects for the World
-        this.palm0 = await vegetationBuilder.loadPalmWithCoconut(90, 10.8, 25, 0);
+        
         this.beachHouse = await beachHouseBuilder.load(0, 10, -50, 0);
         this.pier = await pierBuilder.load(10, -10, 158, 0, 15, 15, 40);
         this.bridge = await pierBuilder.load(18, -10, 25, 0, 15, 15, 30);
+
         this.boat = await boatBuilder.load(30, -26, 105, Math.PI);
+        this.crate1 = await crateBuilder.load(30, 11, 105, 0);
+        this.crate2 = await crateBuilder.load(20, 11, 102, Math.PI / 2);
+
+        this.crate3 = await crateBuilder.load(-55, 11.5, 28, 0);
+        this.crate4 = await crateBuilder.load(-55, 11.5, 30, 0);
+        this.crate5 = await crateBuilder.load(-55, 11.5, 32, 0);
+        this.crate6 = await crateBuilder.load(-55, 13.5, 30.5, 0);
+        this.crate7 = await crateBuilder.load(-57, 11.5, 28.5, 0);
+
         this.soccerBall = await ballBuilder.loadSoccerBall(20, -6, -30, 0);
-        this.tree0 = await vegetationBuilder.loadTree(50, 11, -30, 0);
-        this.tree1 = await vegetationBuilder.loadTree(-20, 11, -50, 0);
+        
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
         this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI / 2);
+
         this.shark = await sharkBuilder.load(170, 1, 25, Math.PI / 2);
         this.wolf = await wolfBuilder.load(-2, 12, -54, -Math.PI / 2);
+
+        this.tree0 = await vegetationBuilder.loadTree(50, 11, -30, 0);
+        this.tree1 = await vegetationBuilder.loadTree(-20, 11, -50, 0);
+        this.palm = await vegetationBuilder.loadPalmWithCoconut(90, 10.8, 25, 0);
         this.acaiPalm1 = await vegetationBuilder.loadAcaiPalm(0, 8, 60, 0);
         this.acaiPalm2 = await vegetationBuilder.loadAcaiPalm(30, 8, 30, 0);
         this.datePalm1 = await vegetationBuilder.loadDatePalm(60, 8, 70, 0);
@@ -147,7 +163,7 @@ class World {
         //#endregion
 
         //#region Add all Objects to the scene
-        this.#scene.add(this.palm0);
+        this.#scene.add(this.palm);
         this.#scene.add(this.beachHouse);
         this.#scene.add(this.pier);
         this.#scene.add(this.bridge);
@@ -165,17 +181,33 @@ class World {
         this.#scene.add(this.datePalm2);
         this.#scene.add(this.seaPlant);
         this.#scene.add(this.shark);
+
+        this.#scene.add(this.crate1);
+        this.#scene.add(this.crate2);
+        this.#scene.add(this.crate3);
+        this.#scene.add(this.crate4);
+        this.#scene.add(this.crate5);
+        this.#scene.add(this.crate6);
+        this.#scene.add(this.crate7);
         //#endregion
 
         //#region Add objects for colission
-        this.#controller.addObjectForCollision(this.palm0.children[0]);
-        this.#controller.addObjectForCollision(this.palm0.children[1]);
+        this.#controller.addObjectForCollision(this.palm.children[0]);
+        this.#controller.addObjectForCollision(this.palm.children[1]);
 
         this.#controller.addObjectForCollision(this.tree0Box0);
         this.#controller.addObjectForCollision(this.tree0Box1);
 
         this.#controller.addObjectForCollision(this.tree1Box0);
         this.#controller.addObjectForCollision(this.tree1Box1);
+
+        this.#controller.addObjectForCollision(this.crate1.children);
+        this.#controller.addObjectForCollision(this.crate2.children);
+        this.#controller.addObjectForCollision(this.crate3.children);
+        this.#controller.addObjectForCollision(this.crate4.children);
+        this.#controller.addObjectForCollision(this.crate5.children);
+        this.#controller.addObjectForCollision(this.crate6.children);
+        this.#controller.addObjectForCollision(this.crate7.children);        
 
         this.#controller.addObjectForCollision(this.beachHouseBox1);
         this.#controller.addObjectForCollision(this.beachHouseBox2);
@@ -187,17 +219,17 @@ class World {
         //#endregion Add objects for colission
 
         //#region Add object interactions
-        // Palm1
+        // Palm
         let palmInteraction = (ev) => {
             switch (ev.code) {
                 case 'KeyE':
-                    this.#interactionHelper.removeInteraction(this.palm0.children[2]);
+                    this.#interactionHelper.removeInteraction(this.palm.children[2]);
 
-                    this.palm0.startAnimation();
+                    this.palm.startAnimation();
                     this.setText("&#8982;");
             }
         };
-        this.#interactionHelper.addInteraction(this.palm0.children[2], this.palm0.setInteractionText, "keydown", palmInteraction);
+        this.#interactionHelper.addInteraction(this.palm.children[2], this.palm.setInteractionText, "keydown", palmInteraction);
 
         // Soccer Ball
         const soccerBallInteraction = (ev) => {
@@ -232,7 +264,7 @@ class World {
         //#region Some other init configs
         await this.wolf.startAnimation();
         await this.shark.startAnimation();
-        this.#loop.updatables.push(this.palm0);
+        this.#loop.updatables.push(this.palm);
         this.#loop.updatables.push(this.wolf);
         this.#loop.updatables.push(this.shark);
         this.#camera.lookAt(this.beachHouse.position);
