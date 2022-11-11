@@ -207,11 +207,14 @@ class World {
             }
         };
         this.#interactionHelper.addInteraction(this.soccerBall.children[0], this.soccerBall.setInteractionText, "keydown", soccerBallInteraction);
-        this.#interactionHelper.addInteraction(this.wolf.box, this.wolf.sit);
 
+        // Wolf
+        this.#interactionHelper.addInteraction(this.wolf.box, this.wolf.sit);
+        
         //#endregion Add object interactions
-        this.wolf.startAnimation();
+
         //#region Some other init configs
+        this.wolf.startAnimation();
         this.#loop.updatables.push(this.palm0);
         this.#loop.updatables.push(this.wolf);
         this.#camera.lookAt(this.palm0.position);
