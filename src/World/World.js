@@ -116,7 +116,7 @@ class World {
         //#endregion
 
         //#region Create Objects for the World
-        this.palm0 = await palmBuilder.load(90, 10.5, 25, 0);
+        this.palm0 = await palmBuilder.load(90, 10.8, 25, 0);
         this.palm0.children[0].castShadow = true;
         this.palm0.children[1].castShadow = true;
 
@@ -230,7 +230,7 @@ class World {
 
         this.#controller.update();
         this.#interactionHelper.checkInteractions();
-
+        
         this.#ocean.material.uniforms['time'].value += 0.25 / 60.0;
 
         this.stats.update();
