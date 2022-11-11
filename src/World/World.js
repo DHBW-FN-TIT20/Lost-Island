@@ -252,7 +252,7 @@ class World {
         this.#controller.update();
         this.#interactionHelper.checkInteractions();
         
-        this.#ocean.material.uniforms['time'].value += 0.25 / 60.0;
+        this.#ocean.material.uniforms['time'].value += 0.20 / 60.0;
 
         this.stats.update();
     }
