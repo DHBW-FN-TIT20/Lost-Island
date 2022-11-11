@@ -133,14 +133,14 @@ class World {
         //#endregion
 
         //#region Create extra colission boxes for some objects
-        this.beachHouseBox1 = await colissionBoxBuilder.loadBox(4, 15, -57, 10, 25, 20, this.#scene);
-        this.beachHouseBox2 = await colissionBoxBuilder.loadBox(-5, 15, -64, 12, 25, 10, this.#scene);
+        this.beachHouseBox1 = await colissionBoxBuilder.loadBox(4, 15, -57, 10, 25, 20);
+        this.beachHouseBox2 = await colissionBoxBuilder.loadBox(-5, 15, -64, 12, 25, 10);
 
-        this.tree0Box0 = await colissionBoxBuilder.loadBox(50, 25, -30, 7, 15, 7, this.#scene);
-        this.tree0Box1 = await colissionBoxBuilder.loadBox(50, 13, -30, 3, 10, 5, this.#scene);
+        this.tree0Box0 = await colissionBoxBuilder.loadBox(50, 25, -30, 7, 15, 7);
+        this.tree0Box1 = await colissionBoxBuilder.loadBox(50, 13, -30, 3, 10, 5);
 
-        this.tree1Box0 = await colissionBoxBuilder.loadBox(-50, 25, 40, 7, 15, 7, this.#scene);
-        this.tree1Box1 = await colissionBoxBuilder.loadBox(-50, 13, 40, 3, 10, 5, this.#scene);
+        this.tree1Box0 = await colissionBoxBuilder.loadBox(-50, 25, 40, 7, 15, 7);
+        this.tree1Box1 = await colissionBoxBuilder.loadBox(-50, 13, 40, 3, 10, 5);
         //#endregion
 
         //#region Add all Objects to the scene

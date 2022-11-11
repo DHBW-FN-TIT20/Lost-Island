@@ -12,8 +12,8 @@ class PalmBuilder{
 
     async load(x, y, z, rotationY){
         const loader = new GLTFLoader();
-        const data = await loader.loadAsync('/assets/models/palm-tree-test.gltf');
-        
+        const data = await loader.loadAsync('/assets/models/palm-tree.gltf');
+
         this.palm = this.setUpModel(data);
         this.palm.tick = (delta) => this.#mixer.update(delta);
         this.palm.startAnimation = () => this.startAnimation();
