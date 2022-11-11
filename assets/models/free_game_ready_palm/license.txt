@@ -1,0 +1,11 @@
+Model Information:
+* title:	Free Game Ready Palm
+* source:	https://sketchfab.com/3d-models/free-game-ready-palm-e8c0ea53410947b0b7f20d33702f4098
+* author:	TreDè (https://sketchfab.com/luigi_disilvestre)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Free Game Ready Palm" (https://sketchfab.com/3d-models/free-game-ready-palm-e8c0ea53410947b0b7f20d33702f4098) by TreDè (https://sketchfab.com/luigi_disilvestre) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

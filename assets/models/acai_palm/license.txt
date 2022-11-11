@@ -1,0 +1,11 @@
+Model Information:
+* title:	Acai Palm
+* source:	https://sketchfab.com/3d-models/acai-palm-85ac276a8d34487b9521ca5db1f7654f
+* author:	evolveduk (https://sketchfab.com/evolveduk)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Acai Palm" (https://sketchfab.com/3d-models/acai-palm-85ac276a8d34487b9521ca5db1f7654f) by evolveduk (https://sketchfab.com/evolveduk) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
