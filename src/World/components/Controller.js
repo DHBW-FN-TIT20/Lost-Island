@@ -12,6 +12,9 @@ const _PI_2 = Math.PI / 2;
 
 
 class KeyBoardWatcher {
+    /**
+     * @param {Element} domElement Where to listen for key events. Defaults to document.body.
+     */
     constructor(domElement = document.body) {
         this.domElement = domElement;
 
@@ -370,7 +373,7 @@ class Controller {
     }
 
     /**
-     * Reset the Camera to 0, 1000, 0 if it is `y < 100`
+     * Reset the Camera to 10, 18, -30 if the player is fallen out of the world
      */
     checkOutOfWorld() {
         if (this.location.y < - 100) {
