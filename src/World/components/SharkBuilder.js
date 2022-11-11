@@ -28,10 +28,10 @@ class SharkBuilder{
 
     move(delta){
         this.#mixer.update(delta);
-        this.t += 0.008;
+        this.t += 0.005;
         this.shark.position.x = this.shark.position.x + 0.2*Math.cos(this.t);
         this.shark.position.z = this.shark.position.z + 0.2*Math.sin(this.t);
-        this.shark.rotation.y = this.shark.rotation.y - 0.008;
+        this.shark.rotation.y = this.shark.rotation.y - 0.005;
     }
 
     async startAnimation(){		       

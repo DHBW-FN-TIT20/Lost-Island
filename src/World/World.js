@@ -126,7 +126,7 @@ class World {
         this.tree1 = await vegetationBuilder.loadTree(-20, 11, -50, 0);
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
         this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI / 2);
-        this.shark = await sharkBuilder.load(160, 1, 25, Math.PI / 2);
+        this.shark = await sharkBuilder.load(170, 1, 25, Math.PI / 2);
         this.wolf = await wolfBuilder.load(-2, 12, -54, -Math.PI / 2);
         this.acaiPalm1 = await vegetationBuilder.loadAcaiPalm(0, 8, 60, 0);
         this.acaiPalm2 = await vegetationBuilder.loadAcaiPalm(30, 8, 30, 0);
