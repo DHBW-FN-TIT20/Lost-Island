@@ -122,7 +122,7 @@ function createRock(positionX, positionY, positionZ){
     const texture = loader.load("../../assets/textures/monochrome-rock-face.jpg");
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
-    const bigRockSphereGeom = new SphereGeometry(12, 16, 16);
+    const bigRockSphereGeom = new SphereGeometry(6, 16, 16);
     bigRockSphereGeom.translate(positionX, positionY, positionZ);
     const bigRockSphereMaterial = new MeshPhongMaterial();
     bigRockSphereMaterial.map = texture;

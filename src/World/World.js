@@ -53,7 +53,7 @@ class World {
         this.stats = Stats();
         document.body.appendChild(this.stats.dom);
 
-        this.#camera = createPerspectiveCamera(new Vector3(10, 18, -30));
+        this.#camera = createPerspectiveCamera(new Vector3(10, 20, 105));
         this.#scene = createScene();
         this.#renderer = createRenderer();
 
@@ -123,6 +123,8 @@ class World {
         this.pier = await pierBuilder.load(10, -10, 158, 0, 15, 15, 40);
         this.bridge = await pierBuilder.load(18, -10, 25, 0, 15, 15, 30);
 
+        this.rock = createRock(50,5,-20);
+
         this.boat = await boatBuilder.load(30, -26, 105, Math.PI);
         this.crate1 = await crateBuilder.load(30, 11, 105, 0);
         this.crate2 = await crateBuilder.load(20, 11, 102, Math.PI / 2);
@@ -189,6 +191,8 @@ class World {
         this.#scene.add(this.crate5);
         this.#scene.add(this.crate6);
         this.#scene.add(this.crate7);
+
+        this.#scene.add(this.rock);
         //#endregion
 
         //#region Add objects for colission
@@ -200,6 +204,8 @@ class World {
 
         this.#controller.addObjectForCollision(this.tree1Box0);
         this.#controller.addObjectForCollision(this.tree1Box1);
+
+        this.#controller.addObjectForCollision(this.rock.children[0]);
 
         this.#controller.addObjectForCollision(this.crate1.children);
         this.#controller.addObjectForCollision(this.crate2.children);
