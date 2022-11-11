@@ -43,7 +43,7 @@ class ChairBuilder{
      */
     setText(){
         const div = document.getElementById("info");
-        div.innerHTML = "E zum sitzen";
+        div.innerHTML = "E zum Sitzen";
     }
 
 }

@@ -12,6 +12,7 @@ import { VegetationBuilder } from './components/VegetationBuilder.js';
 import { UmbrellaBuilder } from './components/UmbrellaBuilder.js';
 import { ChairBuilder } from './components/ChairBuilder.js';
 import { WolfBuilder } from './components/WolfBuilder.js';
+import { SharkBuilder } from './components/SharkBuilder.js';
 
 import {
     PMREMGenerator,
@@ -111,6 +112,7 @@ class World {
         const colissionBoxBuilder = new ColissionBoxBuilder();
         const chairBuilder = new ChairBuilder();
         const wolfBuilder = new WolfBuilder();
+        const sharkBuilder = new SharkBuilder();
         //#endregion
 
         //#region Create Objects for the World
@@ -124,11 +126,12 @@ class World {
         this.tree1 = await vegetationBuilder.loadTree(-20, 11, -50, 0);
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
         this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI / 2);
+        this.shark = await sharkBuilder.load(160, 1, 25, Math.PI / 2);
         this.wolf = await wolfBuilder.load(-2, 12, -54, -Math.PI / 2);
         this.acaiPalm1 = await vegetationBuilder.loadAcaiPalm(0, 8, 60, 0);
         this.acaiPalm2 = await vegetationBuilder.loadAcaiPalm(30, 8, 30, 0);
         this.datePalm1 = await vegetationBuilder.loadDatePalm(60, 8, 70, 0);
-        this.datePalm2 = await vegetationBuilder.loadDatePalm(-20, 11, 40, 0);
+        this.datePalm2 = await vegetationBuilder.loadDatePalm(-20, 8, 40, 0);
         this.seaPlant = await vegetationBuilder.loadSeaPlant(10, 2, -5, 0);
         //#endregion
 
@@ -161,6 +164,7 @@ class World {
         this.#scene.add(this.datePalm1);
         this.#scene.add(this.datePalm2);
         this.#scene.add(this.seaPlant);
+        this.#scene.add(this.shark);
         //#endregion
 
         //#region Add objects for colission
@@ -226,9 +230,11 @@ class World {
         //#endregion Add object interactions
 
         //#region Some other init configs
-        this.wolf.startAnimation();
+        await this.wolf.startAnimation();
+        await this.shark.startAnimation();
         this.#loop.updatables.push(this.palm0);
         this.#loop.updatables.push(this.wolf);
+        this.#loop.updatables.push(this.shark);
         this.#camera.lookAt(this.beachHouse.position);
         //#endregion
 
