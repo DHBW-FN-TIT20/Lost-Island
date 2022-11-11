@@ -1,4 +1,4 @@
-import { PlaneGeometry, TextureLoader, ImageLoader, RepeatWrapping, MeshPhongMaterial, MeshToonMaterial, MeshStandardMaterial, Mesh, Vector3 } from 'three';
+import { PlaneGeometry, TextureLoader, ImageLoader, RepeatWrapping, MeshPhongMaterial, MeshToonMaterial, MeshStandardMaterial, Mesh, Vector3, Group, SphereGeometry } from 'three';
 import { Water } from '../../../lib/three/examples/jsm/objects/Water.js';
 import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
 
@@ -116,4 +116,19 @@ function createSun(sky) {
     return sun;
 }
 
-export { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap };
+function createRock(positionX, positionY, positionZ){
+    const rockGroup = new Group();
+    const loader = new TextureLoader();
+    const texture = loader.load("../../assets/textures/monochrome-rock-face.jpg");
+    texture.wrapS = RepeatWrapping;
+    texture.wrapT = RepeatWrapping;
+    const bigRockSphereGeom = new SphereGeometry(12, 16, 16);
+    bigRockSphereGeom.translate(positionX, positionY, positionZ);
+    const bigRockSphereMaterial = new MeshPhongMaterial();
+    bigRockSphereMaterial.map = texture;
+    const bigRock = new Mesh(bigRockSphereGeom, bigRockSphereMaterial);
+    rockGroup.add(bigRock);
+    return rockGroup;
+}
+
+export { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap, createRock };
