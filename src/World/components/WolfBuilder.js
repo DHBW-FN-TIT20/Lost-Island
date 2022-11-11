@@ -4,7 +4,7 @@ import{AnimationMixer, Object3D, LoopOnce, LoopRepeat, Color, BoxGeometry, Mesh,
 
 class WolfBuilder{
     #mixer;
-    #action;
+    actions = [];
 
     constructor(){
         this.wolf = new Object3D();
@@ -17,8 +17,8 @@ class WolfBuilder{
         this.wolf = this.setUpModel(data);
         this.wolf.tick = (delta) => this.#mixer.update(delta);
         this.wolf.startAnimation = () => this.startAnimation();
-        this.wolf.stopAnimation = () => this.#action.stop();
         this.wolf.sit = () => this.sit();
+        this.wolf.idle = () => this.idle();
         this.wolf.setInteractionText = this.setText;
         this.wolf.position.x = x;
         this.wolf.position.y = y;
@@ -26,7 +26,7 @@ class WolfBuilder{
         this.wolf.rotation.y = rotationY;
         this.wolf.isSit = false; 
         const geometry = new BoxGeometry( 1, 1, 1 );
-        const material = new MeshBasicMaterial( {color: 0x000000, opacity: 1, transparent: true} );
+        const material = new MeshBasicMaterial( {color: 0x000000, opacity: 0.0, transparent: true} );
         const cube = new Mesh( geometry, material );
         geometry.translate(x,y,z);
         this.wolf.box = cube;
@@ -34,26 +34,28 @@ class WolfBuilder{
     }
 
     async startAnimation(){
-        this.#action.play();
+        let action = this.actions[0];
+		action.play();
     }
 
-    sit(){
-                
-        this.#action.stop();
-        
-        this.#action = this.#mixer.clipAction(this.sitClip);
-        this.#action.clampWhenFinished = true;
-        this.#action.setLoop(LoopOnce);
-        if(!this.isSit){        
-            this.wolf.position.y = this.wolf.position.y - 1;
-            this.#action = this.#mixer.clipAction(this.clip);
-            // this.#action.clampWhenFinished = false;
-            this.#action.setLoop(LoopRepeat);
-            this.#action.play();
+    sit(){ 
+        console.log("sit");                
+        let action = this.actions[1];
+        action.clampWhenFinished = true;
+        action.setLoop(LoopOnce);
+        if(!this.wolf.isSit){    
+            this.wolf.position.y = this.wolf.position.y - 0.5;
         }
-        this.#action.play();
-        this.isSit = true;
-        
+        action.stop().play();
+        this.wolf.isSit = true;
+    }
+
+    idle(mixer){
+        let action = mixer.clipAction(this.clip);
+        console.log("idle");
+        this.wolf.position.y = this.wolf.position.y + 0.5;
+        this.wolf.isSit = false;
+		action.play();
     }
 
     setUpModel(data){
@@ -62,7 +64,11 @@ class WolfBuilder{
         this.clip = data.animations[3];
         this.sitClip = data.animations[4];
         this.#mixer = new AnimationMixer(model);
-        this.#action = this.#mixer.clipAction(this.clip);
+        this.#mixer.addEventListener( 'finished', () => {
+            this.idle(this.#mixer);
+        });
+        this.actions.push(this.#mixer.clipAction(this.clip));
+        this.actions.push(this.#mixer.clipAction(this.sitClip));
         return model;
     }
 }
