@@ -27,11 +27,11 @@ class VegetationBuilder{
 
     /**
      * 
-     * @param {x coordinate of object} x 
-     * @param {y coordinate of object} y 
-     * @param {z coordinate of object} z 
-     * @param {rotationY of object} rotationY 
-     * @returns acaiPalm
+     * @param {Number} x x coordinate of object
+     * @param {Number} y y coordinate of object
+     * @param {Number} z z coordinate of object
+     * @param {Number} rotationY rotationY of object
+     * @returns {Object3D} acaiPalm
      */
     async loadAcaiPalm(x, y, z, rotationY){
         const loader = new GLTFLoader();

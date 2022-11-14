@@ -37,6 +37,9 @@ const arrowHelperZ = new ArrowHelper((new Vector3(0, 0, 1)).normalize(), origin,
 
 const GRAVITY = new Vector3(0, -0.05, 0);
 
+/**
+ * This represents the world. The whole scene is contained and managed in this class.
+ */
 class World {
     #camera;
     #renderer;
@@ -48,6 +51,9 @@ class World {
     #ground;
     #interactionHelper;
 
+    /**
+     * @param {HTMLCanvasElement} container Append the Scene to this container
+     */
     constructor(container) {
         this.stats = Stats();
         document.body.appendChild(this.stats.dom);
@@ -58,7 +64,7 @@ class World {
 
         this.#controller = new Controller(this.#camera);
         this.#interactionHelper = new InteractionHelper(this.#camera);
-        
+
         container.append(this.#renderer.domElement);
 
         //#region Debugger Helper
@@ -117,7 +123,7 @@ class World {
         this.pier = await pierBuilder.load(10, -10, 158, 0, 15, 15, 40);
         this.bridge = await pierBuilder.load(18, -10, 25, 0, 15, 15, 30);
 
-        this.rock = createRock(50,5,-20);
+        this.rock = createRock(50, 5, -20);
 
         this.boat = await boatBuilder.load(30, -26, 105, Math.PI);
         this.crate1 = await crateBuilder.load(30, 11, 105, 0);
@@ -130,7 +136,7 @@ class World {
         this.crate7 = await crateBuilder.load(-57, 11.5, 28.5, 0);
 
         this.soccerBall = await ballBuilder.loadSoccerBall(20, -6, -30, 0);
-        
+
         this.umbrella = await umbrellaBuilder.load(110, -11, 60, 0);
         this.chairWithTowel = await chairBuilder.loadChairWithTowel(125, -11, 25, Math.PI / 2);
 
@@ -212,11 +218,11 @@ class World {
         this.#controller.addObjectForCollision(this.crate4.children);
         this.#controller.addObjectForCollision(this.crate5.children);
         this.#controller.addObjectForCollision(this.crate6.children);
-        this.#controller.addObjectForCollision(this.crate7.children);        
+        this.#controller.addObjectForCollision(this.crate7.children);
 
         this.#controller.addObjectForCollision(this.beachHouseBox1);
         this.#controller.addObjectForCollision(this.beachHouseBox2);
-        
+
         this.#controller.addObjectForCollision(this.chairWithTowel.children[0].children);
         this.#controller.addObjectForCollision(this.pier.children);
         this.#controller.addObjectForCollision(this.bridge.children);
@@ -257,11 +263,11 @@ class World {
 
 
         // Chair with towel
-        this.#interactionHelper.addInteraction(this.chairWithTowel.children[0].children[0], this.chairWithTowel.setInteractionText, "keydown", (ev) => { 
+        this.#interactionHelper.addInteraction(this.chairWithTowel.children[0].children[0], this.chairWithTowel.setInteractionText, "keydown", (ev) => {
             switch (ev.code) {
                 case 'KeyE':
                     this.setText("&#8982;");
-                    this.chairWithTowel.sitOnChair((newPosition, quaternion) => {this.#controller.setFixedPosition(newPosition, quaternion)});
+                    this.chairWithTowel.sitOnChair((newPosition, quaternion) => { this.#controller.setFixedPosition(newPosition, quaternion) });
             }
         });
 
@@ -289,7 +295,7 @@ class World {
 
     /**
      * Diese Methode wird aufgerufen, wenn der Benutzer die Taste "E" drückt. Der übergebene Text wird in der HTML-Datei anstelle des Fadenkreuzes angezeigt.
-     * @param {Anzuzeigender Text} text 
+     * @param {String} text Anzuzeigender Text
      */
     setText(text) {
         let div = document.getElementById("info");
@@ -304,16 +310,22 @@ class World {
 
         this.#controller.update();
         this.#interactionHelper.checkInteractions();
-        
+
         this.#ocean.material.uniforms['time'].value += 0.20 / 60.0;
 
         this.stats.update();
     }
 
+    /**
+     * Starts the loop for animating the scene
+     */
     start() {
         this.#loop.start();
     }
 
+    /**
+     * Stops the loop for animating the scene
+     */
     stop() {
         this.#loop.stop();
     }
