@@ -11,6 +11,9 @@ const _euler = new Euler(0, 0, 0, 'YXZ');
 const _PI_2 = Math.PI / 2;
 
 
+/**
+ * Helper class to lock the pressed keys, that you dont have to check it every frame.
+ */
 class KeyBoardWatcher {
     /**
      * @param {Element} domElement Where to listen for key events. Defaults to document.body.
@@ -25,6 +28,7 @@ class KeyBoardWatcher {
         this.jump = false;
         this.sprint = false;
 
+        // Key is pressed
         this.domElement.addEventListener("keydown", (ev) => {
             switch (ev.code) {
 
@@ -58,6 +62,7 @@ class KeyBoardWatcher {
             }
         });
 
+        // Key is released
         this.domElement.addEventListener("keyup", (ev) => {
             switch (ev.code) {
 
@@ -94,6 +99,9 @@ class KeyBoardWatcher {
     }
 }
 
+/**
+ * Helper class to control the player / camera.
+ */
 class Controller {
     #camera;
 

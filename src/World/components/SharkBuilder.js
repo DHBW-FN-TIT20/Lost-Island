@@ -2,6 +2,9 @@ import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js'
 import {CSS3DRenderer, CSS3DObject} from '../../../lib/three/examples/jsm/renderers/CSS3DRenderer.js';
 import{AnimationMixer, Object3D, LoopOnce, LoopRepeat, Color, BoxGeometry, Mesh, MeshBasicMaterial} from 'three';
 
+/**
+ * Helper class to build a shark.
+ */
 class SharkBuilder{
     #mixer;
     #action;
@@ -10,6 +13,14 @@ class SharkBuilder{
         this.shark = new Object3D();
     }
 
+    /**
+     * Create a Shark
+     * @param {Number} x Position in x axis
+     * @param {Number} y Position in y axis
+     * @param {Number} z Position in z axis
+     * @param {Number} rotationY Rotation in y axis
+     * @returns Object3D
+     */
     async load(x, y, z, rotationY){
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/shark.gltf');
@@ -26,6 +37,10 @@ class SharkBuilder{
         return this.shark;
     }
 
+    /**
+     * Move the shark in a circle
+     * @param {Number} delta Delta of the last frame
+     */
     move(delta){
         this.#mixer.update(delta);
         this.t += 0.005;
@@ -34,10 +49,18 @@ class SharkBuilder{
         this.shark.rotation.y = this.shark.rotation.y - 0.005;
     }
 
+    /**
+     * Start the Animation of the shark
+     */
     async startAnimation(){		       
         this.#action.play();
     }
 
+    /**
+     * Set the Animation and Scale of the shark
+     * @param {Object3D} data 
+     * @returns Object3D
+     */
     setUpModel(data){
         const model = data.scene;
         model.scale.set(4,4,4);

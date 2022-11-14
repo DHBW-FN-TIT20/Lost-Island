@@ -2,9 +2,13 @@ import { PlaneGeometry, TextureLoader, ImageLoader, RepeatWrapping, MeshPhongMat
 import { Water } from '../../../lib/three/examples/jsm/objects/Water.js';
 import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
 
+/**
+ * Create a terrain
+ * @returns Mesh<PlaneGeometry, MeshStandardMaterial>
+ */
 function createGround() {
     const loader = new TextureLoader();
-    const normal = loader.load("../../assets/NormalMapWithRiver.png");
+    const normal = loader.load("../../assets/NormalMapWithRiver.png");  //#TODO: Ist das Kunst oder kann das weg?
     const texture = loader.load("../../assets/color2.png");
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
@@ -15,7 +19,7 @@ function createGround() {
     planeJSGeom.rotateX(Math.PI * -0.5);
     var planeJS = new Mesh(planeJSGeom, new MeshStandardMaterial({
         map: texture,
-        // normalMap: normal
+        // normalMap: normal  #TODO: Ist das Kunst oder kann das weg?
     }));
     planeJS.position.y = -2;
     imageLoader.load("../../assets/heightmap2WithRiver.png", function(t){       
@@ -51,6 +55,10 @@ function createGround() {
     return planeJS;
 }
 
+/**
+ * Create a terrain with displacement map
+ * @returns Mesh<PlaneGeometry, MeshStandardMaterial>
+ */
 function createGroundWithDisplacementMap() {    
     const geometry = new PlaneGeometry(256, 256, 1024, 1024);
     const loader = new TextureLoader();
@@ -72,6 +80,10 @@ function createGroundWithDisplacementMap() {
     return mesh;
 }
 
+/**
+ * Create the ocean
+ * @returns Water
+ */
 function createOcean() {
     const geometry = new PlaneGeometry(10000, 10000);
     const loader = new TextureLoader();
@@ -96,12 +108,21 @@ function createOcean() {
     return water;
 }
 
+/**
+ * Create the sky
+ * @returns Sky
+ */
 function createSky() {
     const sky = new Sky();
     sky.scale.setScalar(1000);
     return sky;
 }
 
+/**
+ * Add a sun to the sky
+ * @param {Sky} sky Sky where the sun is added
+ * @returns Vector3
+ */
 function createSun(sky) {
    
     const sun = new Vector3();
@@ -116,6 +137,13 @@ function createSun(sky) {
     return sun;
 }
 
+/**
+ * Create a rock
+ * @param {Number} positionX Position in x axis
+ * @param {Number} positionY Position in y axis
+ * @param {Number} positionZ Position in z axis
+ * @returns Group
+ */
 function createRock(positionX, positionY, positionZ){
     const rockGroup = new Group();
     const loader = new TextureLoader();

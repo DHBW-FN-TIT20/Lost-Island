@@ -4,8 +4,10 @@ import {
     Box3Helper
 } from 'three';
 
+/**
+ * Helper class to build a collision box (AABB).
+ */
 class ColissionBoxBuilder {
-
 
     /**
      * Create a Box for collision detection with manual parameters. For static objects only.

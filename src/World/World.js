@@ -105,7 +105,7 @@ class World {
         const beachHouseBuilder = new BeachHouseBuilder();
         const pierBuilder = new PierBuilder();
         const boatBuilder = new BoatBuilder();
-        const ballBuilder = new BallBuilder(this.#ground);
+        const ballBuilder = new BallBuilder();
         const vegetationBuilder = new VegetationBuilder();
         const umbrellaBuilder = new UmbrellaBuilder();
         const colissionBoxBuilder = new ColissionBoxBuilder();

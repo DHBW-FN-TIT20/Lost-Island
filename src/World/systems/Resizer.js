@@ -1,3 +1,6 @@
+/**
+ * #TODO - Add description of the class
+ */
 class Resizer {
     constructor(container, camera, renderer) {
         // Set the camera's aspect ratio

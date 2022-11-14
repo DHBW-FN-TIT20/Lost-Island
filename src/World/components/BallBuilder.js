@@ -3,12 +3,22 @@ import{AnimationMixer, Object3D, Raycaster, Vector3} from 'three';
 
 import { GRAVITY } from "../World.js";
 
+/**
+ * Helper class to build a ball.
+ */
 class BallBuilder{
-    constructor(ground){
+    constructor(){
         this.soccerBall = new Object3D();
-        this.ground = ground;
     }
     
+    /**
+     * Creates a ball.
+     * @param {Number} x Position in x axis
+     * @param {Number} y Position in y axis
+     * @param {Number} z Position in z axis
+     * @param {Number} rotationY Rotation in y axis
+     * @returns THREE.Object3D
+     */
     async loadSoccerBall(x, y, z, rotationY){
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/soccer-ball.gltf');
@@ -36,6 +46,10 @@ class BallBuilder{
         return this.soccerBall;
     }
 
+    /**
+     * Kick the ball in that direction
+     * @param {THREE.Vector3} direction
+     */
     kick(direction){
         if (!this.kicked){
             direction.normalize();
@@ -44,12 +58,19 @@ class BallBuilder{
         }
     }
 
+    /**
+     * Apply a force to the ball
+     * @param {THREE.Vector3} force 
+     */
     applyForce(force) {
         const vector = force.clone();
         vector.divideScalar(this.weight);
         this.acceleration.add(vector);
     }
 
+    /**
+     * Update the position of the ball
+     */
     update(){
         this.applyForce(this.GRAVITY);
 
@@ -59,11 +80,19 @@ class BallBuilder{
         this.acceleration.multiplyScalar(0);
     }
 
+    /**
+     * Set the text of the interaction
+     */
     setText(){
         let div = document.getElementById("info");
         div.innerHTML = "E zum Schießen";
     }
 
+    /**
+     * Set the Animations and Scale of the Ball
+     * @param {THREE.Object3D} data 
+     * @returns THREE.Object3D
+     */
     setUpModel(data){
         const model = data.scene;
         model.scale.set(15,15,15);
