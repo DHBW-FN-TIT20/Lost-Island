@@ -22,7 +22,7 @@ import {
 } from 'three';
 
 import Stats from './../../lib/three/examples/jsm/libs/stats.module.js';
-
+import { Resizer } from './systems/Resizer.js';
 import { createRenderer } from './systems/renderer.js';
 import { Loop } from './systems/Loop.js';
 import { InteractionHelper } from './systems/InteractionHelper.js';
@@ -73,15 +73,12 @@ class World {
         this.#scene.add(arrowHelperZ);
         //#endregion
 
-        this.#scene.environment = pmremGenerator.fromScene(sky).texture;
-
-        this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
-
         container.addEventListener("click", (ev) => {
             if (!this.#controller.isLocked) {
                 this.#controller.lock();
             }
         });
+        const resizer = new Resizer(container, this.#camera, this.#renderer);
     }
 
     /**
