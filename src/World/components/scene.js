@@ -2,7 +2,7 @@ import { Color, Scene } from 'three';
 
 /**
  * Setup the Scene
- * @returns Scene
+ * @returns THREE.Scene
  */
 function createScene() {
     const scene = new Scene();

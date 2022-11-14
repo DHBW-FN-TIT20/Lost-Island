@@ -22,7 +22,7 @@ class VegetationBuilder {
      * @param {Number} y y coordinate of object
      * @param {Number} z z coordinate of object
      * @param {Number} rotationY rotationY of object
-     * @returns {Object3D} smol-tree
+     * @returns {THREE.Object3D} smol-tree
      */
     async loadTree(x, y, z, rotationY) {
         const loader = new GLTFLoader();
@@ -40,7 +40,7 @@ class VegetationBuilder {
      * @param {Number} y y coordinate of object
      * @param {Number} z z coordinate of object
      * @param {Number} rotationY rotationY of object
-     * @returns {Object3D} acaiPalm
+     * @returns {THREE.Object3D} acaiPalm
      */
     async loadAcaiPalm(x, y, z, rotationY) {
         const loader = new GLTFLoader();
@@ -60,7 +60,7 @@ class VegetationBuilder {
      * @param {Number} y y coordinate of object
      * @param {Number} z z coordinate of object
      * @param {Number} rotationY rotationY of object
-     * @returns {Object3D} datePalm
+     * @returns {THREE.Object3D} datePalm
      */
     async loadDatePalm(x, y, z, rotationY) {
         const loader = new GLTFLoader();
@@ -83,7 +83,7 @@ class VegetationBuilder {
      * @param {Number} y y coordinate of object
      * @param {Number} z z coordinate of object
      * @param {Number} rotationY rotationY of object
-     * @returns {Object3D} PalmWithCoconut
+     * @returns {THREE.Object3D} PalmWithCoconut
      */
     async loadPalmWithCoconut(x, y, z, rotationY) {
         const loader = new GLTFLoader();
@@ -105,7 +105,7 @@ class VegetationBuilder {
      * @param {Number} y y coordinate of object
      * @param {Number} z z coordinate of object
      * @param {Number} rotationY rotationY of object
-     * @returns {Object3D} seaPlant
+     * @returns {THREE.Object3D} seaPlant
      */
     async loadSeaPlant(x, y, z, rotationY) {
         const loader = new GLTFLoader();
@@ -138,8 +138,8 @@ class VegetationBuilder {
 
     /**
      * Set the Animations and Scale of the object 
-     * @param {Object3D} data 
-     * @returns Object3D
+     * @param {THREE.Object3D} data 
+     * @returns THREE.Object3D
      */
     setUpModel(data) {
         const model = data.scene;

@@ -2,6 +2,11 @@
  * #TODO - Add description of the class
  */
 class Resizer {
+    /**
+     * @param {HTMLDivElement} container 
+     * @param {THREE.Camera} camera 
+     * @param {THREE.Renderer} renderer 
+     */
     constructor(container, camera, renderer) {
         // Set the camera's aspect ratio
         camera.aspect = container.clientWidth / container.clientHeight;

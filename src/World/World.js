@@ -52,7 +52,7 @@ class World {
     #interactionHelper;
 
     /**
-     * @param {HTMLCanvasElement} container Append the Scene to this container
+     * @param {HTMLDivElement} container Append the Scene to this container
      */
     constructor(container) {
         this.stats = Stats();
@@ -82,8 +82,8 @@ class World {
     }
 
     /**
-     * Die Methode wird von der Loop-Klasse aufgerufen, wenn ein neuer Frame berechnet werden soll. 
-     * @param {Ladebalken} spinner 
+     * You need to call this method to initialize the world. It will create all the objects and add them to the scene.
+     * @param {HTMLElement} spinner The spinner will be hidden after the world is initialized
      */
     async init(spinner) {
 
@@ -291,7 +291,7 @@ class World {
     }
 
     /**
-     * Diese Methode wird aufgerufen, wenn der Benutzer die Taste "E" drückt. Der übergebene Text wird in der HTML-Datei anstelle des Fadenkreuzes angezeigt.
+     * Sets the text of the interaction text
      * @param {String} text Anzuzeigender Text
      */
     setText(text) {
@@ -300,8 +300,8 @@ class World {
     }
 
     /**
-     * Diese Methode wird von der Klasse Loop aufgreufen, wenn die Szene neu gezeichnet werden soll. Hier werden Interaktionen mit Objekten geprüft
-     * und die Kamera aktualisiert. Außerdem wird hier die Kollisionsabfrage durchgeführt. Ebenfalls wird die Animation des Wassers gesteuert.
+     * This method is called every frame from the loop. It is used to update the camera position and interactions with other objects.
+     * It also update the animation of the water.
      */
     render() {
 

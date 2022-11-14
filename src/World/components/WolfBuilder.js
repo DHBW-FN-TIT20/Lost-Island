@@ -19,7 +19,7 @@ class WolfBuilder {
      * @param {Number} y Position in y axis
      * @param {Number} z Position in z axis
      * @param {Number} rotationY Rotation in y axis
-     * @returns Object3D
+     * @returns THREE.Object3D
      */
     async load(x, y, z, rotationY) {
         const loader = new GLTFLoader();
@@ -64,7 +64,7 @@ class WolfBuilder {
 
     /**
      * #TODO - Add description of the method
-     * @param {AnimationMixer} mixer
+     * @param {THREE.AnimationMixer} mixer
      */
     idle(mixer) {
         let action = mixer.clipAction(this.clip);
@@ -73,8 +73,8 @@ class WolfBuilder {
 
     /**
      * Set the Animations and Scale of the wolf
-     * @param {Object3D} data 
-     * @returns Object3D
+     * @param {THREE.Object3D} data 
+     * @returns THREE.Object3D
      */
     setUpModel(data) {
         const model = data.scene;

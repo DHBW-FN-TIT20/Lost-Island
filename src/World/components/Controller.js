@@ -2,7 +2,8 @@ import {
     Vector3,
     Euler,
     Raycaster,
-    Box3
+    Box3,
+    Object3D
 } from 'three';
 
 import { GRAVITY } from "../World.js";
@@ -148,7 +149,7 @@ class Controller {
 
     /**
      * Add the object to not pass through these objects with the camera.
-     * @param {any} obj
+     * @param {THREE.Object3D} obj
      */
     addObjectForCollision(obj) {
         const append = (item) => {
@@ -195,7 +196,7 @@ class Controller {
 
     /**
      * Add a force to the movement with weight of the object
-     * @param {Vector3} force Some Forces
+     * @param {THREE.Vector3} force Some Forces
      */
     applyForce(force) {
         const vector = force.clone();

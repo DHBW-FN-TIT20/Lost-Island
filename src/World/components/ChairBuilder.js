@@ -15,7 +15,7 @@ class ChairBuilder{
      * @param {Number} y Position in y axis
      * @param {Number} z Position in z axis
      * @param {Number} rotationY Rotation in y axis
-     * @returns Object3D
+     * @returns THREE.Object3D
      */
     async loadChairWithTowel(x, y, z, rotationY){
         const loader = new GLTFLoader();
@@ -35,8 +35,8 @@ class ChairBuilder{
 
     /**
      * Set the Animations and Scale of the Chair
-     * @param {Object3D} data 
-     * @returns Object3D
+     * @param {THREE.Object3D} data 
+     * @returns THREE.Object3D
      */
     setUpModel(data){
         const model = data.scene;

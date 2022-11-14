@@ -18,7 +18,7 @@ class PierBuilder{
      * @param {Number} scaleX Scale in x axis
      * @param {Number} scaleY Scale in y axis
      * @param {Number} scaleZ Scale in z axis
-     * @returns Object3D
+     * @returns THREE.Object3D
      */
     async load(x, y, z, rotationY, scaleX, scaleY, scaleZ){
         const loader = new GLTFLoader();
@@ -36,11 +36,11 @@ class PierBuilder{
 
     /**
      * Set the Animations and Scale of the Pier
-     * @param {Object3D} data 
+     * @param {THREE.Object3D} data 
      * @param {Number} scaleX Scale in x axis
      * @param {Number} scaleY Scale in y axis
      * @param {Number} scaleZ Scale in z axis
-     * @returns Object3D
+     * @returns THREE.Object3D
      */
     setUpModel(data, scaleX, scaleY, scaleZ){
         const model = data.scene;

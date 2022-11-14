@@ -2,7 +2,7 @@ import { WebGLRenderer, PCFSoftShadowMap } from 'three';
 
 /**
  * #TODO: Add description - was ist der renderer
- * @returns {WebGLRenderer}
+ * @returns {THREE.WebGLRenderer}
  */
 function createRenderer() {
     const renderer = new WebGLRenderer({

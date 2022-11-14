@@ -4,7 +4,7 @@ import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
 
 /**
  * Create a terrain
- * @returns Mesh<PlaneGeometry, MeshStandardMaterial>
+ * @returns THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>
  */
 function createGround() {
     const loader = new TextureLoader();
@@ -57,7 +57,7 @@ function createGround() {
 
 /**
  * Create a terrain with displacement map
- * @returns Mesh<PlaneGeometry, MeshStandardMaterial>
+ * @returns THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>
  */
 function createGroundWithDisplacementMap() {    
     const geometry = new PlaneGeometry(256, 256, 1024, 1024);
@@ -121,7 +121,7 @@ function createSky() {
 /**
  * Add a sun to the sky
  * @param {Sky} sky Sky where the sun is added
- * @returns Vector3
+ * @returns THREE.Vector3
  */
 function createSun(sky) {
    
@@ -142,7 +142,7 @@ function createSun(sky) {
  * @param {Number} positionX Position in x axis
  * @param {Number} positionY Position in y axis
  * @param {Number} positionZ Position in z axis
- * @returns Group
+ * @returns THREE.Group
  */
 function createRock(positionX, positionY, positionZ){
     const rockGroup = new Group();
