@@ -1,15 +1,26 @@
-import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import{AnimationMixer, Object3D} from 'three';
+import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
+import { Object3D } from 'three';
 
-class BoatBuilder{
-    constructor(){
+/**
+ * Helper class to build a boat.
+ */
+class BoatBuilder {
+    constructor() {
         this.boat = new Object3D();
     }
 
-    async load(x, y, z, rotationY){
+    /**
+     * Creates a boat.
+     * @param {Number} x Position in x axis
+     * @param {Number} y Position in y axis
+     * @param {Number} z Position in z axis
+     * @param {Number} rotationY Rotation in y axis
+     * @returns THREE.Object3D
+     */
+    async load(x, y, z, rotationY) {
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/boat.gltf');
-        
+
         this.boat = this.setUpModel(data);
 
         this.boat.position.x = x;
@@ -20,11 +31,16 @@ class BoatBuilder{
         return this.boat;
     }
 
-    setUpModel(data){
+    /**
+     * Set the Animations and Scale of the Boat
+     * @param {THREE.Object3D} data 
+     * @returns THREE.Object3D
+     */
+    setUpModel(data) {
         const model = data.scene;
-        model.scale.set(30,30,30);
+        model.scale.set(30, 30, 30);
         return model;
     }
 }
 
-export {BoatBuilder};
+export { BoatBuilder };

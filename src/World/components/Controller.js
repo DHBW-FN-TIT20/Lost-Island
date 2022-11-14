@@ -2,7 +2,6 @@ import {
     Vector3,
     Euler,
     Raycaster,
-    Box3
 } from 'three';
 
 import { GRAVITY } from "../World.js";
@@ -11,6 +10,9 @@ const _euler = new Euler(0, 0, 0, 'YXZ');
 const _PI_2 = Math.PI / 2;
 
 
+/**
+ * Helper class to lock the pressed keys, that you dont have to check it every frame.
+ */
 class KeyBoardWatcher {
     /**
      * @param {Element} domElement Where to listen for key events. Defaults to document.body.
@@ -25,6 +27,7 @@ class KeyBoardWatcher {
         this.jump = false;
         this.sprint = false;
 
+        // Key is pressed
         this.domElement.addEventListener("keydown", (ev) => {
             switch (ev.code) {
 
@@ -58,6 +61,7 @@ class KeyBoardWatcher {
             }
         });
 
+        // Key is released
         this.domElement.addEventListener("keyup", (ev) => {
             switch (ev.code) {
 
@@ -94,6 +98,9 @@ class KeyBoardWatcher {
     }
 }
 
+/**
+ * Helper class to control the player / camera.
+ */
 class Controller {
     #camera;
 
@@ -140,7 +147,7 @@ class Controller {
 
     /**
      * Add the object to not pass through these objects with the camera.
-     * @param {any} obj
+     * @param {THREE.Object3D} obj
      */
     addObjectForCollision(obj) {
         const append = (item) => {
@@ -187,7 +194,7 @@ class Controller {
 
     /**
      * Add a force to the movement with weight of the object
-     * @param {Vector3} force Some Forces
+     * @param {THREE.Vector3} force Some Forces
      */
     applyForce(force) {
         const vector = force.clone();
@@ -286,7 +293,7 @@ class Controller {
      */
     moveRight(distance) {
         const vector = new Vector3(0, 0, 0);
-        
+
         vector.setFromMatrixColumn(this.#camera.matrix, 0);
         this.location.addScaledVector(vector, distance);
 
@@ -316,10 +323,10 @@ class Controller {
         vector.crossVectors(this.#camera.up, vector);
 
         this.location.addScaledVector(vector, distance);
-        
+
         this.groundRaycaster.set(this.location.clone(), vector);
         let intersections = this.groundRaycaster.intersectObjects(this.objectsForRaycastCollision, false);
-        
+
         this.objectsForAABBCollision.forEach(box => {
             if (box.containsPoint(this.location)) {
                 intersections = [0];

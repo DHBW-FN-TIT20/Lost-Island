@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/ChairBuilder.js</title>
+    <title>JSDoc: Source: systems/Loop.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/ChairBuilder.js</h1>
+    <h1 class="page-title">Source: systems/Loop.js</h1>
 
     
 
@@ -26,73 +26,58 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import { Object3D } from 'three';
+            <pre class="prettyprint source linenums"><code>import { Clock } from 'three';
+
+const clock = new Clock();
 
 /**
- * Helper class to build a chair.
+ * Calculate the Animation and render the scene
  */
-class ChairBuilder {
-    constructor() {
-        this.chair = new Object3D();
+class Loop {
+    /**
+     * @param {THREE.Camera} camera Camera of the world
+     * @param {THREE.Scene} scene 
+     * @param {THREE.Renderer} renderer 
+     * @param {World} world 
+     */
+    constructor(camera, scene, renderer, world) {
+        this.camera = camera;
+        this.scene = scene;
+        this.renderer = renderer;
+        this.world = world;
+        this.updatables = [];
     }
 
     /**
-     * Create a chair with towel.
-     * @param {Number} x Position in x axis
-     * @param {Number} y Position in y axis
-     * @param {Number} z Position in z axis
-     * @param {Number} rotationY Rotation in y axis
-     * @returns THREE.Object3D
+     * Start the animation loop
      */
-    async loadChairWithTowel(x, y, z, rotationY) {
-        const loader = new GLTFLoader();
-        const data = await loader.loadAsync('/assets/models/chair-2.gltf');
-
-        this.chair = this.setUpModel(data);
-
-        this.chair.position.x = x;
-        this.chair.position.y = y;
-        this.chair.position.z = z;
-        this.chair.rotation.y = rotationY;
-        this.chair.sitOnChair = this.sitOnChair;
-        this.chair.setInteractionText = this.setText;
-
-        return this.chair;
+    start() {
+        this.renderer.setAnimationLoop(() => {
+            this.tick();
+            this.world.render();
+            this.renderer.render(this.scene, this.camera);
+        });
     }
 
     /**
-     * Set the Animations and Scale of the Chair
-     * @param {THREE.Object3D} data 
-     * @returns THREE.Object3D
+     * Stop the animation loop
      */
-    setUpModel(data) {
-        const model = data.scene;
-        model.scale.set(20, 20, 20);
-        return model;
+    stop() {
+        this.renderer.setAnimationLoop(null);
     }
 
     /**
-     * @param {function} setFunction Call these function that give it a Vector3 position and a Quaternion rotation
+     * Update the animation loop
      */
-    sitOnChair(setFunction) {
-        const pos = this.position.clone();
-        pos.y += 30;
-        pos.x -= 25;
-        setFunction(pos, this.quaternion.clone().invert());
+    tick() {
+        const delta = clock.getDelta();
+        for (const object of this.updatables) {
+            object.tick(delta);
+        }
     }
-
-    /**
-     * Set the text of the interaction text
-     */
-    setText() {
-        const div = document.getElementById("info");
-        div.innerHTML = "E zum Sitzen";
-    }
-
 }
 
-export { ChairBuilder };</code></pre>
+export { Loop };</code></pre>
         </article>
     </section>
 

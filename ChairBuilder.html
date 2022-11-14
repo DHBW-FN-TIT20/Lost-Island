@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: InteractionHelper</title>
+    <title>JSDoc: Class: ChairBuilder</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: InteractionHelper</h1>
+    <h1 class="page-title">Class: ChairBuilder</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>InteractionHelper<span class="signature">(camera)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>ChairBuilder<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Object that allows you to connect Functions and Object if the camera are near the object</div>
+            <div class="class-description">Helper class to build a chair.</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="InteractionHelper"><span class="type-signature"></span>new InteractionHelper<span class="signature">(camera)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ChairBuilder"><span class="type-signature"></span>new ChairBuilder<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -58,55 +58,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camera</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">THREE.Camera</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -142,7 +93,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line10">line 10</a>
+        <a href="components_ChairBuilder.js.html">components/ChairBuilder.js</a>, <a href="components_ChairBuilder.js.html#line7">line 7</a>
     </li></ul></dd>
     
 
@@ -198,7 +149,7 @@
     
 
     
-    <h4 class="name" id="addInteraction"><span class="type-signature"></span>addInteraction<span class="signature">(object, func, event, eventFunc)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="loadChairWithTowel"><span class="type-signature">(async) </span>loadChairWithTowel<span class="signature">(x, y, z, rotationY)</span><span class="type-signature"></span></h4>
     
 
     
@@ -206,7 +157,7 @@
 
 
 <div class="description">
-    Add Object and Funktion to check
+    Create a chair with towel.
 </div>
 
 
@@ -232,8 +183,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -244,13 +193,13 @@
 
         <tr>
             
-                <td class="name"><code>object</code></td>
+                <td class="name"><code>x</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">THREE.MESH</span>
+<span class="param-type">Number</span>
 
 
             
@@ -259,25 +208,21 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">Mesh for Raycast</td>
+            <td class="description last">Position in x axis</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>func</code></td>
+                <td class="name"><code>y</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">Number</span>
 
 
             
@@ -286,25 +231,21 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">Executed if the camera is near the object</td>
+            <td class="description last">Position in y axis</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>event</code></td>
+                <td class="name"><code>z</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Number</span>
 
 
             
@@ -313,27 +254,21 @@
             
 
             
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
 
-            <td class="description last">If set, add a Listener to the body with given name for example "keydown". Default to null.</td>
+            <td class="description last">Position in z axis</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>eventFunc</code></td>
+                <td class="name"><code>rotationY</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">Number</span>
 
 
             
@@ -342,14 +277,8 @@
             
 
             
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
 
-            <td class="description last">Function of the Event to add. Default to null.</td>
+            <td class="description last">Rotation in y axis</td>
         </tr>
 
     
@@ -390,7 +319,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line38">line 38</a>
+        <a href="components_ChairBuilder.js.html">components/ChairBuilder.js</a>, <a href="components_ChairBuilder.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -415,6 +344,16 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    THREE.Object3D
+</div>
+
+
+
+    
 
 
 
@@ -426,7 +365,7 @@
     
 
     
-    <h4 class="name" id="checkInteractions"><span class="type-signature"></span>checkInteractions<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setText"><span class="type-signature"></span>setText<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -434,7 +373,7 @@
 
 
 <div class="description">
-    Needs to be called to check if the camera is near the object
+    Set the text of the interaction text
 </div>
 
 
@@ -478,19 +417,12 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line67">line 67</a>
+        <a href="components_ChairBuilder.js.html">components/ChairBuilder.js</a>, <a href="components_ChairBuilder.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
     
 
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://github.com/mrdoob/three.js/blob/f021ec0c9051eb11d110b0c2b93305bffd0942e0/examples/webgl_raycaster_sprite.html#L138">https://github.com/mrdoob/three.js/blob/f021ec0c9051eb11d110b0c2b93305bffd0942e0/examples/webgl_raycaster_sprite.html#L138</a></li>
-        </ul>
-    </dd>
     
 
     
@@ -521,7 +453,7 @@
     
 
     
-    <h4 class="name" id="removeInteraction"><span class="type-signature"></span>removeInteraction<span class="signature">(object)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setUpModel"><span class="type-signature"></span>setUpModel<span class="signature">(data)</span><span class="type-signature"></span></h4>
     
 
     
@@ -529,7 +461,7 @@
 
 
 <div class="description">
-    Remove Object to check
+    Set the Animations and Scale of the Chair
 </div>
 
 
@@ -565,13 +497,13 @@
 
         <tr>
             
-                <td class="name"><code>object</code></td>
+                <td class="name"><code>data</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">THREE.MESH</span>
+<span class="param-type">THREE.Object3D</span>
 
 
             
@@ -581,7 +513,7 @@
 
             
 
-            <td class="description last">Mesh for Raycast</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -622,7 +554,150 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line52">line 52</a>
+        <a href="components_ChairBuilder.js.html">components/ChairBuilder.js</a>, <a href="components_ChairBuilder.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    THREE.Object3D
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="sitOnChair"><span class="type-signature"></span>sitOnChair<span class="signature">(setFunction)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>setFunction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Call these function that give it a Vector3 position and a Quaternion rotation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_ChairBuilder.js.html">components/ChairBuilder.js</a>, <a href="components_ChairBuilder.js.html#line50">line 50</a>
     </li></ul></dd>
     
 

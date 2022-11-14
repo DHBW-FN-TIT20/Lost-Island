@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/ChairBuilder.js</title>
+    <title>JSDoc: Source: components/SharkBuilder.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/ChairBuilder.js</h1>
+    <h1 class="page-title">Source: components/SharkBuilder.js</h1>
 
     
 
@@ -27,72 +27,78 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import { Object3D } from 'three';
+import { AnimationMixer, Object3D } from 'three';
 
 /**
- * Helper class to build a chair.
+ * Helper class to build a shark.
  */
-class ChairBuilder {
+class SharkBuilder {
+    #mixer;
+    #action;
+
     constructor() {
-        this.chair = new Object3D();
+        this.shark = new Object3D();
     }
 
     /**
-     * Create a chair with towel.
+     * Create a Shark
      * @param {Number} x Position in x axis
      * @param {Number} y Position in y axis
      * @param {Number} z Position in z axis
      * @param {Number} rotationY Rotation in y axis
      * @returns THREE.Object3D
      */
-    async loadChairWithTowel(x, y, z, rotationY) {
+    async load(x, y, z, rotationY) {
         const loader = new GLTFLoader();
-        const data = await loader.loadAsync('/assets/models/chair-2.gltf');
+        const data = await loader.loadAsync('/assets/models/shark.gltf');
 
-        this.chair = this.setUpModel(data);
-
-        this.chair.position.x = x;
-        this.chair.position.y = y;
-        this.chair.position.z = z;
-        this.chair.rotation.y = rotationY;
-        this.chair.sitOnChair = this.sitOnChair;
-        this.chair.setInteractionText = this.setText;
-
-        return this.chair;
+        this.shark = this.setUpModel(data);
+        this.shark.tick = (delta) => this.move(delta);
+        this.shark.startAnimation = () => this.startAnimation();
+        this.shark.setInteractionText = this.setText;
+        this.shark.position.x = x;
+        this.shark.position.y = y;
+        this.shark.position.z = z;
+        this.shark.rotation.y = rotationY;
+        this.t = 0;
+        return this.shark;
     }
 
     /**
-     * Set the Animations and Scale of the Chair
+     * Move the shark in a circle
+     * @param {Number} delta Delta of the last frame
+     */
+    move(delta) {
+        this.#mixer.update(delta);
+        this.t += 0.005;
+        this.shark.position.x = this.shark.position.x + 0.2 * Math.cos(this.t);
+        this.shark.position.z = this.shark.position.z + 0.2 * Math.sin(this.t);
+        this.shark.rotation.y = this.shark.rotation.y - 0.005;
+    }
+
+    /**
+     * Start the Animation of the shark
+     */
+    async startAnimation() {
+        this.#action.play();
+    }
+
+    /**
+     * Set the Animation and Scale of the shark
      * @param {THREE.Object3D} data 
      * @returns THREE.Object3D
      */
     setUpModel(data) {
         const model = data.scene;
-        model.scale.set(20, 20, 20);
+        model.scale.set(4, 4, 4);
+        this.clip = data.animations[0];
+        this.#mixer = new AnimationMixer(model);
+        this.#action = this.#mixer.clipAction(this.clip);
         return model;
     }
-
-    /**
-     * @param {function} setFunction Call these function that give it a Vector3 position and a Quaternion rotation
-     */
-    sitOnChair(setFunction) {
-        const pos = this.position.clone();
-        pos.y += 30;
-        pos.x -= 25;
-        setFunction(pos, this.quaternion.clone().invert());
-    }
-
-    /**
-     * Set the text of the interaction text
-     */
-    setText() {
-        const div = document.getElementById("info");
-        div.innerHTML = "E zum Sitzen";
-    }
-
 }
 
-export { ChairBuilder };</code></pre>
+export { SharkBuilder };</code></pre>
         </article>
     </section>
 

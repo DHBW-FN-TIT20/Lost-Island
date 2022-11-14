@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/ChairBuilder.js</title>
+    <title>JSDoc: Source: components/WolfBuilder.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/ChairBuilder.js</h1>
+    <h1 class="page-title">Source: components/WolfBuilder.js</h1>
 
     
 
@@ -27,72 +27,98 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import { Object3D } from 'three';
+import { AnimationMixer, Object3D, LoopOnce, LoopRepeat, Color, BoxGeometry, Mesh, MeshBasicMaterial } from 'three';
 
 /**
- * Helper class to build a chair.
+ * Helper class to build a wolf.
  */
-class ChairBuilder {
+class WolfBuilder {
+    #mixer;
+    actions = [];
+
     constructor() {
-        this.chair = new Object3D();
+        this.wolf = new Object3D();
     }
 
     /**
-     * Create a chair with towel.
+     * Create a wolf
      * @param {Number} x Position in x axis
      * @param {Number} y Position in y axis
      * @param {Number} z Position in z axis
      * @param {Number} rotationY Rotation in y axis
      * @returns THREE.Object3D
      */
-    async loadChairWithTowel(x, y, z, rotationY) {
+    async load(x, y, z, rotationY) {
         const loader = new GLTFLoader();
-        const data = await loader.loadAsync('/assets/models/chair-2.gltf');
+        const data = await loader.loadAsync('/assets/models/wolf.gltf');
 
-        this.chair = this.setUpModel(data);
-
-        this.chair.position.x = x;
-        this.chair.position.y = y;
-        this.chair.position.z = z;
-        this.chair.rotation.y = rotationY;
-        this.chair.sitOnChair = this.sitOnChair;
-        this.chair.setInteractionText = this.setText;
-
-        return this.chair;
+        this.wolf = this.setUpModel(data);
+        this.wolf.tick = (delta) => this.#mixer.update(delta);
+        this.wolf.startAnimation = () => this.startAnimation();
+        this.wolf.sit = () => this.sit();
+        this.wolf.idle = () => this.idle();
+        this.wolf.setInteractionText = this.setText;
+        this.wolf.position.x = x;
+        this.wolf.position.y = y;
+        this.wolf.position.z = z;
+        this.wolf.rotation.y = rotationY;
+        this.wolf.isSit = false;
+        const geometry = new BoxGeometry(1, 1, 1);
+        const material = new MeshBasicMaterial({ color: 0x000000, opacity: 0.0, transparent: true });
+        const cube = new Mesh(geometry, material);
+        geometry.translate(x, y + 3, z);
+        this.wolf.box = cube;
+        return this.wolf;
     }
 
     /**
-     * Set the Animations and Scale of the Chair
+     * Start the Animation of the wolf
+     */
+    async startAnimation() {
+        let action = this.actions[0];
+        action.play();
+    }
+
+    /**
+     * Start the sit animation
+     */
+    sit() {
+        let action = this.actions[1];
+        action.clampWhenFinished = true;
+        action.setLoop(LoopOnce);
+        action.stop().play();
+    }
+
+    /**
+     * #TODO - Add description of the method
+     * @param {THREE.AnimationMixer} mixer
+     */
+    idle(mixer) {
+        let action = mixer.clipAction(this.clip);
+        action.play();
+    }
+
+    /**
+     * Set the Animations and Scale of the wolf
      * @param {THREE.Object3D} data 
      * @returns THREE.Object3D
      */
     setUpModel(data) {
         const model = data.scene;
-        model.scale.set(20, 20, 20);
+        model.scale.set(7, 7, 7);
+        this.clip = data.animations[3];
+        this.sitClip = data.animations[4];
+        this.#mixer = new AnimationMixer(model);
+        this.#mixer.addEventListener('finished', () => {
+            this.idle(this.#mixer);
+        });
+        this.actions.push(this.#mixer.clipAction(this.clip));
+        this.actions.push(this.#mixer.clipAction(this.sitClip));
         return model;
     }
-
-    /**
-     * @param {function} setFunction Call these function that give it a Vector3 position and a Quaternion rotation
-     */
-    sitOnChair(setFunction) {
-        const pos = this.position.clone();
-        pos.y += 30;
-        pos.x -= 25;
-        setFunction(pos, this.quaternion.clone().invert());
-    }
-
-    /**
-     * Set the text of the interaction text
-     */
-    setText() {
-        const div = document.getElementById("info");
-        div.innerHTML = "E zum Sitzen";
-    }
-
 }
 
-export { ChairBuilder };</code></pre>
+export { WolfBuilder };</code></pre>
         </article>
     </section>
 

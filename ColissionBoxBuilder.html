@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: InteractionHelper</title>
+    <title>JSDoc: Class: ColissionBoxBuilder</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: InteractionHelper</h1>
+    <h1 class="page-title">Class: ColissionBoxBuilder</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>InteractionHelper<span class="signature">(camera)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>ColissionBoxBuilder<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Object that allows you to connect Functions and Object if the camera are near the object</div>
+            <div class="class-description">Helper class to build a collision box (AABB).</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="InteractionHelper"><span class="type-signature"></span>new InteractionHelper<span class="signature">(camera)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ColissionBoxBuilder"><span class="type-signature"></span>new ColissionBoxBuilder<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -58,55 +58,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camera</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">THREE.Camera</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -142,7 +93,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line10">line 10</a>
+        <a href="components_ColissionBoxBuilder.js.html">components/ColissionBoxBuilder.js</a>, <a href="components_ColissionBoxBuilder.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -198,7 +149,7 @@
     
 
     
-    <h4 class="name" id="addInteraction"><span class="type-signature"></span>addInteraction<span class="signature">(object, func, event, eventFunc)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="loadBox"><span class="type-signature">(async) </span>loadBox<span class="signature">(x, y, z, width, height, depth, scene)</span><span class="type-signature"> &rarr; {THREE.Box3}</span></h4>
     
 
     
@@ -206,7 +157,7 @@
 
 
 <div class="description">
-    Add Object and Funktion to check
+    Create a Box for collision detection with manual parameters. For static objects only.
 </div>
 
 
@@ -244,13 +195,13 @@
 
         <tr>
             
-                <td class="name"><code>object</code></td>
+                <td class="name"><code>x</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">THREE.MESH</span>
+<span class="param-type">Number</span>
 
 
             
@@ -264,20 +215,20 @@
                 </td>
             
 
-            <td class="description last">Mesh for Raycast</td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>func</code></td>
+                <td class="name"><code>y</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">Number</span>
 
 
             
@@ -291,20 +242,128 @@
                 </td>
             
 
-            <td class="description last">Executed if the camera is near the object</td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>event</code></td>
+                <td class="name"><code>z</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>depth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scene</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Scene</span>
 
 
             
@@ -320,36 +379,7 @@
                 </td>
             
 
-            <td class="description last">If set, add a Listener to the body with given name for example "keydown". Default to null.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>eventFunc</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last">Function of the Event to add. Default to null.</td>
+            <td class="description last">Add scene for debugging only</td>
         </tr>
 
     
@@ -390,7 +420,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line38">line 38</a>
+        <a href="components_ColissionBoxBuilder.js.html">components/ColissionBoxBuilder.js</a>, <a href="components_ColissionBoxBuilder.js.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -415,101 +445,24 @@
 
 
 
-
-
-
-
+<h5>Returns:</h5>
 
         
-            
-
-    
-
-    
-    <h4 class="name" id="checkInteractions"><span class="type-signature"></span>checkInteractions<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
 
 
-
-<div class="description">
-    Needs to be called to check if the camera is near the object
-</div>
-
-
-
-
-
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">THREE.Box3</span>
 
 
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line67">line 67</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://github.com/mrdoob/three.js/blob/f021ec0c9051eb11d110b0c2b93305bffd0942e0/examples/webgl_raycaster_sprite.html#L138">https://github.com/mrdoob/three.js/blob/f021ec0c9051eb11d110b0c2b93305bffd0942e0/examples/webgl_raycaster_sprite.html#L138</a></li>
-        </ul>
     </dd>
-    
-
-    
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -521,7 +474,7 @@
     
 
     
-    <h4 class="name" id="removeInteraction"><span class="type-signature"></span>removeInteraction<span class="signature">(object)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="loadBoxFromObj"><span class="type-signature">(async) </span>loadBoxFromObj<span class="signature">(obj, scene)</span><span class="type-signature"> &rarr; {THREE.Box3}</span></h4>
     
 
     
@@ -529,7 +482,7 @@
 
 
 <div class="description">
-    Remove Object to check
+    Create a Box for collision detection from a given object in the world. For static objects only.
 </div>
 
 
@@ -555,6 +508,8 @@
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -565,7 +520,7 @@
 
         <tr>
             
-                <td class="name"><code>object</code></td>
+                <td class="name"><code>obj</code></td>
             
 
             <td class="type">
@@ -580,8 +535,41 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last">Mesh for Raycast</td>
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scene</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Scene</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Add scene for debugging only</td>
         </tr>
 
     
@@ -622,7 +610,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line52">line 52</a>
+        <a href="components_ColissionBoxBuilder.js.html">components/ColissionBoxBuilder.js</a>, <a href="components_ColissionBoxBuilder.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -647,6 +635,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">THREE.Box3</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 

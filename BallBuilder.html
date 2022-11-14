@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: InteractionHelper</title>
+    <title>JSDoc: Class: BallBuilder</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: InteractionHelper</h1>
+    <h1 class="page-title">Class: BallBuilder</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>InteractionHelper<span class="signature">(camera)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>BallBuilder<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Object that allows you to connect Functions and Object if the camera are near the object</div>
+            <div class="class-description">Helper class to build a ball.</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="InteractionHelper"><span class="type-signature"></span>new InteractionHelper<span class="signature">(camera)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="BallBuilder"><span class="type-signature"></span>new BallBuilder<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -58,55 +58,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camera</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">THREE.Camera</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -142,7 +93,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line10">line 10</a>
+        <a href="components_BallBuilder.js.html">components/BallBuilder.js</a>, <a href="components_BallBuilder.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -198,7 +149,7 @@
     
 
     
-    <h4 class="name" id="addInteraction"><span class="type-signature"></span>addInteraction<span class="signature">(object, func, event, eventFunc)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="applyForce"><span class="type-signature"></span>applyForce<span class="signature">(force)</span><span class="type-signature"></span></h4>
     
 
     
@@ -206,7 +157,7 @@
 
 
 <div class="description">
-    Add Object and Funktion to check
+    Apply a force to the ball
 </div>
 
 
@@ -232,8 +183,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -244,13 +193,13 @@
 
         <tr>
             
-                <td class="name"><code>object</code></td>
+                <td class="name"><code>force</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">THREE.MESH</span>
+<span class="param-type">THREE.Vector3</span>
 
 
             
@@ -259,97 +208,8 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">Mesh for Raycast</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>func</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Executed if the camera is near the object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>event</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last">If set, add a Listener to the body with given name for example "keydown". Default to null.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>eventFunc</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last">Function of the Event to add. Default to null.</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -390,7 +250,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line38">line 38</a>
+        <a href="components_BallBuilder.js.html">components/BallBuilder.js</a>, <a href="components_BallBuilder.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -426,7 +286,7 @@
     
 
     
-    <h4 class="name" id="checkInteractions"><span class="type-signature"></span>checkInteractions<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="kick"><span class="type-signature"></span>kick<span class="signature">(direction)</span><span class="type-signature"></span></h4>
     
 
     
@@ -434,102 +294,7 @@
 
 
 <div class="description">
-    Needs to be called to check if the camera is near the object
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line67">line 67</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://github.com/mrdoob/three.js/blob/f021ec0c9051eb11d110b0c2b93305bffd0942e0/examples/webgl_raycaster_sprite.html#L138">https://github.com/mrdoob/three.js/blob/f021ec0c9051eb11d110b0c2b93305bffd0942e0/examples/webgl_raycaster_sprite.html#L138</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="removeInteraction"><span class="type-signature"></span>removeInteraction<span class="signature">(object)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Remove Object to check
+    Kick the ball in that direction
 </div>
 
 
@@ -565,13 +330,13 @@
 
         <tr>
             
-                <td class="name"><code>object</code></td>
+                <td class="name"><code>direction</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">THREE.MESH</span>
+<span class="param-type">THREE.Vector3</span>
 
 
             
@@ -581,7 +346,7 @@
 
             
 
-            <td class="description last">Mesh for Raycast</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -622,7 +387,546 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="systems_InteractionHelper.js.html">systems/InteractionHelper.js</a>, <a href="systems_InteractionHelper.js.html#line52">line 52</a>
+        <a href="components_BallBuilder.js.html">components/BallBuilder.js</a>, <a href="components_BallBuilder.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="loadSoccerBall"><span class="type-signature">(async) </span>loadSoccerBall<span class="signature">(x, y, z, rotationY)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates a ball.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Position in x axis</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Position in y axis</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>z</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Position in z axis</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rotationY</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Rotation in y axis</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_BallBuilder.js.html">components/BallBuilder.js</a>, <a href="components_BallBuilder.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    THREE.Object3D
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setText"><span class="type-signature"></span>setText<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Set the text of the interaction
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_BallBuilder.js.html">components/BallBuilder.js</a>, <a href="components_BallBuilder.js.html#line86">line 86</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setUpModel"><span class="type-signature"></span>setUpModel<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Set the Animations and Scale of the Ball
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Object3D</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_BallBuilder.js.html">components/BallBuilder.js</a>, <a href="components_BallBuilder.js.html#line96">line 96</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    THREE.Object3D
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Update the position of the ball
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_BallBuilder.js.html">components/BallBuilder.js</a>, <a href="components_BallBuilder.js.html#line74">line 74</a>
     </li></ul></dd>
     
 

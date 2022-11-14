@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/ChairBuilder.js</title>
+    <title>JSDoc: Source: components/BoatBuilder.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/ChairBuilder.js</h1>
+    <h1 class="page-title">Source: components/BoatBuilder.js</h1>
 
     
 
@@ -30,69 +30,48 @@
 import { Object3D } from 'three';
 
 /**
- * Helper class to build a chair.
+ * Helper class to build a boat.
  */
-class ChairBuilder {
+class BoatBuilder {
     constructor() {
-        this.chair = new Object3D();
+        this.boat = new Object3D();
     }
 
     /**
-     * Create a chair with towel.
+     * Creates a boat.
      * @param {Number} x Position in x axis
      * @param {Number} y Position in y axis
      * @param {Number} z Position in z axis
      * @param {Number} rotationY Rotation in y axis
      * @returns THREE.Object3D
      */
-    async loadChairWithTowel(x, y, z, rotationY) {
+    async load(x, y, z, rotationY) {
         const loader = new GLTFLoader();
-        const data = await loader.loadAsync('/assets/models/chair-2.gltf');
+        const data = await loader.loadAsync('/assets/models/boat.gltf');
 
-        this.chair = this.setUpModel(data);
+        this.boat = this.setUpModel(data);
 
-        this.chair.position.x = x;
-        this.chair.position.y = y;
-        this.chair.position.z = z;
-        this.chair.rotation.y = rotationY;
-        this.chair.sitOnChair = this.sitOnChair;
-        this.chair.setInteractionText = this.setText;
+        this.boat.position.x = x;
+        this.boat.position.y = y;
+        this.boat.position.z = z;
+        this.boat.rotation.y = rotationY;
 
-        return this.chair;
+        return this.boat;
     }
 
     /**
-     * Set the Animations and Scale of the Chair
+     * Set the Animations and Scale of the Boat
      * @param {THREE.Object3D} data 
      * @returns THREE.Object3D
      */
     setUpModel(data) {
         const model = data.scene;
-        model.scale.set(20, 20, 20);
+        model.scale.set(30, 30, 30);
         return model;
     }
-
-    /**
-     * @param {function} setFunction Call these function that give it a Vector3 position and a Quaternion rotation
-     */
-    sitOnChair(setFunction) {
-        const pos = this.position.clone();
-        pos.y += 30;
-        pos.x -= 25;
-        setFunction(pos, this.quaternion.clone().invert());
-    }
-
-    /**
-     * Set the text of the interaction text
-     */
-    setText() {
-        const div = document.getElementById("info");
-        div.innerHTML = "E zum Sitzen";
-    }
-
 }
 
-export { ChairBuilder };</code></pre>
+export { BoatBuilder };</code></pre>
         </article>
     </section>
 

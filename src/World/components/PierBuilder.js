@@ -1,15 +1,29 @@
-import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import{AnimationMixer, Object3D} from 'three';
+import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
+import { Object3D } from 'three';
 
-class PierBuilder{
-    constructor(){
+/**
+ * Helper class to build a pier.
+ */
+class PierBuilder {
+    constructor() {
         this.pier = new Object3D();
     }
 
-    async load(x, y, z, rotationY, scaleX, scaleY, scaleZ){
+    /**
+     * Creates a pier.
+     * @param {Number} x Position in x axis
+     * @param {Number} y Position in y axis
+     * @param {Number} z Position in z axis
+     * @param {Number} rotationY Rotation in y axis
+     * @param {Number} scaleX Scale in x axis
+     * @param {Number} scaleY Scale in y axis
+     * @param {Number} scaleZ Scale in z axis
+     * @returns THREE.Object3D
+     */
+    async load(x, y, z, rotationY, scaleX, scaleY, scaleZ) {
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/pier.gltf');
-        
+
         this.pier = this.setUpModel(data, scaleX, scaleY, scaleZ);
 
         this.pier.position.x = x;
@@ -20,11 +34,19 @@ class PierBuilder{
         return this.pier;
     }
 
-    setUpModel(data, scaleX, scaleY, scaleZ){
+    /**
+     * Set the Animations and Scale of the Pier
+     * @param {THREE.Object3D} data 
+     * @param {Number} scaleX Scale in x axis
+     * @param {Number} scaleY Scale in y axis
+     * @param {Number} scaleZ Scale in z axis
+     * @returns THREE.Object3D
+     */
+    setUpModel(data, scaleX, scaleY, scaleZ) {
         const model = data.scene;
-        model.scale.set(scaleX,scaleY,scaleZ);
+        model.scale.set(scaleX, scaleY, scaleZ);
         return model;
     }
 }
 
-export {PierBuilder};
+export { PierBuilder };

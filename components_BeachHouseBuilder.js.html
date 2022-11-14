@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/ChairBuilder.js</title>
+    <title>JSDoc: Source: components/BeachHouseBuilder.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/ChairBuilder.js</h1>
+    <h1 class="page-title">Source: components/BeachHouseBuilder.js</h1>
 
     
 
@@ -30,69 +30,48 @@
 import { Object3D } from 'three';
 
 /**
- * Helper class to build a chair.
+ * Helper class to build a beach house.
  */
-class ChairBuilder {
+class BeachHouseBuilder {
     constructor() {
-        this.chair = new Object3D();
+        this.beachHouse = new Object3D();
     }
 
     /**
-     * Create a chair with towel.
+     * Creates a beach house.
      * @param {Number} x Position in x axis
      * @param {Number} y Position in y axis
      * @param {Number} z Position in z axis
      * @param {Number} rotationY Rotation in y axis
      * @returns THREE.Object3D
      */
-    async loadChairWithTowel(x, y, z, rotationY) {
+    async load(x, y, z, rotationY) {
         const loader = new GLTFLoader();
-        const data = await loader.loadAsync('/assets/models/chair-2.gltf');
+        const data = await loader.loadAsync('/assets/models/bamboo-hut.gltf');
 
-        this.chair = this.setUpModel(data);
+        this.beachHouse = this.setUpModel(data);
 
-        this.chair.position.x = x;
-        this.chair.position.y = y;
-        this.chair.position.z = z;
-        this.chair.rotation.y = rotationY;
-        this.chair.sitOnChair = this.sitOnChair;
-        this.chair.setInteractionText = this.setText;
+        this.beachHouse.position.x = x;
+        this.beachHouse.position.y = y;
+        this.beachHouse.position.z = z;
+        this.beachHouse.rotation.y = rotationY;
 
-        return this.chair;
+        return this.beachHouse;
     }
 
     /**
-     * Set the Animations and Scale of the Chair
+     * Set the Animations and Scale of the Beach House
      * @param {THREE.Object3D} data 
      * @returns THREE.Object3D
      */
     setUpModel(data) {
         const model = data.scene;
-        model.scale.set(20, 20, 20);
+        model.scale.set(1, 1, 1);
         return model;
     }
-
-    /**
-     * @param {function} setFunction Call these function that give it a Vector3 position and a Quaternion rotation
-     */
-    sitOnChair(setFunction) {
-        const pos = this.position.clone();
-        pos.y += 30;
-        pos.x -= 25;
-        setFunction(pos, this.quaternion.clone().invert());
-    }
-
-    /**
-     * Set the text of the interaction text
-     */
-    setText() {
-        const div = document.getElementById("info");
-        div.innerHTML = "E zum Sitzen";
-    }
-
 }
 
-export { ChairBuilder };</code></pre>
+export { BeachHouseBuilder };</code></pre>
         </article>
     </section>
 
