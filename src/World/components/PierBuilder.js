@@ -1,11 +1,11 @@
-import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import{AnimationMixer, Object3D} from 'three';
+import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
+import { Object3D } from 'three';
 
 /**
  * Helper class to build a pier.
  */
-class PierBuilder{
-    constructor(){
+class PierBuilder {
+    constructor() {
         this.pier = new Object3D();
     }
 
@@ -20,10 +20,10 @@ class PierBuilder{
      * @param {Number} scaleZ Scale in z axis
      * @returns THREE.Object3D
      */
-    async load(x, y, z, rotationY, scaleX, scaleY, scaleZ){
+    async load(x, y, z, rotationY, scaleX, scaleY, scaleZ) {
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/pier.gltf');
-        
+
         this.pier = this.setUpModel(data, scaleX, scaleY, scaleZ);
 
         this.pier.position.x = x;
@@ -42,11 +42,11 @@ class PierBuilder{
      * @param {Number} scaleZ Scale in z axis
      * @returns THREE.Object3D
      */
-    setUpModel(data, scaleX, scaleY, scaleZ){
+    setUpModel(data, scaleX, scaleY, scaleZ) {
         const model = data.scene;
-        model.scale.set(scaleX,scaleY,scaleZ);
+        model.scale.set(scaleX, scaleY, scaleZ);
         return model;
     }
 }
 
-export {PierBuilder};
+export { PierBuilder };

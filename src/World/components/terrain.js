@@ -1,6 +1,6 @@
-import { PlaneGeometry, TextureLoader, ImageLoader, RepeatWrapping, MeshPhongMaterial, MeshToonMaterial, MeshStandardMaterial, Mesh, Vector3, Group, SphereGeometry } from 'three';
+import { PlaneGeometry, TextureLoader, ImageLoader, RepeatWrapping, MeshPhongMaterial, MeshStandardMaterial, Mesh, Vector3, Group, SphereGeometry } from 'three';
 import { Water } from '../../../lib/three/examples/jsm/objects/Water.js';
-import {Sky} from '../../../lib/three/examples/jsm/objects/Sky.js';
+import { Sky } from '../../../lib/three/examples/jsm/objects/Sky.js';
 
 /**
  * Create a terrain
@@ -22,7 +22,7 @@ function createGround() {
         // normalMap: normal  #TODO: Ist das Kunst oder kann das weg?
     }));
     planeJS.position.y = -2;
-    imageLoader.load("../../assets/heightmap2WithRiver.png", function(t){       
+    imageLoader.load("../../assets/heightmap2WithRiver.png", function (t) {
         var canvas = document.createElement("canvas");
         canvas.width = t.width;
         canvas.height = t.height;
@@ -44,9 +44,9 @@ function createGround() {
                 var displacementVal = imgData[0] / 255.0;
                 displacementVal *= 25;
                 var idx = (h * wdth) + w;
-                vertex.fromBufferAttribute( positionAttribute, idx);
+                vertex.fromBufferAttribute(positionAttribute, idx);
                 vertex.y = displacementVal;
-                positionAttribute.setXYZ( idx, vertex.x, vertex.y, vertex.z ); // write coordinates back
+                positionAttribute.setXYZ(idx, vertex.x, vertex.y, vertex.z); // write coordinates back
             }
         }
         planeJSGeom.verticesNeedUpdate = true;
@@ -59,7 +59,7 @@ function createGround() {
  * Create a terrain with displacement map
  * @returns THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>
  */
-function createGroundWithDisplacementMap() {    
+function createGroundWithDisplacementMap() {
     const geometry = new PlaneGeometry(256, 256, 1024, 1024);
     const loader = new TextureLoader();
     const height = loader.load("../../assets/heightmap2.png");
@@ -75,7 +75,7 @@ function createGroundWithDisplacementMap() {
         displacementScale: 15
     });
     const mesh = new Mesh(geometry, material);
-    mesh.rotation.x = -Math.PI/2;
+    mesh.rotation.x = -Math.PI / 2;
     mesh.position.y = -1;
     return mesh;
 }
@@ -92,18 +92,18 @@ function createOcean() {
         {
             textureWidth: 512,
             textureHeight: 512,
-            waterNormals: loader.load( './assets/textures/water-normals.jpg', function ( texture ) {
+            waterNormals: loader.load('./assets/textures/water-normals.jpg', function (texture) {
 
                 texture.wrapS = texture.wrapT = RepeatWrapping;
 
-            } ),
+            }),
             sunDirection: new Vector3(),
             sunColor: 0xffffff,
             waterColor: 0x001e0f,
             distortionScale: 3.7
         }
     );
-    water.rotation.x = -Math.PI/2;
+    water.rotation.x = -Math.PI / 2;
     water.position.y = 6;
     return water;
 }
@@ -124,7 +124,7 @@ function createSky() {
  * @returns THREE.Vector3
  */
 function createSun(sky) {
-   
+
     const sun = new Vector3();
     const theta = Math.PI * (0.49 - 0.5);
     const phi = 2 * Math.PI * (0.205 - 0.5);
@@ -133,7 +133,7 @@ function createSun(sky) {
     sun.z = Math.sin(phi) * Math.cos(theta);
 
     sky.material.uniforms['sunPosition'].value.copy(sun);
-    
+
     return sun;
 }
 
@@ -144,7 +144,7 @@ function createSun(sky) {
  * @param {Number} positionZ Position in z axis
  * @returns THREE.Group
  */
-function createRock(positionX, positionY, positionZ){
+function createRock(positionX, positionY, positionZ) {
     const rockGroup = new Group();
     const loader = new TextureLoader();
     const texture = loader.load("../../assets/textures/monochrome-rock-face.jpg");

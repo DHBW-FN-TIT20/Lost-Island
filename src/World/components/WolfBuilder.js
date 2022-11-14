@@ -1,5 +1,4 @@
 import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import { CSS3DRenderer, CSS3DObject } from '../../../lib/three/examples/jsm/renderers/CSS3DRenderer.js';
 import { AnimationMixer, Object3D, LoopOnce, LoopRepeat, Color, BoxGeometry, Mesh, MeshBasicMaterial } from 'three';
 
 /**

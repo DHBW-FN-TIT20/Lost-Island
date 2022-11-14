@@ -1,11 +1,11 @@
-import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import{AnimationMixer, Object3D} from 'three';
+import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
+import { Object3D } from 'three';
 
 /**
  * Helper class to build a crate.
  */
-class CrateBuilder{
-    constructor(){
+class CrateBuilder {
+    constructor() {
         this.crate = new Object3D();
     }
 
@@ -17,9 +17,9 @@ class CrateBuilder{
      * @param {Number} rotationY Rotation in y axis
      * @returns THREE.Object3D
      */
-    async load(x, y, z, rotationY){
+    async load(x, y, z, rotationY) {
         const loader = new GLTFLoader();
-        const data = await loader.loadAsync('/assets/models/wooden-crate.glb');       
+        const data = await loader.loadAsync('/assets/models/wooden-crate.glb');
         this.crate = this.setUpModel(data);
         this.crate.position.x = x;
         this.crate.position.y = y;
@@ -33,10 +33,10 @@ class CrateBuilder{
      * @param {THREE.Object3D} data 
      * @returns THREE.Object3D
      */
-    setUpModel(data){
+    setUpModel(data) {
         const model = data.scene;
         return model;
     }
 }
 
-export {CrateBuilder};
+export { CrateBuilder };

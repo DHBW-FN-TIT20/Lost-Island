@@ -1,11 +1,11 @@
-import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import{AnimationMixer, Object3D} from 'three';
+import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
+import { Object3D } from 'three';
 
 /**
  * Helper class to build a beach house.
  */
-class BeachHouseBuilder{
-    constructor(){
+class BeachHouseBuilder {
+    constructor() {
         this.beachHouse = new Object3D();
     }
 
@@ -17,10 +17,10 @@ class BeachHouseBuilder{
      * @param {Number} rotationY Rotation in y axis
      * @returns THREE.Object3D
      */
-    async load(x, y, z, rotationY){
+    async load(x, y, z, rotationY) {
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/bamboo-hut.gltf');
-        
+
         this.beachHouse = this.setUpModel(data);
 
         this.beachHouse.position.x = x;
@@ -36,11 +36,11 @@ class BeachHouseBuilder{
      * @param {THREE.Object3D} data 
      * @returns THREE.Object3D
      */
-    setUpModel(data){
+    setUpModel(data) {
         const model = data.scene;
-        model.scale.set(1,1,1);
+        model.scale.set(1, 1, 1);
         return model;
     }
 }
 
-export {BeachHouseBuilder};
+export { BeachHouseBuilder };

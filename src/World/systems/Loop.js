@@ -12,7 +12,7 @@ class Loop {
      * @param {THREE.Renderer} renderer 
      * @param {World} world 
      */
-    constructor(camera, scene, renderer, world){
+    constructor(camera, scene, renderer, world) {
         this.camera = camera;
         this.scene = scene;
         this.renderer = renderer;
@@ -23,25 +23,25 @@ class Loop {
     /**
      * Start the animation loop
      */
-    start(){
+    start() {
         this.renderer.setAnimationLoop(() => {
             this.tick();
             this.world.render();
-            this.renderer.render(this.scene, this.camera);        
+            this.renderer.render(this.scene, this.camera);
         });
     }
 
     /**
      * Stop the animation loop
      */
-    stop(){
+    stop() {
         this.renderer.setAnimationLoop(null);
     }
 
     /**
      * Update the animation loop
      */
-    tick(){
+    tick() {
         const delta = clock.getDelta();
         for (const object of this.updatables) {
             object.tick(delta);

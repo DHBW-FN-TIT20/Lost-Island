@@ -1,11 +1,11 @@
-import {GLTFLoader} from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
-import{AnimationMixer, Object3D, Vector3} from 'three';
+import { GLTFLoader } from '../../../lib/three/examples/jsm/loaders/GLTFLoader.js';
+import { Object3D } from 'three';
 
 /**
  * Helper class to build a chair.
  */
-class ChairBuilder{
-    constructor(){
+class ChairBuilder {
+    constructor() {
         this.chair = new Object3D();
     }
 
@@ -17,10 +17,10 @@ class ChairBuilder{
      * @param {Number} rotationY Rotation in y axis
      * @returns THREE.Object3D
      */
-    async loadChairWithTowel(x, y, z, rotationY){
+    async loadChairWithTowel(x, y, z, rotationY) {
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/chair-2.gltf');
-        
+
         this.chair = this.setUpModel(data);
 
         this.chair.position.x = x;
@@ -38,16 +38,16 @@ class ChairBuilder{
      * @param {THREE.Object3D} data 
      * @returns THREE.Object3D
      */
-    setUpModel(data){
+    setUpModel(data) {
         const model = data.scene;
-        model.scale.set(20,20,20);
+        model.scale.set(20, 20, 20);
         return model;
     }
 
     /**
      * @param {function} setFunction Call these function that give it a Vector3 position and a Quaternion rotation
      */
-    sitOnChair(setFunction){
+    sitOnChair(setFunction) {
         const pos = this.position.clone();
         pos.y += 30;
         pos.x -= 25;
@@ -57,11 +57,11 @@ class ChairBuilder{
     /**
      * Set the text of the interaction text
      */
-    setText(){
+    setText() {
         const div = document.getElementById("info");
         div.innerHTML = "E zum Sitzen";
     }
 
 }
 
-export {ChairBuilder};
+export { ChairBuilder };

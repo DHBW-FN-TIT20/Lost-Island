@@ -54,7 +54,7 @@ class VegetationBuilder {
         this.acaiPalm.rotation.y = rotationY;
         return this.acaiPalm;
     }
-    
+
     /**
      * @param {Number} x x coordinate of object
      * @param {Number} y y coordinate of object
@@ -77,7 +77,7 @@ class VegetationBuilder {
         this.datePalm.rotation.y = rotationY;
         return this.datePalm;
     }
-    
+
     /**
      * @param {Number} x x coordinate of object
      * @param {Number} y y coordinate of object
@@ -99,7 +99,7 @@ class VegetationBuilder {
         this.palm.rotation.y = rotationY;
         return this.palm;
     }
-    
+
     /**
      * @param {Number} x x coordinate of object
      * @param {Number} y y coordinate of object

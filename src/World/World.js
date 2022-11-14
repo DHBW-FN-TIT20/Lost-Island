@@ -1,7 +1,7 @@
 import { createPerspectiveCamera } from './components/camera.js';
 import { createScene } from './components/scene.js';
-import { createAmbientLight, createSpotLight } from './components/light.js';
-import { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap, createRock } from './components/terrain.js';
+import { createSpotLight } from './components/light.js';
+import { createGround, createOcean, createSky, createSun, createRock } from './components/terrain.js';
 import { Controller } from './components/Controller.js';
 import { ColissionBoxBuilder } from './components/ColissionBoxBuilder.js';
 import { BeachHouseBuilder } from './components/BeachHouseBuilder.js';

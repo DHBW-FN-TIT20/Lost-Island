@@ -2,8 +2,6 @@ import {
     Vector3,
     Euler,
     Raycaster,
-    Box3,
-    Object3D
 } from 'three';
 
 import { GRAVITY } from "../World.js";
@@ -295,7 +293,7 @@ class Controller {
      */
     moveRight(distance) {
         const vector = new Vector3(0, 0, 0);
-        
+
         vector.setFromMatrixColumn(this.#camera.matrix, 0);
         this.location.addScaledVector(vector, distance);
 
@@ -325,10 +323,10 @@ class Controller {
         vector.crossVectors(this.#camera.up, vector);
 
         this.location.addScaledVector(vector, distance);
-        
+
         this.groundRaycaster.set(this.location.clone(), vector);
         let intersections = this.groundRaycaster.intersectObjects(this.objectsForRaycastCollision, false);
-        
+
         this.objectsForAABBCollision.forEach(box => {
             if (box.containsPoint(this.location)) {
                 intersections = [0];
