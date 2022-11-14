@@ -59,33 +59,14 @@ class World {
 
         this.#controller = new Controller(this.#camera);
         this.#interactionHelper = new InteractionHelper(this.#camera);
-        const pmremGenerator = new PMREMGenerator(this.#renderer);
-
+        
         container.append(this.#renderer.domElement);
-
-        this.#ground = createGround();
-        this.#ocean = createOcean();
-        this.#ocean.fog = this - this.#scene.fog !== undefined;
-        const sky = createSky();
-        const sun = createSun(sky);
-        this.#light = createSpotLight(sun);
-
-        this.#controller.addObjectForCollision(this.#ground);
-
-        this.#scene.add(sky);
-        this.#scene.add(this.#ocean);
-        this.#scene.add(this.#ground);
-        this.#scene.add(this.#light);
 
         //#region Debugger Helper
         this.#scene.add(arrowHelperX);
         this.#scene.add(arrowHelperY);
         this.#scene.add(arrowHelperZ);
         //#endregion
-
-        this.#scene.environment = pmremGenerator.fromScene(sky).texture;
-
-        this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
 
         const resizer = new Resizer(container, this.#camera, this.#renderer);
 
@@ -103,6 +84,15 @@ class World {
         spinner.style.display = "block";
         //#endregion
 
+        //#region Create World
+        this.#ground = createGround();
+        this.#ocean = createOcean();
+        this.#ocean.fog = this - this.#scene.fog !== undefined;
+        const sky = createSky();
+        const sun = createSun(sky);
+        this.#light = createSpotLight(sun);
+        //#endregion
+
         //#region Create Builder
         const beachHouseBuilder = new BeachHouseBuilder();
         const pierBuilder = new PierBuilder();
@@ -118,7 +108,6 @@ class World {
         //#endregion
 
         //#region Create Objects for the World
-        
         this.beachHouse = await beachHouseBuilder.load(0, 10, -50, 0);
         this.pier = await pierBuilder.load(10, -10, 158, 0, 15, 15, 40);
         this.bridge = await pierBuilder.load(18, -10, 25, 0, 15, 15, 30);
@@ -165,6 +154,11 @@ class World {
         //#endregion
 
         //#region Add all Objects to the scene
+        this.#scene.add(sky);
+        this.#scene.add(this.#ocean);
+        this.#scene.add(this.#ground);
+        this.#scene.add(this.#light);
+
         this.#scene.add(this.palm);
         this.#scene.add(this.beachHouse);
         this.#scene.add(this.pier);
@@ -222,6 +216,7 @@ class World {
         this.#controller.addObjectForCollision(this.pier.children);
         this.#controller.addObjectForCollision(this.bridge.children);
         this.#controller.addObjectForCollision(this.boat.children);
+        this.#controller.addObjectForCollision(this.#ground);
         //#endregion Add objects for colission
 
         //#region Add object interactions
@@ -268,11 +263,18 @@ class World {
         //#endregion Add object interactions
 
         //#region Some other init configs
+        const pmremGenerator = new PMREMGenerator(this.#renderer);
+        this.#scene.environment = pmremGenerator.fromScene(sky).texture;
+
+        this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
+
         await this.wolf.startAnimation();
         await this.shark.startAnimation();
+
         this.#loop.updatables.push(this.palm);
         this.#loop.updatables.push(this.wolf);
         this.#loop.updatables.push(this.shark);
+
         this.#camera.lookAt(this.beachHouse.position);
         //#endregion
 
