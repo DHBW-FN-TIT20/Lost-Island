@@ -24,7 +24,6 @@ import {
 import Stats from './../../lib/three/examples/jsm/libs/stats.module.js';
 
 import { createRenderer } from './systems/renderer.js';
-import { Resizer } from './systems/Resizer.js';
 import { Loop } from './systems/Loop.js';
 import { InteractionHelper } from './systems/InteractionHelper.js';
 
@@ -87,8 +86,6 @@ class World {
 
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this);
 
-        const resizer = new Resizer(container, this.#camera, this.#renderer);
-
         container.addEventListener("click", (ev) => {
             if (!this.#controller.isLocked) {
                 this.#controller.lock();
@@ -96,6 +93,10 @@ class World {
         });
     }
 
+    /**
+     * Die Methode wird von der Loop-Klasse aufgerufen, wenn ein neuer Frame berechnet werden soll. 
+     * @param {Ladebalken} spinner 
+     */
     async init(spinner) {
 
         //#region Start spinner for loading process
@@ -280,11 +281,19 @@ class World {
         spinner.style.display = "none";
     }
 
+    /**
+     * Diese Methode wird aufgerufen, wenn der Benutzer die Taste "E" drückt. Der übergebene Text wird in der HTML-Datei anstelle des Fadenkreuzes angezeigt.
+     * @param {Anzuzeigender Text} text 
+     */
     setText(text) {
         let div = document.getElementById("info");
         div.innerHTML = text;
     }
 
+    /**
+     * Diese Methode wird von der Klasse Loop aufgreufen, wenn die Szene neu gezeichnet werden soll. Hier werden Interaktionen mit Objekten geprüft
+     * und die Kamera aktualisiert. Außerdem wird hier die Kollisionsabfrage durchgeführt. Ebenfalls wird die Animation des Wassers gesteuert.
+     */
     render() {
 
         this.#controller.update();
