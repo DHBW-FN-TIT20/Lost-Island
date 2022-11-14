@@ -21,7 +21,7 @@ jobs:
         npm install jsdoc -g
     - name: Create Docs
       run: |
-        jsdoc.js -c jsdoc_conf.json
+        jsdoc -c jsdoc_conf.json
     - name: Deploy 🚀
       uses: peaceiris/actions-gh-pages@v3
       with:
