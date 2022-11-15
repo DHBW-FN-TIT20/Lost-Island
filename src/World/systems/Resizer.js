@@ -1,5 +1,5 @@
 /**
- * #TODO - Add description of the class
+ * This class is responsible for resizing the game canvas on startup.
  */
 class Resizer {
     /**
