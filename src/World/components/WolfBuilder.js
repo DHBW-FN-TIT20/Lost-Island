@@ -62,7 +62,7 @@ class WolfBuilder {
     }
 
     /**
-     * #TODO - Add description of the method
+     * Start the idle animation
      * @param {THREE.AnimationMixer} mixer
      */
     idle(mixer) {

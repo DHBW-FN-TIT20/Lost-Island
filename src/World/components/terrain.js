@@ -8,20 +8,18 @@ import { Sky } from '../../../lib/three/examples/jsm/objects/Sky.js';
  */
 function createGround() {
     const loader = new TextureLoader();
-    const normal = loader.load("../../assets/NormalMapWithRiver.png");  //#TODO: Ist das Kunst oder kann das weg?
     const texture = loader.load("../../assets/color2.png");
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
     texture.flatShading = true;
 
     const imageLoader = new ImageLoader();
-    const planeJSGeom = new PlaneGeometry(256, 256, 24, 24);
-    planeJSGeom.rotateX(Math.PI * -0.5);
-    var planeJS = new Mesh(planeJSGeom, new MeshStandardMaterial({
-        map: texture,
-        // normalMap: normal  #TODO: Ist das Kunst oder kann das weg?
+    const planeGeom = new PlaneGeometry(256, 256, 24, 24);
+    planeGeom.rotateX(Math.PI * -0.5);
+    let plane = new Mesh(planeGeom, new MeshStandardMaterial({
+        map: texture
     }));
-    planeJS.position.y = -2;
+    plane.position.y = -2;
     imageLoader.load("../../assets/heightmap2WithRiver.png", function (t) {
         var canvas = document.createElement("canvas");
         canvas.width = t.width;
@@ -29,13 +27,12 @@ function createGround() {
         var ctx = canvas.getContext("2d");
         ctx.drawImage(t, 0, 0, t.width, t.height);
 
-        var wdth = planeJSGeom.parameters.widthSegments + 1;
-        var hght = planeJSGeom.parameters.heightSegments + 1;
+        var wdth = planeGeom.parameters.widthSegments + 1;
+        var hght = planeGeom.parameters.heightSegments + 1;
         var widthStep = t.width / wdth;
         var heightStep = t.height / hght;
-        console.log(wdth, hght, widthStep, heightStep);
 
-        const positionAttribute = planeJSGeom.getAttribute('position');
+        const positionAttribute = planeGeom.getAttribute('position');
         const vertex = new Vector3();
         // do something with vertex
         for (var h = 0; h < hght; h++) {
@@ -49,10 +46,10 @@ function createGround() {
                 positionAttribute.setXYZ(idx, vertex.x, vertex.y, vertex.z); // write coordinates back
             }
         }
-        planeJSGeom.verticesNeedUpdate = true;
+        planeGeom.verticesNeedUpdate = true;
     });
-    planeJS.receiveShadow = true;
-    return planeJS;
+    plane.receiveShadow = true;
+    return plane;
 }
 
 /**

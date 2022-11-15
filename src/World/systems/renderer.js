@@ -1,7 +1,7 @@
 import { WebGLRenderer, PCFSoftShadowMap } from 'three';
 
 /**
- * #TODO: Add description - was ist der renderer
+ * Create a renderer for the scene and set its shadow map. 
  * @returns {THREE.WebGLRenderer}
  */
 function createRenderer() {
