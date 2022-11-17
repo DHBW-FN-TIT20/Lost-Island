@@ -152,6 +152,8 @@ function createRock(positionX, positionY, positionZ) {
     const bigRockSphereMaterial = new MeshPhongMaterial();
     bigRockSphereMaterial.map = texture;
     const bigRock = new Mesh(bigRockSphereGeom, bigRockSphereMaterial);
+    bigRock.castShadow = true;
+    bigRock.receiveShadow = true;
     rockGroup.add(bigRock);
     return rockGroup;
 }

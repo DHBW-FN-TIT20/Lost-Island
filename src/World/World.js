@@ -18,7 +18,8 @@ import { CrateBuilder } from './components/CrateBuilder.js';
 import {
     PMREMGenerator,
     Vector3,
-    ArrowHelper
+    ArrowHelper,
+    CameraHelper
 } from 'three';
 
 import Stats from './../../lib/three/examples/jsm/libs/stats.module.js';
@@ -99,6 +100,9 @@ class World {
         const sky = createSky();
         const sun = createSun(sky);
         this.#light = createSpotLight(sun);
+        this.#scene.add(this.#light.target);
+        // const cameraHelper = new CameraHelper(this.#light.shadow.camera);
+        // this.#scene.add(cameraHelper);
         //#endregion
 
         //#region Create Builder

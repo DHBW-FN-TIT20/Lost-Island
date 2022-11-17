@@ -44,6 +44,17 @@ class PierBuilder {
      */
     setUpModel(data, scaleX, scaleY, scaleZ) {
         const model = data.scene;
+        //Set castShadow to true for all children
+        for(let i = 0; i < model.children.length; i++) {
+            model.children[i].castShadow = true;
+            model.children[i].receiveShadow = true;
+            if(model.children[i].children.length > 0) {
+                for(let j = 0; j < model.children[i].children.length; j++) {
+                    model.children[i].children[j].castShadow = true;
+                    model.children[i].children[j].receiveShadow = true;
+                }
+            }
+        }
         model.scale.set(scaleX, scaleY, scaleZ);
         return model;
     }

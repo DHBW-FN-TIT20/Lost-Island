@@ -6,8 +6,11 @@ import { SpotLight } from 'three';
  * @returns THREE.SpotLight
  */
 function createSpotLight(position) {
-    const light = new SpotLight(0x404040, 3.5);
-    light.position.set(position.x * 1000, position.y * 1000000, position.z * 1000);
+    const light = new SpotLight(0x404040, 4);
+    light.position.set(0, 120, -100);
+    light.shadow.mapSize.width = 2048; 
+    light.shadow.mapSize.height  = 2048;
+    light.target.position.set(0, 0, 0);
     light.castShadow = true;
     return light;
 }
