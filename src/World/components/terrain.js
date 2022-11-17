@@ -118,13 +118,13 @@ function createSky() {
 /**
  * Add a sun to the sky
  * @param {Sky} sky Sky where the sun is added
- * @returns THREE.Vector3
+ * @returns Vector3
  */
 function createSun(sky) {
 
     const sun = new Vector3();
-    const theta = Math.PI * (0.49 - 0.5);
-    const phi = 2 * Math.PI * (0.205 - 0.5);
+    const theta = Math.PI * (0.49 - 0.53);
+    const phi = 0.5 * Math.PI * (0.205 - 0.51);
     sun.x = Math.cos(phi);
     sun.y = Math.sin(phi) * Math.sin(theta);
     sun.z = Math.sin(phi) * Math.cos(theta);

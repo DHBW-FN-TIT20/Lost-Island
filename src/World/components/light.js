@@ -7,7 +7,7 @@ import { SpotLight } from 'three';
  */
 function createSpotLight(position) {
     const light = new SpotLight(0x404040, 4);
-    light.position.set(0, 120, -100);
+    light.position.set(200, 140, -70);
     light.shadow.mapSize.width = 2048; 
     light.shadow.mapSize.height  = 2048;
     light.target.position.set(0, 0, 0);
