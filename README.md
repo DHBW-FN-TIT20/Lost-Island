@@ -4,10 +4,10 @@ Lost-Island ist eine mit [three.js](https://threejs.org) erstellte Insel zum Erk
 
 # Starten den Anwendung
 
-Zum starten der Anwendung benötig man nur einen statischen Server wie zum Beispiel [Apache](https://www.apache.org). Alle benötigten Dateien sind vorhanden und es ist keine Internetverbindung nötig.
+Zum Starten der Anwendung benötig man nur einen statischen Server wie zum Beispiel [Apache](https://www.apache.org). Alle benötigten Dateien sind vorhanden und es ist keine Internetverbindung nötig.
 
 ## Docker
-Alternativ kann man zum starten der Anwendung auch einen Docker-Container Starten: 
+Alternativ kann man zum Starten der Anwendung auch einen Docker-Container starten: 
 
 ```bash
 # Direkt mit Docker und httpd
