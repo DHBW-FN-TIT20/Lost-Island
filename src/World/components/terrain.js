@@ -145,12 +145,14 @@ function createRock(positionX, positionY, positionZ) {
     const rockGroup = new Group();
     const loader = new TextureLoader();
     const texture = loader.load("../../assets/textures/monochrome-rock-face.jpg");
+    const normal = loader.load("../../assets/textures/normalmap_rock.jpg");
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
     const bigRockSphereGeom = new SphereGeometry(6, 16, 16);
     bigRockSphereGeom.translate(positionX, positionY, positionZ);
     const bigRockSphereMaterial = new MeshPhongMaterial();
     bigRockSphereMaterial.map = texture;
+    bigRockSphereMaterial.normalMap = normal;
     const bigRock = new Mesh(bigRockSphereGeom, bigRockSphereMaterial);
     bigRock.castShadow = true;
     bigRock.receiveShadow = true;
