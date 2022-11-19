@@ -18,7 +18,8 @@ import { CrateBuilder } from './components/CrateBuilder.js';
 import {
     PMREMGenerator,
     Vector3,
-    ArrowHelper
+    ArrowHelper,
+    CameraHelper
 } from 'three';
 
 import Stats from './../../lib/three/examples/jsm/libs/stats.module.js';
@@ -67,12 +68,6 @@ class World {
 
         container.append(this.#renderer.domElement);
 
-        //#region Debugger Helper
-        this.#scene.add(arrowHelperX);
-        this.#scene.add(arrowHelperY);
-        this.#scene.add(arrowHelperZ);
-        //#endregion
-
         container.addEventListener("click", (ev) => {
             if (!this.#controller.isLocked) {
                 this.#controller.lock();
@@ -99,6 +94,7 @@ class World {
         const sky = createSky();
         const sun = createSun(sky);
         this.#light = createSpotLight(sun);
+        this.#scene.add(this.#light.target);
         //#endregion
 
         //#region Create Builder
@@ -142,7 +138,7 @@ class World {
 
         this.tree0 = await vegetationBuilder.loadTree(50, 11, -30, 0);
         this.tree1 = await vegetationBuilder.loadTree(-20, 11, -50, 0);
-        this.palm = await vegetationBuilder.loadPalmWithCoconut(90, 10.8, 25, 0);
+        this.palm = await vegetationBuilder.loadPalmWithCoconut(90, 10.6, 25, 0);
         this.acaiPalm1 = await vegetationBuilder.loadAcaiPalm(0, 8, 60, 0);
         this.acaiPalm2 = await vegetationBuilder.loadAcaiPalm(30, 8, 30, 0);
         this.datePalm1 = await vegetationBuilder.loadDatePalm(60, 8, 70, 0);

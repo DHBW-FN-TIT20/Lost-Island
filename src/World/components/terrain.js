@@ -118,13 +118,13 @@ function createSky() {
 /**
  * Add a sun to the sky
  * @param {Sky} sky Sky where the sun is added
- * @returns THREE.Vector3
+ * @returns Vector3
  */
 function createSun(sky) {
 
     const sun = new Vector3();
-    const theta = Math.PI * (0.49 - 0.5);
-    const phi = 2 * Math.PI * (0.205 - 0.5);
+    const theta = Math.PI * (0.49 - 0.53);
+    const phi = 0.5 * Math.PI * (0.205 - 0.51);
     sun.x = Math.cos(phi);
     sun.y = Math.sin(phi) * Math.sin(theta);
     sun.z = Math.sin(phi) * Math.cos(theta);
@@ -145,13 +145,17 @@ function createRock(positionX, positionY, positionZ) {
     const rockGroup = new Group();
     const loader = new TextureLoader();
     const texture = loader.load("../../assets/textures/monochrome-rock-face.jpg");
+    const normal = loader.load("../../assets/textures/normalmap_rock.jpg");
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
     const bigRockSphereGeom = new SphereGeometry(6, 16, 16);
     bigRockSphereGeom.translate(positionX, positionY, positionZ);
     const bigRockSphereMaterial = new MeshPhongMaterial();
     bigRockSphereMaterial.map = texture;
+    bigRockSphereMaterial.normalMap = normal;
     const bigRock = new Mesh(bigRockSphereGeom, bigRockSphereMaterial);
+    bigRock.castShadow = true;
+    bigRock.receiveShadow = true;
     rockGroup.add(bigRock);
     return rockGroup;
 }

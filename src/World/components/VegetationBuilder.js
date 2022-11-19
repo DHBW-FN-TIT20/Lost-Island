@@ -27,13 +27,27 @@ class VegetationBuilder {
     async loadTree(x, y, z, rotationY) {
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/smol-tree.gltf');
-        this.bush = data.scene;
+        const model = data.scene;
+        await this.addCastShadowRecursive(model);
+        this.bush = model;
         this.bush.position.x = x;
         this.bush.position.y = y;
         this.bush.position.z = z;
         this.bush.rotation.y = rotationY;
         return this.bush;
     }
+
+    async addCastShadowRecursive(model) {
+        //Set castShadow to true for all children
+        for(let i = 0; i < model.children.length; i++) {
+            model.children[i].castShadow = true;
+            model.children[i].receiveShadow = true;
+            if(model.children[i].children.length > 0) {
+                await this.addCastShadowRecursive(model.children[i]);
+            }
+        }
+    }
+
 
     /**
      * @param {Number} x x coordinate of object
@@ -46,6 +60,7 @@ class VegetationBuilder {
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/acai_palm/scene.gltf');
         const model = data.scene;
+        await this.addCastShadowRecursive(model);
         model.scale.set(4, 4, 4);
         this.acaiPalm = model;
         this.acaiPalm.position.x = x;
@@ -66,9 +81,7 @@ class VegetationBuilder {
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/date_palm/scene.gltf');
         const model = data.scene;
-        for (let i = 0; i < model.children.length; i++) {
-            model.children[i].castShadow = true;
-        }
+        await this.addCastShadowRecursive(model);
         model.scale.set(4, 4, 4);
         this.datePalm = model;
         this.datePalm.position.x = x;
@@ -111,6 +124,7 @@ class VegetationBuilder {
         const loader = new GLTFLoader();
         const data = await loader.loadAsync('/assets/models/sea-plant.gltf');
         const model = data.scene;
+        await this.addCastShadowRecursive(model);
         model.scale.set(2, 2, 2);
         this.seaPlant = model;
         this.seaPlant.position.x = x;
@@ -143,6 +157,7 @@ class VegetationBuilder {
      */
     setUpModel(data) {
         const model = data.scene;
+        this.addCastShadowRecursive(model);
         const clip = data.animations[0];
         this.#mixer = new AnimationMixer(model);
         this.#action = this.#mixer.clipAction(clip);

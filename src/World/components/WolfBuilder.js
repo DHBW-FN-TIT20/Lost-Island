@@ -35,7 +35,7 @@ class WolfBuilder {
         this.wolf.position.z = z;
         this.wolf.rotation.y = rotationY;
         this.wolf.isSit = false;
-        const geometry = new BoxGeometry(1, 1, 1);
+        const geometry = new BoxGeometry(2, 2, 2);
         const material = new MeshBasicMaterial({ color: 0x000000, opacity: 0.0, transparent: true });
         const cube = new Mesh(geometry, material);
         geometry.translate(x, y + 3, z);
@@ -77,6 +77,17 @@ class WolfBuilder {
      */
     setUpModel(data) {
         const model = data.scene;
+        //Set castShadow to true for all children
+        for(let i = 0; i < model.children.length; i++) {
+            model.children[i].castShadow = true;
+            model.children[i].receiveShadow = true;
+            if(model.children[i].children.length > 0) {
+                for(let j = 0; j < model.children[i].children.length; j++) {
+                    model.children[i].children[j].castShadow = true;
+                    model.children[i].children[j].receiveShadow = true;
+                }
+            }
+        }
         model.scale.set(7, 7, 7);
         this.clip = data.animations[3];
         this.sitClip = data.animations[4];
