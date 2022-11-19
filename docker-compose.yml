@@ -1,6 +1,0 @@
-services:
-  web:
-    build: .
-    container_name: Lost-Island
-    ports:
-      - 80:80
