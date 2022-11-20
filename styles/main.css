@@ -48,6 +48,17 @@ canvas {
     color: whitesmoke;
 }
 
+#controll {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: left;
+    font-size: 40px;
+    color: whitesmoke;
+    z-index: 1;
+}
+
 .spinner {
     position: absolute;
     top: 50%;
