@@ -40,11 +40,3 @@ jobs:
           push: true
           tags: ${{ inputs.DOCKERHUB_TAG }}
           platforms: linux/amd64,linux/arm64
-      -
-        name: Sync README.md
-        uses: ms-jpq/sync-dockerhub-readme@v1
-        with:
-          username: ${{ inputs.DOCKERHUB_USERNAME }}
-          password: ${{ inputs.DOCKERHUB_TOKEN }}
-          repository: ${{ inputs.DOCKERHUB_TAG }}
-          readme: "./README.md"
