@@ -21,14 +21,5 @@
       "destination": "./docs/",
       "recurse": true,
       "readme": "./README.md"
-    },
-    "templates": {
-      "default": {
-        "staticFiles": {
-          "paths": [
-            "."
-          ]
-        }
-      }
     }
   }
