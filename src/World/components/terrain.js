@@ -8,7 +8,7 @@ import { Sky } from '../../../lib/three/examples/jsm/objects/Sky.js';
  */
 function createGround() {
     const loader = new TextureLoader();
-    const texture = loader.load("../../assets/color2.png");
+    const texture = loader.load("../../assets/terrain_texture.png");
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
     texture.flatShading = true;
@@ -52,30 +52,6 @@ function createGround() {
     return plane;
 }
 
-/**
- * Create a terrain with displacement map
- * @returns THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>
- */
-function createGroundWithDisplacementMap() {
-    const geometry = new PlaneGeometry(256, 256, 1024, 1024);
-    const loader = new TextureLoader();
-    const height = loader.load("../../assets/heightmap2.png");
-    const normal = loader.load("../../assets/NormalMap.png");
-    const texture = loader.load("../../assets/color2.png");
-    texture.wrapS = RepeatWrapping;
-    texture.wrapT = RepeatWrapping;
-
-    const material = new MeshStandardMaterial({
-        map: texture,
-        normalMap: normal,
-        displacementMap: height,
-        displacementScale: 15
-    });
-    const mesh = new Mesh(geometry, material);
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.y = -1;
-    return mesh;
-}
 
 /**
  * Create the ocean
@@ -160,4 +136,4 @@ function createRock(positionX, positionY, positionZ) {
     return rockGroup;
 }
 
-export { createGround, createOcean, createSky, createSun, createGroundWithDisplacementMap, createRock };
+export { createGround, createOcean, createSky, createSun, createRock };

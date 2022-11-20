@@ -17,9 +17,7 @@ import { CrateBuilder } from './components/CrateBuilder.js';
 
 import {
     PMREMGenerator,
-    Vector3,
-    ArrowHelper,
-    CameraHelper
+    Vector3
 } from 'three';
 
 import Stats from './../../lib/three/examples/jsm/libs/stats.module.js';
@@ -27,14 +25,6 @@ import { Resizer } from './systems/Resizer.js';
 import { createRenderer } from './systems/renderer.js';
 import { Loop } from './systems/Loop.js';
 import { InteractionHelper } from './systems/InteractionHelper.js';
-
-
-//#region Debugger Helper
-const origin = new Vector3(0, 0, 0);
-const arrowHelperX = new ArrowHelper((new Vector3(1, 0, 0)).normalize(), origin, 300, 0xFF0000);
-const arrowHelperY = new ArrowHelper((new Vector3(0, 1, 0)).normalize(), origin, 300, 0x00FF00);
-const arrowHelperZ = new ArrowHelper((new Vector3(0, 0, 1)).normalize(), origin, 300, 0x0000FF);
-//#endregion
 
 const GRAVITY = new Vector3(0, -0.05, 0);
 
