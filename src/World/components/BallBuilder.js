@@ -85,7 +85,7 @@ class BallBuilder {
      */
     setText() {
         let div = document.getElementById("info");
-        div.innerHTML = "E zum Schießen";
+        div.innerHTML = "E - Schießen";
     }
 
     /**
