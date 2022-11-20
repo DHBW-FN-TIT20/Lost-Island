@@ -46,7 +46,8 @@ class World {
      * @param {HTMLDivElement} container Append the Scene to this container
      */
     constructor(container) {
-        this.stats = Stats();
+        this.stats = new Stats();
+        this.stats.dom.style.display = "none";
         document.body.appendChild(this.stats.dom);
 
         this.#camera = createPerspectiveCamera(new Vector3(10, 20, 105));
@@ -311,6 +312,13 @@ class World {
      */
     stop() {
         this.#loop.stop();
+    }
+
+    /**
+     * Toggle the stats for the threejs canvas
+     */
+    toggleStats() {
+        this.stats.dom.style.display = this.stats.dom.style.display == "none" ? "block" : "none";
     }
 
 }

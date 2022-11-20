@@ -16,6 +16,12 @@ async function main() {
     let world = new World(container);
     await world.init(spinner);
     world.start();
+
+    document.body.addEventListener("keydown", (e) => {
+        if (e.key === "i") {
+            world.toggleStats();
+        }
+    });
 }
 
 main().catch((err) => {
