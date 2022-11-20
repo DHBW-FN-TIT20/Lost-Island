@@ -140,7 +140,7 @@ class VegetationBuilder {
      */
     setText() {
         let div = document.getElementById("info");
-        div.innerHTML = "E zum Pflücken";
+        div.innerHTML = "E - Pflücken";
     }
 
     /**
